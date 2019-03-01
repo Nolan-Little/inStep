@@ -1,0 +1,18 @@
+{% extends "index.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+<h1 class="user_welcome">Register</h1>
+<form id="user_form" method="post" action="{% url 'volunteer:register' %}" enctype="multipart/form-data">
+
+    {% csrf_token %}
+
+            {{ user_form.as_p }}
+
+    <label for="confirm_password" id="confirm_password">Re-Enter Your Password</label>
+    <input type="password" name="confirm_password">
+    <!-- Provide a button to click to submit the form. -->
+    <input id="register_new" type="submit" name="submit" value="Register" />
+</form>
+{% endblock content %}

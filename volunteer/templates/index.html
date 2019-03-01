@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% comment %} <link rel="stylesheet" type="text/css" href="{% static 'website/index.css' %}"> {% endcomment %}
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'style.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'mdb.min.css' %}">
+
+    <title>Volunteer</title>
+</head>
+
+<body>
+    {% block content %}
+
+    <div class="container"><h1 class="text-primary">WTF MATE</h1></div>
+    {% endblock content %}
+
+
+    <script src="{% static 'jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'popper.min.js' %}"></script>
+    <script src="{% static 'bootstrap.min.js' %}"></script>
+    <script src="{% static 'mdb.min.js' %}"></script>
+
+</body>
+</html>
