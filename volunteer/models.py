@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 class Organization(models.Model):
     name = models.CharField(max_length=150)
-    description = models.CharField(max_length=400)
+    description = models.TextField(max_length=500)
     user = models.ManyToManyField(User)
 
 class EventTemplate(models.Model):
