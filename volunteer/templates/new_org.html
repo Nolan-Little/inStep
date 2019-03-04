@@ -2,7 +2,7 @@
 {% block content %}
     <h2>Create Your Organization!</h2>
     <div class="container">
-        <form id="org_form" action="{% url 'volunteer:new_org' user.id %}" method="POST">
+        <form id="org_form" action="{% url 'volunteer:new_org' %}" method="POST">
             {% csrf_token %}
             {{ new_org_form.as_p }}
             <button type="submit">Create Organization</button>

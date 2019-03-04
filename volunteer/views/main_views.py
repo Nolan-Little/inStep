@@ -17,7 +17,7 @@ def index(request):
             template_name = 'index.html'
             context = {'org': org}
         except Organization.DoesNotExist:
-            return HttpResponseRedirect(reverse('volunteer:new_org', args=(request.user.id, )))
+            return HttpResponseRedirect(reverse('volunteer:new_org'))
     else:
         template_name = 'auth/landing_page.html'
         context = {}
