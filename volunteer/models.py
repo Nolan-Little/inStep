@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import uuid
 # Create your models here.
 
 
@@ -25,7 +26,7 @@ class ShiftTemplate(models.Model):
 class ScheduledEvent(models.Model):
     event_template = models.ForeignKey(EventTemplate, on_delete=models.CASCADE)
     date = models.DateField()
-    sign_up_url = models.URLField(max_length=200)
+    sign_up_url = models.CharField(max_length=50, null=True, blank=True, unique=True, default=uuid.uuid4)
 
 class Volunteer(models.Model):
     name = models.CharField(max_length=150, default="volunteer")

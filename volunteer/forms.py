@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django import forms
-from volunteer.models import Organization, EventTemplate
+from volunteer.models import Organization, EventTemplate, ScheduledEvent
 
 
 class UserForm(forms.ModelForm):
