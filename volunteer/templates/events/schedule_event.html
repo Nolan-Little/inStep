@@ -1,0 +1,23 @@
+{% extends 'index.html' %}
+{% block content %}
+    <h2>Schedule An Event</h2>
+    <div class="container mt-5">
+        <form id="scheduleEventForm" action="{% url 'volunteer:schedule_event' %}" method="POST">
+            {% csrf_token %}
+            <p>
+                <label for="events">Event to Schedule</label>
+                <select required name="events" id="eventSelect">
+                        <option value="">------</option>
+                    {% for event in org.eventtemplate_set.all %}
+                        <option value="{{event.id}}">{{event.name}}</option>
+                    {% endfor %}
+                </select>
+            </p>
+            <p>
+                <label for="date">Select Date</label>
+                <input required name="date" id="eventDate" type="date">
+            </p>
+            <button type="submit">Schedule Event</button>
+        </form>
+    </div>
+{% endblock content %}

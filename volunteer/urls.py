@@ -11,4 +11,6 @@ urlpatterns = [
     url(r'^register$', views.register, name='register'),
     url(r'^new_org', views.new_org, name="new_org"),
     url(r'^dashboard', views.dashboard, name="dashboard"),
+    url(r'^new_event_template', views.new_event_template, name="new_event_template"),
+    url(r'^schedule_event', views.schedule_event, name="schedule_event"),
 ]

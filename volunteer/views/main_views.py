@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from volunteer.models import Organization
-from volunteer.forms import NewOrgForm
 
 
 
