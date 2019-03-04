@@ -7,5 +7,8 @@
 {% block content %}
     <div class="container">
         <h5 class="header">Managing events for {{org.name}}</h5>
+        {% for event in scheduled_events %}
+            <a href="{% url  'volunteer:sign_up' event.sign_up_url %}">localhost:8000/sign_up{{event.sign_up_url}}</a>
+        {% endfor %}
     </div>
 {% endblock content %}
