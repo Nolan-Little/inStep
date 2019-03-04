@@ -1,1 +1,15 @@
-<h1>Im a landing page<h1>
+{% extends 'index.html' %}
+
+{% block content %}
+    <div class="flex-container">
+        <div class="row justify-content-center">
+            <div class="col-5 align-items-center">
+                <h1>inStep</h1>
+                <h5>Events meet Volunteers.</h5>
+                <h5>Volunteers meet Events.</h5>
+                    <a class="btn btn-elegant" href="/login">Login</a>
+                    <a class="btn btn-elegant" href="/register">Register</a>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
