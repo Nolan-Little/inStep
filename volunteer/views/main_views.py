@@ -14,8 +14,7 @@ def index(request):
     if request.user.is_authenticated:
         try:
             org = Organization.objects.get(user=request.user)
-            template_name = 'index.html'
-            context = {'org': org}
+            return HttpResponseRedirect(reverse('volunteer:dashboard'))
         except Organization.DoesNotExist:
             return HttpResponseRedirect(reverse('volunteer:new_org'))
     else:
