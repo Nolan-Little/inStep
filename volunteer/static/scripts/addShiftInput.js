@@ -55,6 +55,14 @@ function createInputGroup(current_num_input) {
   numVolunteers.setAttribute("id", `numVolunteers${current_num_input}`)
   numVolunteers.setAttribute("name", `numVolunteers${current_num_input}`)
 
+
+  let removeButton = document.createElement('button')
+  removeButton.textContent = "Remove Shift"
+  removeButton.setAttribute("type", "button")
+  removeButton.addEventListener('click', (e) => {
+    e.target.parentNode.remove()
+  })
+
   inputGroupContainer.appendChild(startLabel)
   inputGroupContainer.appendChild(startTime)
   inputGroupContainer.appendChild(endLabel)
@@ -63,6 +71,7 @@ function createInputGroup(current_num_input) {
   inputGroupContainer.appendChild(numVolunteers)
   inputGroupContainer.appendChild(descriptionLabel)
   inputGroupContainer.appendChild(description)
+  inputGroupContainer.appendChild(removeButton)
 
   return inputGroupContainer
 }
