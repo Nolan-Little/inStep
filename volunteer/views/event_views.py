@@ -64,3 +64,12 @@ def schedule_event(request):
             event_template=event
         )
     return HttpResponseRedirect(reverse('volunteer:dashboard'))
+
+
+def sign_up(request, unique_url):
+    template_name = "events/sign_up.html"
+    print("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=", unique_url)
+    context = {
+        'scheduled_event': ScheduledEvent.objects.get(sign_up_url=unique_url)
+    }
+    return render(request, template_name, context)

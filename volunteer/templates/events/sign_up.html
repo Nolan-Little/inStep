@@ -1,0 +1,14 @@
+{% extends 'index.html' %}
+{% block content %}
+    <h2 class="mt-5 p-4">Sign up for a volunteer shift at {{scheduled_event.event_template.name}}!</h2>
+    <div class="container">
+        <ul class="list-group list-group-horizontal-lg">
+            <li class="list-group-item">{{scheduled_event.event_template.venue}}</li>
+            <li class="list-group-item">{{scheduled_event.event_template.location}}</li>
+            <li class="list-group-item">{{scheduled_event.date}}</li>
+        </ul>
+        <ul class="list-group">
+            <li class="list-group-item">{{scheduled_event.event_template.description}}</li>
+        </ul>
+    </div>
+{% endblock content %}
