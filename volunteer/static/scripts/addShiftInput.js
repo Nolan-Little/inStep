@@ -15,6 +15,7 @@ function appendInput(e) {
   fragment.appendChild(shiftInputGroup)
 }
 
+// TODO: create input and label factory to refactor these next 1000000 lines in to something actually readable
 function createInputGroup(current_num_input) {
   console.log(current_num_input)
   let inputGroupContainer = document.createElement('div')

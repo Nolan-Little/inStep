@@ -18,8 +18,8 @@ class EventTemplate(models.Model):
 
 class ShiftTemplate(models.Model):
     event_template = models.ForeignKey(EventTemplate, on_delete=models.CASCADE, null=True)
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
+    start_time = models.TimeField()
+    end_time = models.TimeField()
     num_volunteers = models.PositiveIntegerField()
     description = models.CharField(max_length=100)
 

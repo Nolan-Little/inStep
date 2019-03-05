@@ -2,10 +2,10 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from volunteer.models import Organization, EventTemplate, ScheduledEvent
+from volunteer.models import Organization, EventTemplate, ScheduledEvent, ShiftTemplate
 from volunteer.forms import EventTemplateForm
 
-
+NUM_SHIFT_INPUT_GROUP_VALS = 4
 def new_event_template(request):
     if request.method == "GET":
         new_event_form = EventTemplateForm()
@@ -22,16 +22,35 @@ def new_event_template(request):
             'location': form_data['location']
         }
 
+        # num 1 accounts for csrf token in POST to properly eval the number of shift input groups
+        num_shift_groups = (len(request.POST) - (len(event_form_data) + 1)) / NUM_SHIFT_INPUT_GROUP_VALS
+
         new_org_form = EventTemplateForm(event_form_data)
         if new_org_form.is_valid():
             org = Organization.objects.filter(user=request.user)[0]
-            EventTemplate.objects.create(
-                name=event_form_data['name'],
-                description=event_form_data['description'],
-                venue=event_form_data['venue'],
-                location=event_form_data['location'],
-                organization=org
-            )
+            event_template = EventTemplate.objects.create(
+                                name=event_form_data['name'],
+                                description=event_form_data['description'],
+                                venue=event_form_data['venue'],
+                                location=event_form_data['location'],
+                                organization=org
+                            )
+            for i in range(int(num_shift_groups)):
+                shift_data = {
+                    'start_time': form_data[f'startTime{i+1}'],
+                    'end_time': form_data[f'endTime{i+1}'],
+                    'num_volunteers': form_data[f'numVolunteers{i+1}'],
+                    'description': form_data[f'description{i+1}'],
+                }
+
+                ShiftTemplate.objects.create(
+                    start_time=shift_data['start_time'],
+                    end_time=shift_data['end_time'],
+                    num_volunteers=shift_data['num_volunteers'],
+                    description=shift_data['description'],
+                    event_template=event_template
+                )
+
             return HttpResponseRedirect(reverse('volunteer:dashboard'))
 
         else:
