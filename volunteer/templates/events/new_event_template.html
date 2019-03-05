@@ -5,8 +5,21 @@
             <h2 class="mt-5 p-4">Create An Event</h2>
             <form id="new_event_template_form" action="{% url 'volunteer:new_event_template' %}" method="POST">
                 {% csrf_token %}
-                {{new_event_form.as_p}}
-            <button type="submit">Create Event</button>
+                <div class="row">
+                    <div class="col-sm-12 col-lg-6">
+                        {{new_event_form.as_p}}
+                        <button type="submit">Create Event</button>
+                    </div>
+                    <div class="col-sm-12 col-lg-6">
+                        <div class="shift-inputs">
+                        </div>
+                        <button type="button" id="addShiftInput">Add Shift</button>
+                    </div>
+                </div>
             </form>
     </div>
 {% endblock content %}
+
+{% block scripts %}
+    <script src="{% static 'scripts/addShiftInput.js' %}"></script>
+{% endblock scripts %}
