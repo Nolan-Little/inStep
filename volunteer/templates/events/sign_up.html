@@ -10,5 +10,10 @@
         <ul class="list-group">
             <li class="list-group-item">{{scheduled_event.event_template.description}}</li>
         </ul>
+        <form action="{% url 'volunteer:sign_up' unique_url %}" method="POST">
+            {% csrf_token %}
+            {{shift_form.as_p}}
+            <button type="submit">Sign Up!</button>
+        </form>
     </div>
 {% endblock content %}

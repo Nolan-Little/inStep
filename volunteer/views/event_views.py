@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from volunteer.models import Organization, EventTemplate, ScheduledEvent, ShiftTemplate, ScheduledShift
-from volunteer.forms import EventTemplateForm, ShiftTemplateForm
+from volunteer.models import Organization, EventTemplate, ScheduledEvent, ShiftTemplate, ScheduledShift, Volunteer, ShiftVolunteer
+from volunteer.forms import EventTemplateForm, ShiftTemplateForm, VolSignUpForm
 
 NUM_SHIFT_INPUT_GROUP_VALS = 4
 
@@ -46,7 +46,8 @@ def new_shift_template(request, event_template_id):
     event_template = EventTemplate.objects.get(pk=event_template_id)
 
     if request.method == "GET":
-        current_shifts = ShiftTemplate.objects.filter(event_template=event_template)
+        current_shifts = ShiftTemplate.objects.filter(
+            event_template=event_template)
         template_name = 'events/shift_template.html'
         shift_form = ShiftTemplateForm()
         context = {
@@ -89,7 +90,6 @@ def schedule_event(request):
 
     elif request.method == "POST":
         form_data = request.POST
-        print(form_data)
         event_form_data = {
             'event': form_data['events'],
             'date': form_data['date'],
@@ -105,7 +105,7 @@ def schedule_event(request):
 
         shift_templates = ShiftTemplate.objects.filter(event_template=event)
 
-        #Schedule all appropriate shifts
+        # Schedule all appropriate shifts
         for template in shift_templates:
             ScheduledShift.objects.create(
                 scheduled_event=scheduled_event,
@@ -116,9 +116,42 @@ def schedule_event(request):
 
 
 def sign_up(request, unique_url):
-    template_name = "events/sign_up.html"
-    print("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=", unique_url)
-    context = {
-        'scheduled_event': ScheduledEvent.objects.get(sign_up_url=unique_url)
-    }
-    return render(request, template_name, context)
+    if request.method == "GET":
+        template_name = "events/sign_up.html"
+        scheduled_event = ScheduledEvent.objects.get(sign_up_url=unique_url)
+
+        shift_list = list()
+        sched_shifts = ScheduledShift.objects.filter(
+            scheduled_event=scheduled_event)
+        for shift in sched_shifts:
+            shift_list.append((shift.id, f'{shift.shift_template.start_time} - {shift.shift_template.end_time} {shift.shift_template.description}'))
+        shift_choices = tuple(shift_list)
+        shift_form = VolSignUpForm(shift_choices=shift_choices)
+
+        context = {
+            'scheduled_event': scheduled_event,
+            'shift_form': shift_form,
+            'unique_url': unique_url
+        }
+
+        return render(request, template_name, context)
+
+    if request.method == "POST":
+        form_data = request.POST
+        print(form_data)
+        sign_up_form_data = {
+            'name': form_data['name'],
+            'notes': form_data['notes'],
+            'shifts': form_data.getlist('shifts')
+        }
+
+        volunteer = Volunteer.objects.create(name=sign_up_form_data['name'])
+        print(sign_up_form_data['shifts'])
+        for shift in sign_up_form_data['shifts']:
+            ShiftVolunteer.objects.create(
+                notes=sign_up_form_data['notes'],
+                volunteer=volunteer,
+                scheduled_shift=ScheduledShift.objects.get(pk=shift)
+            )
+
+        return HttpResponseRedirect(reverse('volunteer:dashboard'))
