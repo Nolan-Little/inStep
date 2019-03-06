@@ -1,0 +1,21 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+    <div class="container mt-5 p-5">
+        {% for shift in current_shifts %}
+            <ul>
+                <li>start time: {{shift.start_time}}</li>
+                <li>end time: {{shift.end_time}}</li>
+                <li># volunteers: {{shift.num_volunteers}}</li>
+                <li>description: {{shift.description}}</li>
+            </ul>
+        {% endfor %}
+        <form class="shift-inputs" method="POST" action="{% url 'volunteer:new_shift_template' event_template.id %}">
+            {% csrf_token %}
+            {{shift_form.as_p}}
+        <button type="submit">Add Shift</button>
+        </form>
+    </div>
+{% endblock content %}
+
+
