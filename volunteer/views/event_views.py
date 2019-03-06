@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from volunteer.models import Organization, EventTemplate, ScheduledEvent, ShiftTemplate
+from volunteer.models import Organization, EventTemplate, ScheduledEvent, ShiftTemplate, ScheduledShift
 from volunteer.forms import EventTemplateForm, ShiftTemplateForm
 
 NUM_SHIFT_INPUT_GROUP_VALS = 4
@@ -86,6 +86,7 @@ def schedule_event(request):
         }
 
         return render(request, template_name, context)
+
     elif request.method == "POST":
         form_data = request.POST
         print(form_data)
@@ -96,10 +97,21 @@ def schedule_event(request):
 
         event = org.eventtemplate_set.filter(pk=event_form_data['event'])[0]
 
-        ScheduledEvent.objects.create(
+        # Schedule Event
+        scheduled_event = ScheduledEvent.objects.create(
             date=event_form_data['date'],
             event_template=event
         )
+
+        shift_templates = ShiftTemplate.objects.filter(event_template=event)
+
+        #Schedule all appropriate shifts
+        for template in shift_templates:
+            ScheduledShift.objects.create(
+                scheduled_event=scheduled_event,
+                shift_template=template
+            )
+
     return HttpResponseRedirect(reverse('volunteer:dashboard'))
 
 
