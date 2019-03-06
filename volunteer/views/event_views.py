@@ -46,11 +46,13 @@ def new_shift_template(request, event_template_id):
     event_template = EventTemplate.objects.get(pk=event_template_id)
 
     if request.method == "GET":
+        current_shifts = ShiftTemplate.objects.filter(event_template=event_template)
         template_name = 'events/shift_template.html'
         shift_form = ShiftTemplateForm()
         context = {
             'event_template': event_template,
-            'shift_form': shift_form
+            'shift_form': shift_form,
+            'current_shifts': current_shifts
         }
         return render(request, template_name, context)
 
@@ -82,8 +84,8 @@ def schedule_event(request):
         context = {
             "org": org
         }
-        return render(request, template_name, context)
 
+        return render(request, template_name, context)
     elif request.method == "POST":
         form_data = request.POST
         print(form_data)
