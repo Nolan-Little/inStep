@@ -10,16 +10,8 @@
                         {{new_event_form.as_p}}
                         <button type="submit">Create Event</button>
                     </div>
-                    <div class="col-sm-12 col-lg-6">
-                        <div class="shift-inputs">
-                        </div>
-                        <button type="button" id="addShiftInput">Add Shift</button>
-                    </div>
                 </div>
             </form>
     </div>
 {% endblock content %}
 
-{% block scripts %}
-    <script src="{% static 'scripts/addShiftInput.js' %}"></script>
-{% endblock scripts %}
