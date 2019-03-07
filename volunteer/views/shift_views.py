@@ -60,3 +60,22 @@ def edit_shift(request, shift_id):
 
         return render(request, template_name, context)
 
+    if request.method == "POST":
+        form_data = request.POST
+
+        shift_form_data = {
+            'start_time': form_data['start_time'],
+            'end_time': form_data['end_time'],
+            'num_volunteers': form_data['num_volunteers'],
+            'description': form_data['description']
+        }
+
+        shift_form = ShiftTemplateForm(shift_form_data)
+
+        if shift_form.is_valid():
+            shift = ShiftTemplate.objects.get(pk=shift_id)
+            ShiftTemplate.objects.filter(pk=shift_id).update(**shift_form_data)
+
+            return HttpResponseRedirect(reverse('volunteer:event_template_details', args=(shift.event_template.id,) ))
+
+

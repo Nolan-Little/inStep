@@ -6,6 +6,9 @@
     <h1 class="header text-center">Event Details</h1>
     <div class="row d-flex">
         <div class= "col-lg-6 col-sm-12">
+            <button class="btn-warning">
+                <a class="text-white" href="{% url 'volunteer:edit_event_template' event_template.id %}">edit</a>
+            </button>
             <div class="d-flex flex-lg-row flex-md-row flex-column justify-content-between mt-5">
                 <p><span class="detail--label">Event Name:</span> {{event_template.name}}</p>
                 <p><span class="detail--label">Venue:</span> {{event_template.venue}}</p>
@@ -15,7 +18,7 @@
         </div>
 
         <div class= "col-lg-6 col-sm-12">
-            <h4 class="text-center">Volunteer Shifts</h4>
+                <h4 class="text-center">Volunteer Shifts</h4>
             <table class="table">
                     <thead class="thead-dark">
                         <tr>

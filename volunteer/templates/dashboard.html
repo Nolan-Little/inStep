@@ -14,7 +14,7 @@
                     <div class="col-6">
                         <h2>Events</h2>
                     </div>
-                    <div class="col-5 offset-1 d-flex align-items-center justify-content-center">
+                    <div class="col-5 offset-1 d-flex align-items-center justify-content-end">
                         <button class="btn-primary">
                             <a class="text-white" href="/new_event_template">New Event</a>
                         </button>
@@ -45,12 +45,12 @@
                                 <td>{{event.venue}}</td>
                                 <td>
                                     <button class="btn-primary">
-                                        <a class="text-white" href="/schedule_event">schedule</a>
+                                        <a class="text-white" href="/schedule_event">schedule occurence</a>
                                     </button>
                                 </td>
                                 <td>
                                     <button class="btn-warning">
-                                        <a class="text-white" href="{% url 'volunteer:edit_event_template' event.id %}">edit</a>
+                                        <a class="text-white" href="{% url 'volunteer:event_template_details' event.id %}">details</a>
                                     </button>
                                 </td>
                             </tr>
