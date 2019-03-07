@@ -1,2 +1,29 @@
 {% extends 'index.html' %}
 {% load static %}
+
+{% block content %}
+<div class="container">
+    <h1 class="header text-center">Event Details</h1>
+    <div class="row d-flex">
+        <div class= "col-lg-6 col-sm-12">
+            <div class="d-flex flex-lg-row flex-md-row flex-column justify-content-between">
+                <p><span class="detail--label">Event Name:</span> {{event_template.name}}</p>
+                <p><span class="detail--label">Venue:</span> {{event_template.venue}}</p>
+                <p><span class="detail--label">Location:</span> {{event_template.location}}</p>
+            </div>
+            <p><span class="detail--label">Description: </span>{{event_template.description}}</p>
+        </div>
+
+        <div class= "col-lg-6 col-sm-12">
+            <h4>Volunteer Shifts</h4>
+            {% for shift in event_template.shifttemplate_set.all %}
+            <ul class="list-group">
+                <li class="list-group-item">Shift Start: {{shift.start_time}}</li>
+                <li class="list-group-item">Shift End: {{shift.end_time}}</li>
+                <li class="list-group-item">Description: {{shift.description}}</li>
+            </ul>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock content %}
