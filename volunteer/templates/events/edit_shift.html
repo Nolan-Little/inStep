@@ -1,0 +1,17 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+    <div class="container">
+            <h2 class="mt-5 p-4">Edit Shift</h2>
+            <form id="new_event_template_form" action="{% url 'volunteer:edit_shift' shift.id%}" method="POST">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-sm-12 col-lg-6">
+                        {{shift_form.as_p}}
+                        <button type="submit">Save shift details</button>
+                    </div>
+                </div>
+            </form>
+    </div>
+{% endblock content %}
+
