@@ -6,7 +6,7 @@
     <h1 class="header text-center">Event Details</h1>
     <div class="row d-flex">
         <div class= "col-lg-6 col-sm-12">
-            <div class="d-flex flex-lg-row flex-md-row flex-column justify-content-between">
+            <div class="d-flex flex-lg-row flex-md-row flex-column justify-content-between mt-5">
                 <p><span class="detail--label">Event Name:</span> {{event_template.name}}</p>
                 <p><span class="detail--label">Venue:</span> {{event_template.venue}}</p>
                 <p><span class="detail--label">Location:</span> {{event_template.location}}</p>
@@ -15,14 +15,33 @@
         </div>
 
         <div class= "col-lg-6 col-sm-12">
-            <h4>Volunteer Shifts</h4>
-            {% for shift in event_template.shifttemplate_set.all %}
-            <ul class="list-group">
-                <li class="list-group-item">Shift Start: {{shift.start_time}}</li>
-                <li class="list-group-item">Shift End: {{shift.end_time}}</li>
-                <li class="list-group-item">Description: {{shift.description}}</li>
-            </ul>
-            {% endfor %}
+            <h4 class="text-center">Volunteer Shifts</h4>
+            <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Time</th>
+                            <th scope="col"> # Volunteers Req.</th>
+                            <th scope="col">description</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for shift in event_template.shifttemplate_set.all %}
+                            <tr>
+                                <td class="scope">{{forloop.counter}}</td>
+                                <td>{{shift.start_time}} - {{shift.end_time}}</td>
+                                <td>{{shift.num_volunteers}}</td>
+                                <td>{{shift.description}}</td>
+                                <td>
+                                    <button class="btn-primary">
+                                        <a color="white" href="#">Edit Shift</a>
+                                    </button>
+                                </td>
+                            </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
         </div>
     </div>
 </div>
