@@ -10,7 +10,7 @@
         <div class="row">
 
             {% comment %} event templates {% endcomment %}
-            <div class="col-sm-12 col-lg-6 col-md-6 container">
+            <div class="col-sm-12 col-lg-6 col-md-12 container">
                 <div class="row">
                     <div class="col-6">
                         <h2>Events</h2>
@@ -26,6 +26,7 @@
                         <tr>
                             <th scope="col">Name</th>
                             <th scope="col">Venue</th>
+                            <th scope="col"></th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
@@ -48,6 +49,11 @@
                                         <a class="text-white" href="/schedule_event">schedule</a>
                                     </button>
                                 </td>
+                                <td>
+                                    <button class="btn-warning">
+                                        <a class="text-white" href="{% url 'volunteer:edit_event_template' event.id %}">edit</a>
+                                    </button>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -55,7 +61,7 @@
             </div>
 
             {% comment %} Scheduled events {% endcomment %}
-            <div class="col-sm-12 col-lg-6 col-md-6 container">
+            <div class="col-sm-12 col-lg-6 col-md-12 container">
                                 <div class="row">
                     <div class="col-7">
                         <h2>Schedule</h2>
