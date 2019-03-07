@@ -7,8 +7,52 @@
 {% block content %}
     <div class="container">
         <h5 class="header">Managing events for {{org.name}}</h5>
+        <div class="row">
+            <div class="col-sm-12 col-lg-6 col-md-6 container">
+                <div class="row">
+                    <div class="col-6">
+                        <h2>Events</h2>
+                    </div>
+                    <div class="col-5 offset-1 d-flex align-items-center justify-content-center">
+                        <button class="btn-primary">
+                            <a class="text-white" href="/new_event_template">New Event</a>
+                        </button>
+                    </div>
+                </div>
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Venue</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if event_templates|length == 0 %}
+                            <tr>
+                                <th scope="row" class="alert"> You haven't created any events.
+                                    <button class="btn-primary">
+                                        <a href="/new_event_template">Try it!</a>
+                                    </button>
+                                    </th>
+                            </tr>
+                        {% endif %}
+                        {% for event in event_templates %}
+                            <tr>
+                                <th scope="row">{{event.name}}</td>
+                                <td>{{event.venue}}</td>
+                                <td><button class="btn-primary">Schedule</button></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-sm-12 col-lg-6 col-md-6 container">
+
+            </div>
+        </div>
+
         {% for event in scheduled_events %}
-            {% comment %} TODO: figure out how to dynamically generate this path {% endcomment %}
             <a href="{% url  'volunteer:sign_up' event.sign_up_url %}">localhost:8000/sign_up{{event.sign_up_url}}</a>
         {% endfor %}
     </div>
