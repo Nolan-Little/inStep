@@ -10,6 +10,7 @@ from volunteer.models import Organization
 # Create your views here.
 
 def index(request):
+
     if request.user.is_authenticated:
         try:
             org = Organization.objects.get(user=request.user)

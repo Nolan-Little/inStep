@@ -42,6 +42,40 @@ def new_event_template(request):
             template_name = 'events/new_event_template.html'
             return render(request, template_name, {'new_event_form': new_event_form})
 
+def edit_event_template(request, event_template_id):
+    if request.method == "GET":
+        event_template = EventTemplate.objects.get(pk=event_template_id)
+        template_name = "events/edit_event_template.html"
+        event_form_data = {
+                'name': event_template.name,
+                'description': event_template.description,
+                'venue': event_template.venue,
+                'location': event_template.location
+            }
+
+        context = {
+        'edit_event_form':EventTemplateForm(event_form_data),
+        'event_template': event_template
+        }
+
+        return render(request, template_name, context)
+
+    if request.method == "POST":
+        form_data = request.POST
+        event_form_data = {
+            'name': form_data['name'],
+            'description': form_data['description'],
+            'venue': form_data['venue'],
+            'location': form_data['location']
+        }
+
+        new_org_form = EventTemplateForm(event_form_data)
+
+        if new_org_form.is_valid():
+            event_template = EventTemplate.objects.filter(pk=event_template_id).update(**event_form_data)
+
+            return HttpResponseRedirect(reverse('volunteer:dashboard'))
+
 
 def new_shift_template(request, event_template_id):
     event_template = EventTemplate.objects.get(pk=event_template_id)
