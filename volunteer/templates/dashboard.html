@@ -8,6 +8,8 @@
     <div class="container">
         <h5 class="header">Managing events for {{org.name}}</h5>
         <div class="row">
+
+            {% comment %} event templates {% endcomment %}
             <div class="col-sm-12 col-lg-6 col-md-6 container">
                 <div class="row">
                     <div class="col-6">
@@ -41,19 +43,57 @@
                             <tr>
                                 <th scope="row">{{event.name}}</td>
                                 <td>{{event.venue}}</td>
-                                <td><button class="btn-primary">Schedule</button></td>
+                                <td>
+                                    <button class="btn-primary">
+                                        <a class="text-white" href="/schedule_event">schedule</a>
+                                    </button>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
-            <div class="col-sm-12 col-lg-6 col-md-6 container">
 
+            {% comment %} Scheduled events {% endcomment %}
+            <div class="col-sm-12 col-lg-6 col-md-6 container">
+                                <div class="row">
+                    <div class="col-7">
+                        <h2>Schedule</h2>
+                    </div>
+                    <div class="col-5 d-flex align-items-center justify-content-center">
+                        {% comment %} button goes here {% endcomment %}
+                    </div>
+                </div>
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if scheduled_events|length == 0 %}
+                            <tr>
+                                <th scope="row" class="alert"> You haven't scheduled any events.
+                                    <button class="btn-primary">
+                                        <a href="/schedule_event">Try it!</a>
+                                    </button>
+                                </th>
+                            </tr>
+                        {% endif %}
+                        {% for event in scheduled_events %}
+                            <tr>
+                                <th scope="row">{{event.event_template.name}}</td>
+                                <td>{{event.date}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
-
+{% comment %}
         {% for event in scheduled_events %}
             <a href="{% url  'volunteer:sign_up' event.sign_up_url %}">localhost:8000/sign_up{{event.sign_up_url}}</a>
-        {% endfor %}
+        {% endfor %} {% endcomment %}
     </div>
 {% endblock content %}

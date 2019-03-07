@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
@@ -10,6 +11,8 @@ def dashboard(request):
     event_templates = EventTemplate.objects.filter(organization=org)
     scheduled_events = ScheduledEvent.objects.all()
 
+    # last_login = days_since_login(request.user)
+    # print(last_login)
     for template in event_templates:
         scheduled_events.filter(event_template=template)
 
@@ -20,3 +23,9 @@ def dashboard(request):
     }
 
     return render(request, "dashboard.html", context)
+
+
+def days_since_login(user):
+    last_login = user.last_login.strptime(str(user.last_login), "%Y-%m-%d")
+    n = datetime.strptime(datetime.now(), "%Y-%m-%d")
+    return abs((n - last_login).days)

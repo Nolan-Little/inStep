@@ -42,6 +42,24 @@ def new_event_template(request):
             template_name = 'events/new_event_template.html'
             return render(request, template_name, {'new_event_form': new_event_form})
 
+def edit_event_template(request, event_template_id):
+    if request.method == "GET":
+        template_name = "events/edit_event_template.html"
+        event_template = EventTemplate.objects.get(pk=event_template_id)
+        event_form_data = {
+                'name': event_template.name,
+                'description': event_template.description,
+                'venue': event_template.venue,
+                'location': event_template.location
+            }
+
+        context = {
+        'edit_event_form':EventTemplateForm(event_form_data),
+        'event_template': event_template
+        }
+
+        return render(request, template_name, context)
+
 
 def new_shift_template(request, event_template_id):
     event_template = EventTemplate.objects.get(pk=event_template_id)

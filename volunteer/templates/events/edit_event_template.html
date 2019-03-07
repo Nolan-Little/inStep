@@ -1,0 +1,17 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+    <div class="container">
+            <h2 class="mt-5 p-4">Edit Event</h2>
+            <form id="new_event_template_form" action="{% url 'volunteer:edit_event_template' event_template.id%}" method="POST">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-sm-12 col-lg-6">
+                        {{edit_event_form.as_p}}
+                        <button type="submit">Save Event and Schedule Shifts</button>
+                    </div>
+                </div>
+            </form>
+    </div>
+{% endblock content %}
+
