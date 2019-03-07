@@ -1,3 +1,4 @@
+import datetime
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
@@ -124,7 +125,8 @@ def sign_up(request, unique_url):
         sched_shifts = ScheduledShift.objects.filter(
             scheduled_event=scheduled_event)
         for shift in sched_shifts:
-            shift_list.append((shift.id, f'{shift.shift_template.start_time} - {shift.shift_template.end_time} {shift.shift_template.description}'))
+            shift_list.append(
+                (shift.id, f'{shift.shift_template.start_time.strftime("%-I:%M%p")} - {shift.shift_template.end_time.strftime("%-I:%M%p")} {shift.shift_template.description}'))
         shift_choices = tuple(shift_list)
         shift_form = VolSignUpForm(shift_choices=shift_choices)
 
