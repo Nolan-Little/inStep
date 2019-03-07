@@ -26,7 +26,13 @@
                             <th scope="col">Time</th>
                             <th scope="col"> # Volunteers Req.</th>
                             <th scope="col">description</th>
-                            <th scope="col"></th>
+                            <th scope="col">
+                                <button class="btn-danger">
+                                    <a class="text-white" href="{% url 'volunteer:new_shift_template' event_template.id %}">
+                                        Add Shift
+                                    </a>
+                                </button>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
