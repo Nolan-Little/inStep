@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django import forms
-from volunteer.models import Organization, EventTemplate, ScheduledEvent, ShiftTemplate
+from volunteer.models import Organization, Event, Shift, Shift
 
 
 class UserForm(forms.ModelForm):
@@ -23,14 +23,14 @@ class OrgForm(forms.ModelForm):
 class EventTemplateForm(forms.ModelForm):
 
     class Meta:
-        model = EventTemplate
+        model = Event
         fields = ('name', 'description', 'venue', 'location')
 
 
 class ShiftTemplateForm(forms.ModelForm):
 
     class Meta:
-        model = ShiftTemplate
+        model = Shift
         fields = ('start_time', 'end_time', 'num_volunteers', 'description')
 
         widgets = {

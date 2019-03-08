@@ -9,7 +9,7 @@
                 <label for="events">Event to Schedule</label>
                 <select required name="events" id="eventSelect">
                         <option value="">------</option>
-                    {% for event in org.eventtemplate_set.all %}
+                    {% for event in event_templates %}
                         <option value="{{event.id}}">{{event.name}}</option>
                     {% endfor %}
                 </select>

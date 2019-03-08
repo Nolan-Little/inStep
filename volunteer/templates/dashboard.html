@@ -42,7 +42,7 @@
                         {% for event in event_templates %}
                             <tr>
                                 <td scope="row">{{event.name}}</td>
-                                <td>{{event.venue}}</td>
+                                <td>{{event.venue.name}}</td>
                                 <td>
                                     <button class="btn-primary">
                                         <a class="text-white" href="/schedule_event">schedule occurence</a>
@@ -88,7 +88,7 @@
                         {% endif %}
                         {% for event in scheduled_events %}
                             <tr>
-                                <th scope="row">{{event.event_template.name}}</td>
+                                <th scope="row">{{event.name}}</td>
                                 <td>{{event.date}}</td>
                             </tr>
                         {% endfor %}
