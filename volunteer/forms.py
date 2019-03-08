@@ -20,14 +20,22 @@ class OrgForm(forms.ModelForm):
         fields = ('name', 'description')
 
 
-class EventTemplateForm(forms.ModelForm):
+class EventForm(forms.ModelForm):
+    new_venue_name = forms.CharField(max_length=75, required=False)
+    new_venue_location = forms.CharField(max_length=150, required=False)
 
     class Meta:
         model = Event
-        fields = ('name', 'description', 'venue', 'location')
+        fields = ('name', 'description', 'venue', 'new_venue_name', 'new_venue_location')
+
+    def __init__(self, *args, **kwargs):
+        super(EventForm, self).__init__(*args, **kwargs)
+        self.fields['venue'].empty_label = "Add New Venue"
+        # following line needed to refresh widget copy of choice list
+        self.fields['venue'].widget.choices = self.fields['venue'].choices
 
 
-class ShiftTemplateForm(forms.ModelForm):
+class ShiftForm(forms.ModelForm):
 
     class Meta:
         model = Shift

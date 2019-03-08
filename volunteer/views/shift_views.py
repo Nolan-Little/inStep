@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from volunteer.models import Organization, Event, Shift, Volunteer
-from volunteer.forms import EventTemplateForm, ShiftTemplateForm, VolSignUpForm
+from volunteer.forms import EventForm, ShiftForm, VolSignUpForm
 
 def new_shift_template(request, event_template_id):
     # event_template = EventTemplate.objects.get(pk=event_template_id)

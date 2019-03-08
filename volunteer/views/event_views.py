@@ -3,41 +3,73 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from volunteer.models import Organization, Event, Shift, Volunteer
-from volunteer.forms import EventTemplateForm, ShiftTemplateForm, VolSignUpForm
+from volunteer.models import Organization, Event, Shift, Volunteer, Venue
+from volunteer.forms import EventForm, ShiftForm, VolSignUpForm
+
 
 def new_event_template(request):
     if request.method == "GET":
-        new_event_form = EventTemplateForm()
+        new_event_form = EventForm()
         template_name = "events/new_event_template.html"
         return render(request, template_name, {"new_event_form": new_event_form})
 
     elif request.method == "POST":
+        org = Organization.objects.filter(user=request.user)[0]
         form_data = request.POST
 
-        event_form_data = {
-            'name': form_data['name'],
-            'description': form_data['description'],
-            'venue': form_data['venue'],
-            'location': form_data['location']
-        }
+        selected_venue = form_data.get('venue', '')
 
-        new_org_form = EventTemplateForm(event_form_data)
-        if new_org_form.is_valid():
-            org = Organization.objects.filter(user=request.user)[0]
-            # new_event_template = EventTemplate.objects.create(
-            #     name=event_form_data['name'],
-            #     description=event_form_data['description'],
-            #     venue=event_form_data['venue'],
-            #     location=event_form_data['location'],
-            #     organization=org
-            # )
+        if selected_venue == '':
+            new_venue = Venue.objects.create(
+                name=form_data['new_venue_name'],
+                location=form_data['new_venue_location']
+            )
 
-            return HttpResponseRedirect(reverse('volunteer:new_shift_template', args=(new_event_template.id, )))
+            event_form_data = {
+                'name': form_data['name'],
+                'description': form_data['description'],
+            }
+
+            new_event_form = EventForm(event_form_data)
+
+            if new_event_form.is_valid():
+                new_event = Event.objects.create(
+                    name = event_form_data['name'],
+                    description = event_form_data['description'],
+                    venue = new_venue,
+                    organization = org,
+                    is_template = True
+                )
+
+                return HttpResponseRedirect(reverse('volunteer:dashboard'))
+
+            else:
+                template_name = "events/new_event_template.html"
+                return render(request, template_name, {"new_event_form": new_event_form})
 
         else:
-            template_name = 'events/new_event_template.html'
-            return render(request, template_name, {'new_event_form': new_event_form})
+            event_form_data = {
+                'name': form_data['name'],
+                'description': form_data['description'],
+                'venue': form_data['venue']
+            }
+
+            new_event_form = EventForm(event_form_data)
+
+            if new_event_form.is_valid():
+                new_event = Event.objects.create(
+                    name = event_form_data['name'],
+                    description = event_form_data['description'],
+                    venue = Venue.objects.get(pk=int(event_form_data['venue'])),
+                    organization = org,
+                    is_template = True
+                )
+                return HttpResponseRedirect(reverse('volunteer:dashboard'))
+            else:
+                template_name = "events/new_event_template.html"
+                return render(request, template_name, {"new_event_form": new_event_form})
+
+
 
 
 def event_template_details(request, event_template_id):
@@ -53,15 +85,15 @@ def edit_event_template(request, event_template_id):
         # event_template = EventTemplate.objects.get(pk=event_template_id)
         template_name = "events/edit_event_template.html"
         event_form_data = {
-                'name': event_template.name,
-                'description': event_template.description,
-                'venue': event_template.venue,
-                'location': event_template.location
-            }
+            'name': event_template.name,
+            'description': event_template.description,
+            'venue': event_template.venue,
+            'location': event_template.location
+        }
 
         context = {
-        'edit_event_form':EventTemplateForm(event_form_data),
-        'event_template': event_template
+            'edit_event_form': EventTemplateForm(event_form_data),
+            'event_template': event_template
         }
 
         return render(request, template_name, context)
@@ -81,7 +113,6 @@ def edit_event_template(request, event_template_id):
             # event_template = EventTemplate.objects.filter(pk=event_template_id).update(**event_form_data)
 
             return HttpResponseRedirect(reverse('volunteer:dashboard'))
-
 
 
 def schedule_event(request):
@@ -107,11 +138,11 @@ def schedule_event(request):
 
         # Schedule Event
         scheduled_event = Event.objects.create(
-            organization = org,
-            name = event.name,
-            description = event.description,
-            venue = event.venue,
-            location = event.location,
+            organization=org,
+            name=event.name,
+            description=event.description,
+            venue=event.venue,
+            location=event.location,
             date=event_form_data['date'],
             is_template=False
         )

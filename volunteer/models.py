@@ -13,12 +13,14 @@ class Venue(models.Model):
     name = models.CharField(max_length=150)
     location = models.CharField(max_length=500)
 
+    def __str__(self):
+        return self.name
+
 class Event(models.Model):
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    venue = models.ForeignKey(Venue, on_delete=models.CASCADE)
+    venue = models.ForeignKey(Venue, on_delete=models.CASCADE, blank=True, null=True)
     description = models.CharField(max_length=150)
     name = models.CharField(max_length=150)
-    location = models.CharField(max_length=200)
     date = models.DateField(null=True, blank=True)
     sign_up_url = models.CharField(max_length=50, null=True, blank=True, unique=True, default=uuid.uuid4)
     is_template = models.BooleanField()
