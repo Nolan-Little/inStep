@@ -6,7 +6,7 @@
     <h1 class="header text-center">Event Details</h1>
     <div class="row d-flex">
         <div class= "col-lg-6 col-sm-12">
-            <button class="btn-warning">
+            <button class="btn-primary">
                 <a class="text-white" href="{% url 'volunteer:edit_event_template' event_template.id %}">edit</a>
             </button>
             <div class="d-flex flex-lg-row flex-md-row flex-column justify-content-between mt-5">
@@ -44,7 +44,7 @@
                                 <td>{{shift.description}}</td>
                                 <td>
                                     <button class="btn-primary">
-                                        <a class="text-white" href="{% url 'volunteer:edit_shift' shift.id %}">Edit Shift</a>
+                                        <a class="text-white" href="{% url 'volunteer:edit_shift' shift.id %}">Edit</a>
                                     </button>
                                 </td>
                             </tr>

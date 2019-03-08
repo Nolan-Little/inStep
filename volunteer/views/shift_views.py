@@ -78,4 +78,3 @@ def edit_shift(request, shift_id):
 
             return HttpResponseRedirect(reverse('volunteer:event_template_details', args=(shift.event_template.id,) ))
 
-
