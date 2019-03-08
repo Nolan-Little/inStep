@@ -3,7 +3,7 @@
 {% block content %}
     <div class="container mt-5 p-5 row">
         <div class="col-sm-12 col-lg-6">
-            <form class="shift-inputs" method="POST" action="{% url 'volunteer:new_shift_template' event_template.id %}">
+            <form class="shift-inputs" method="POST" action="{% url 'volunteer:new_shift' event.id %}">
                 {% csrf_token %}
                 {{shift_form.as_p}}
             <button type="submit">Add Shift</button>

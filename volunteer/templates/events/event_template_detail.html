@@ -12,7 +12,7 @@
             <div class="d-flex flex-lg-row flex-md-row flex-column justify-content-between mt-5">
                 <p><span class="detail--label">Event Name:</span> {{event_template.name}}</p>
                 <p><span class="detail--label">Venue:</span> {{event_template.venue}}</p>
-                <p><span class="detail--label">Location:</span> {{event_template.location}}</p>
+                <p><span class="detail--label">Location:</span> {{event_template.venue.location}}</p>
             </div>
             <p><span class="detail--label">Description: </span>{{event_template.description}}</p>
         </div>
@@ -28,7 +28,7 @@
                             <th scope="col">description</th>
                             <th scope="col">
                                 <button class="btn-danger">
-                                    <a class="text-white" href="{% url 'volunteer:new_shift_template' event_template.id %}">
+                                    <a class="text-white" href="{% url 'volunteer:new_shift' event_template.id %}">
                                         Add Shift
                                     </a>
                                 </button>
@@ -36,7 +36,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                    {% for shift in event_template.shifttemplate_set.all %}
+                    {% for shift in event_template.shift_set.all %}
                             <tr>
                                 <td class="scope">{{forloop.counter}}</td>
                                 <td>{{shift.start_time}} - {{shift.end_time}}</td>
