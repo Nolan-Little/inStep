@@ -41,7 +41,7 @@ def new_shift(request, event_id):
             return HttpResponseRedirect(reverse('volunteer:new_shift', args=(event.id, )))
 
         elif form_data.get('dashboard'):
-            return HttpResponseRedirect(reverse('volunteer:dashboard'))
+            return HttpResponseRedirect(reverse('volunteer:event_template_details', args=(event.id,)))
 
 def edit_shift(request, shift_id):
     if request.method == "GET":
@@ -83,6 +83,7 @@ def edit_shift(request, shift_id):
 
 
 def delete_shift(request, shift_id):
+    redirect_url = request.META['HTTP_REFERER']
     shift = Shift.objects.get(id=shift_id)
     shift.delete()
-    return HttpResponseRedirect(reverse('volunteer:event_template_details', args=(shift.event.id,)))
+    return HttpResponseRedirect(redirect_url)
