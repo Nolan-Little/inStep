@@ -182,12 +182,11 @@ def schedule_event(request):
             name=event.name,
             description=event.description,
             venue=event.venue,
-            location=event.location,
             date=event_form_data['date'],
             is_template=False
         )
 
-        shift_templates = Shift.objects.filter(event_template=event)
+        shift_templates = Shift.objects.filter(event=event)
 
         # # Schedule all appropriate shifts
         # for template in shift_templates:
