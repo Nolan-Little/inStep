@@ -6,10 +6,10 @@
             <form class="shift-inputs" method="POST" action="{% url 'volunteer:new_shift' event.id %}">
                 {% csrf_token %}
                 {{shift_form.as_p}}
-            <button type="submit">Add Shift</button>
+
+                <button name="add_shift" value="add_shift" class="btn text-primary" type="submit">Save Shift and Add Another Shift</button>
+                <button name="dashboard" value="dashboard" class="btn text-dark">Save shift go to Dashboard</button>
             </form>
-            <a class="btn text-dark" href="/dashboard">Save and go to Dashboard</a>
-            <a class="btn text-primary" href="/schedule_event">Save and Schedule Event</a>
         </div>
         <div class="col-sm-12 col-lg-6">
             {% for shift in current_shifts %}
