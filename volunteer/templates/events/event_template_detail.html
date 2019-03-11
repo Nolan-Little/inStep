@@ -9,6 +9,9 @@
       <button class="btn-primary">
         <a class="text-white" href="{% url 'volunteer:edit_event_template' event_template.id %}">edit</a>
       </button>
+      <button class="btn-danger">
+        <a class="text-white" href="{% url 'volunteer:delete_event' event_template.id %}">delete</a>
+      </button>
       <div class="d-flex flex-lg-row flex-md-row flex-column justify-content-between mt-5">
         <p><span class="detail--label">Location:</span> {{event_template.venue.location}}</p>
         <p><span class="detail--label">Event Name:</span> {{event_template.name}}</p>
