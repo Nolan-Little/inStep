@@ -33,6 +33,11 @@ class Shift(models.Model):
     num_volunteers = models.PositiveIntegerField()
     description = models.CharField(max_length=100)
 
+    @property
+    def slots_remaining(self):
+        volunteers = Volunteer.objects.filter(shift=self).count()
+        return self.num_volunteers - volunteers
+
 class Volunteer(models.Model):
     shift = models.ForeignKey(Shift, on_delete=models.CASCADE)
     name = models.CharField(max_length=150, default="volunteer")

@@ -74,6 +74,7 @@
                         <tr>
                             <th scope="col">Name</th>
                             <th scope="col">Date</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -90,6 +91,11 @@
                             <tr>
                                 <th scope="row">{{event.name}}</td>
                                 <td>{{event.date}}</td>
+                                <td>
+                                    <button class="btn-warning">
+                                        <a class="text-white" href="{% url 'volunteer:event_template_details' event.id %}">details</a>
+                                    </button>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
