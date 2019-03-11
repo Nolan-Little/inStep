@@ -3,19 +3,18 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from volunteer.models import Organization, EventTemplate, ScheduledEvent, ShiftTemplate, ScheduledShift, Volunteer, ShiftVolunteer
-from volunteer.forms import EventTemplateForm, ShiftTemplateForm, VolSignUpForm
+from volunteer.models import Organization, Event, Shift, Volunteer
+from volunteer.forms import EventForm, ShiftForm, VolSignUpForm
 
-def new_shift_template(request, event_template_id):
-    event_template = EventTemplate.objects.get(pk=event_template_id)
+def new_shift(request, event_id):
+    event = Event.objects.get(pk=event_id)
 
     if request.method == "GET":
-        current_shifts = ShiftTemplate.objects.filter(
-            event_template=event_template)
+        current_shifts = Shift.objects.filter(event=event)
         template_name = 'events/shift_template.html'
-        shift_form = ShiftTemplateForm()
+        shift_form = ShiftForm()
         context = {
-            'event_template': event_template,
+            'event': event,
             'shift_form': shift_form,
             'current_shifts': current_shifts
         }
@@ -30,20 +29,20 @@ def new_shift_template(request, event_template_id):
             'num_volunteers': form_data['num_volunteers']
         }
 
-        new_shift_template = ShiftTemplate.objects.create(
+        Shift.objects.create(
             start_time=event_form_data['start_time'],
             end_time=event_form_data['end_time'],
             num_volunteers=event_form_data['num_volunteers'],
             description=event_form_data['description'],
-            event_template=event_template
+            event=event
         )
 
-        return HttpResponseRedirect(reverse('volunteer:new_shift_template', args=(event_template.id, )))
+        return HttpResponseRedirect(reverse('volunteer:new_shift', args=(event.id, )))
 
 def edit_shift(request, shift_id):
     if request.method == "GET":
         template_name = "events/edit_shift.html"
-        shift =  ShiftTemplate.objects.get(pk=shift_id)
+        # shift =  ShiftTemplate.objects.get(pk=shift_id)
 
         shift_form_data = {
                 'start_time': shift.start_time,
@@ -73,8 +72,8 @@ def edit_shift(request, shift_id):
         shift_form = ShiftTemplateForm(shift_form_data)
 
         if shift_form.is_valid():
-            shift = ShiftTemplate.objects.get(pk=shift_id)
-            ShiftTemplate.objects.filter(pk=shift_id).update(**shift_form_data)
+            # shift = ShiftTemplate.objects.get(pk=shift_id)
+            # ShiftTemplate.objects.filter(pk=shift_id).update(**shift_form_data)
 
             return HttpResponseRedirect(reverse('volunteer:event_template_details', args=(shift.event_template.id,) ))
 

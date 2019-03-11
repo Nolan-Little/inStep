@@ -9,35 +9,34 @@ class Organization(models.Model):
     description = models.TextField(max_length=500)
     user = models.ManyToManyField(User)
 
-class EventTemplate(models.Model):
-    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    description = models.CharField(max_length=150)
-    venue = models.CharField(max_length=75)
+class Venue(models.Model):
     name = models.CharField(max_length=150)
-    location = models.CharField(max_length=200)
+    location = models.CharField(max_length=500)
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
 
-class ShiftTemplate(models.Model):
-    event_template = models.ForeignKey(EventTemplate, on_delete=models.CASCADE, null=True)
+    def __str__(self):
+        return self.name
+
+class Event(models.Model):
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    venue = models.ForeignKey(Venue, on_delete=models.CASCADE, blank=True, null=True)
+    description = models.CharField(max_length=150)
+    name = models.CharField(max_length=150)
+    date = models.DateField(null=True, blank=True)
+    sign_up_url = models.CharField(max_length=50, null=True, blank=True, unique=True, default=uuid.uuid4)
+    is_template = models.BooleanField()
+
+class Shift(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, null=True)
     start_time = models.TimeField()
     end_time = models.TimeField()
     num_volunteers = models.PositiveIntegerField()
     description = models.CharField(max_length=100)
 
-class ScheduledEvent(models.Model):
-    event_template = models.ForeignKey(EventTemplate, on_delete=models.CASCADE)
-    date = models.DateField()
-    sign_up_url = models.CharField(max_length=50, null=True, blank=True, unique=True, default=uuid.uuid4)
-
 class Volunteer(models.Model):
+    shift = models.ForeignKey(Shift, on_delete=models.CASCADE)
     name = models.CharField(max_length=150, default="volunteer")
-
-class ScheduledShift(models.Model):
-    scheduled_event = models.ForeignKey(ScheduledEvent, on_delete=models.CASCADE)
-    shift_template = models.ForeignKey(ShiftTemplate, on_delete=models.CASCADE)
-    volunteer = models.ManyToManyField(Volunteer, through="ShiftVolunteer")
+    note = models.CharField(max_length=100)
 
 
-class ShiftVolunteer(models.Model):
-    scheduled_shift = models.ForeignKey(ScheduledShift, on_delete=models.CASCADE)
-    notes = models.CharField(max_length=100)
-    volunteer = models.ForeignKey(Volunteer, on_delete=models.CASCADE)
+

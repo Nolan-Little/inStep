@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django import forms
-from volunteer.models import Organization, EventTemplate, ScheduledEvent, ShiftTemplate
+from volunteer.models import Organization, Event, Shift, Shift
 
 
 class UserForm(forms.ModelForm):
@@ -20,17 +20,25 @@ class OrgForm(forms.ModelForm):
         fields = ('name', 'description')
 
 
-class EventTemplateForm(forms.ModelForm):
+class EventForm(forms.ModelForm):
+    new_venue_name = forms.CharField(max_length=75, required=False)
+    new_venue_location = forms.CharField(max_length=150, required=False)
 
     class Meta:
-        model = EventTemplate
-        fields = ('name', 'description', 'venue', 'location')
+        model = Event
+        fields = ('name', 'description', 'venue', 'new_venue_name', 'new_venue_location')
+
+    def __init__(self, *args, **kwargs):
+        super(EventForm, self).__init__(*args, **kwargs)
+        self.fields['venue'].empty_label = "Add New Venue"
+        # following line needed to refresh widget copy of choice list
+        self.fields['venue'].widget.choices = self.fields['venue'].choices
 
 
-class ShiftTemplateForm(forms.ModelForm):
+class ShiftForm(forms.ModelForm):
 
     class Meta:
-        model = ShiftTemplate
+        model = Shift
         fields = ('start_time', 'end_time', 'num_volunteers', 'description')
 
         widgets = {
