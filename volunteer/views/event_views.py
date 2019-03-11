@@ -154,6 +154,13 @@ def edit_event_template(request, event_template_id):
                 template_name = "events/new_event_template.html"
                 return render(request, template_name, {"new_event_form": new_event_form})
 
+
+def delete_event(request, event_id):
+    event = Event.objects.get(pk=event_id)
+    event.delete()
+    return HttpResponseRedirect(reverse('volunteer:dashboard'))
+
+
 def schedule_event(request):
     # TODO: org cookies?
     org = Organization.objects.filter(user=request.user)[0]

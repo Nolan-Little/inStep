@@ -3,55 +3,64 @@
 
 {% block content %}
 <div class="container">
-    <h1 class="header text-center">Event Details</h1>
-    <div class="row d-flex">
-        <div class= "col-lg-6 col-sm-12">
-            <button class="btn-primary">
-                <a class="text-white" href="{% url 'volunteer:edit_event_template' event_template.id %}">edit</a>
-            </button>
-            <div class="d-flex flex-lg-row flex-md-row flex-column justify-content-between mt-5">
-                <p><span class="detail--label">Event Name:</span> {{event_template.name}}</p>
-                <p><span class="detail--label">Venue:</span> {{event_template.venue}}</p>
-                <p><span class="detail--label">Location:</span> {{event_template.venue.location}}</p>
-            </div>
-            <p><span class="detail--label">Description: </span>{{event_template.description}}</p>
-        </div>
+  <h1 class="header text-center">Event Details</h1>
+  <div class="row d-flex">
+    <div class= "col-lg-6 col-sm-12">
+      <button class="btn-primary">
+        <a class="text-white" href="{% url 'volunteer:edit_event_template' event_template.id %}">edit</a>
+      </button>
+      <button class="btn-danger">
+        <a class="text-white" href="{% url 'volunteer:delete_event' event_template.id %}">delete</a>
+      </button>
+      <div class="d-flex flex-lg-row flex-md-row flex-column justify-content-between mt-5">
+        <p><span class="detail--label">Location:</span> {{event_template.venue.location}}</p>
+        <p><span class="detail--label">Event Name:</span> {{event_template.name}}</p>
+        <p><span class="detail--label">Venue:</span> {{event_template.venue}}</p>
+      </div>
+        <p><span class="detail--label">Description: </span>{{event_template.description}}</p>
+      </div>
 
-        <div class= "col-lg-6 col-sm-12">
-                <h4 class="text-center">Volunteer Shifts</h4>
-            <table class="table">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Time</th>
-                            <th scope="col"> # Volunteers Req.</th>
-                            <th scope="col">description</th>
-                            <th scope="col">
-                                <button class="btn-danger">
-                                    <a class="text-white" href="{% url 'volunteer:new_shift' event_template.id %}">
-                                        Add Shift
-                                    </a>
-                                </button>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {% for shift in event_template.shift_set.all %}
-                            <tr>
-                                <td class="scope">{{forloop.counter}}</td>
-                                <td>{{shift.start_time}} - {{shift.end_time}}</td>
-                                <td>{{shift.num_volunteers}}</td>
-                                <td>{{shift.description}}</td>
-                                <td>
-                                    <button class="btn-primary">
-                                        <a class="text-white" href="{% url 'volunteer:edit_shift' shift.id %}">Edit</a>
-                                    </button>
-                                </td>
-                            </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-        </div>
+      <div class= "col-lg-6 col-sm-12">
+        <h4 class="text-center">Volunteer Shifts</h4>
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Time</th>
+              <th scope="col"> # Volunteers Req.</th>
+              <th scope="col">description</th>
+              <th scope="col"></th>
+              <th scope="col">
+                <button class="btn-danger">
+                  <a class="text-white" href="{% url 'volunteer:new_shift' event_template.id %}">
+                    Add Shift
+                  </a>
+                </button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for shift in event_template.shift_set.all %}
+              <tr>
+                <td class="scope">{{forloop.counter}}</td>
+                <td>{{shift.start_time}} - {{shift.end_time}}</td>
+                <td>{{shift.num_volunteers}}</td>
+                <td>{{shift.description}}</td>
+                <td>
+                  <button class="btn-primary">
+                    <a class="text-white" href="{% url 'volunteer:edit_shift' shift.id %}">Edit</a>
+                  </button>
+                </td>
+                <td>
+                  <button class="btn-danger">
+                    <a class="text-white" href="{% url 'volunteer:delete_shift' shift.id %}">Delete</a>
+                  </button>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
-</div>
+  </div>
 {% endblock content %}

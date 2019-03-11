@@ -1,25 +1,49 @@
 {% extends 'index.html' %}
 {% load static %}
 {% block content %}
-    <div class="container mt-5 p-5 row">
+  <div class="container mt-5 p-5 row">
+    <div class="col-sm-12 col-lg-6">
+      <form class="shift-inputs" method="POST" action="{% url 'volunteer:new_shift' event.id %}">
+        {% csrf_token %}
+        {{shift_form.as_p}}
+
+        <button name="add_shift" value="add_shift" class="btn text-primary" type="submit">Save Shift and Add Another Shift</button>
+        <button name="dashboard" value="dashboard" class="btn text-dark">Save shift and See Event Details</button>
+      </form>
+      </div>
         <div class="col-sm-12 col-lg-6">
-            <form class="shift-inputs" method="POST" action="{% url 'volunteer:new_shift' event.id %}">
-                {% csrf_token %}
-                {{shift_form.as_p}}
-            <button type="submit">Add Shift</button>
-            </form>
-            <a class="btn text-dark" href="/dashboard">Save and go to Dashboard</a>
-            <a class="btn text-primary" href="/schedule_event">Save and Schedule Event</a>
-        </div>
-        <div class="col-sm-12 col-lg-6">
-            {% for shift in current_shifts %}
-                <ul class="list-group">
-                    <li class="list-group-item">start time: {{shift.start_time}}</li>
-                    <li class="list-group-item">end time: {{shift.end_time}}</li>
-                    <li class="list-group-item"># volunteers: {{shift.num_volunteers}}</li>
-                    <li class="list-group-item">description: {{shift.description}}</li>
-                </ul>
-            {% endfor %}
+          <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Time</th>
+                  <th scope="col"> # Volunteers Req.</th>
+                  <th scope="col">description</th>
+                  <th scope="col"></th>
+                  <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+              {% for shift in current_shifts %}
+                <tr>
+                  <td class="scope">{{forloop.counter}}</td>
+                  <td>{{shift.start_time}} - {{shift.end_time}}</td>
+                  <td>{{shift.num_volunteers}}</td>
+                  <td>{{shift.description}}</td>
+                  <td>
+                    <button class="btn-primary">
+                      <a class="text-white" href="{% url 'volunteer:edit_shift' shift.id %}">Edit</a>
+                    </button>
+                  </td>
+                  <td>
+                    <button class="btn-danger">
+                      <a class="text-white" href="{% url 'volunteer:delete_shift' shift.id %}">Delete</a>
+                    </button>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
     </div>
 {% endblock content %}
