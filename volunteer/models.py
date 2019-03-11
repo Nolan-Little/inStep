@@ -12,6 +12,7 @@ class Organization(models.Model):
 class Venue(models.Model):
     name = models.CharField(max_length=150)
     location = models.CharField(max_length=500)
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

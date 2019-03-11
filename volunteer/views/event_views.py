@@ -8,13 +8,20 @@ from volunteer.forms import EventForm, ShiftForm, VolSignUpForm
 
 
 def new_event_template(request):
+    org = Organization.objects.filter(user=request.user)[0]
     if request.method == "GET":
         new_event_form = EventForm()
+
+        # create choice list based off of only that organizations related created venues
+        venues = Venue.objects.filter(organization=org)
+        new_event_form.fields['venue'].choices = [(venue.id, venue.name) for venue in venues]
+        new_event_form.fields['venue'].choices.append(('','Add New Venue'))
+
         template_name = "events/new_event_template.html"
         return render(request, template_name, {"new_event_form": new_event_form})
 
     elif request.method == "POST":
-        org = Organization.objects.filter(user=request.user)[0]
+        # TODO: organization cookies?
         form_data = request.POST
 
         selected_venue = form_data.get('venue', '')
@@ -23,7 +30,8 @@ def new_event_template(request):
         if selected_venue == '':
             new_venue = Venue.objects.create(
                 name=form_data['new_venue_name'],
-                location=form_data['new_venue_location']
+                location=form_data['new_venue_location'],
+                organization=org
             )
 
             event_form_data = {
@@ -97,6 +105,7 @@ def edit_event_template(request, event_template_id):
         return render(request, template_name, context)
 
     elif request.method == "POST":
+        # TODO: org cookies?
         org = Organization.objects.filter(user=request.user)[0]
         form_data = request.POST
 
@@ -106,7 +115,8 @@ def edit_event_template(request, event_template_id):
         if selected_venue == '':
             new_venue = Venue.objects.create(
                 name=form_data['new_venue_name'],
-                location=form_data['new_venue_location']
+                location=form_data['new_venue_location'],
+                organization=org
             )
 
             event_form_data = {
@@ -117,13 +127,8 @@ def edit_event_template(request, event_template_id):
             new_event_form = EventForm(event_form_data)
 
             if new_event_form.is_valid():
-                new_event = Event.objects.create(
-                    name = event_form_data['name'],
-                    description = event_form_data['description'],
-                    venue = new_venue,
-                    organization = org,
-                    is_template = True
-                )
+                event_form_data['venue'] = new_venue
+                Event.objects.filter(pk=event_template_id).update(**event_form_data)
 
                 return HttpResponseRedirect(reverse('volunteer:dashboard'))
 
@@ -142,19 +147,15 @@ def edit_event_template(request, event_template_id):
             new_event_form = EventForm(event_form_data)
 
             if new_event_form.is_valid():
-                new_event = Event.objects.create(
-                    name = event_form_data['name'],
-                    description = event_form_data['description'],
-                    venue = Venue.objects.get(pk=int(event_form_data['venue'])),
-                    organization = org,
-                    is_template = True
-                )
+                Event.objects.filter(pk=event_template_id).update(**event_form_data)
+
                 return HttpResponseRedirect(reverse('volunteer:dashboard'))
             else:
                 template_name = "events/new_event_template.html"
                 return render(request, template_name, {"new_event_form": new_event_form})
 
 def schedule_event(request):
+    # TODO: org cookies?
     org = Organization.objects.filter(user=request.user)[0]
     if request.method == "GET":
         template_name = "events/schedule_event.html"
