@@ -86,14 +86,11 @@ def edit_event_template(request, event_template_id):
     if request.method == "GET":
         event_template = Event.objects.get(pk=event_template_id)
         template_name = "events/edit_event_template.html"
-        event_form_data = {
-            'name': event_template.name,
-            'description': event_template.description,
-            'venue': event_template.venue,
-        }
+
+        event_form = EventForm(instance=event_template)
 
         context = {
-            'edit_event_form': EventForm(event_form_data),
+            'edit_event_form': event_form,
             'event_template': event_template
         }
 
