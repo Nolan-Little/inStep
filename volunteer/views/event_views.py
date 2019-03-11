@@ -214,14 +214,13 @@ def schedule_event(request):
 def sign_up(request, unique_url):
     if request.method == "GET":
         template_name = "events/sign_up.html"
-        # scheduled_event = ScheduledEvent.objects.get(sign_up_url=unique_url)
+        scheduled_event = Event.objects.get(sign_up_url=unique_url)
 
         shift_list = list()
-        # sched_shifts = ScheduledShift.objects.filter(
-        #     scheduled_event=scheduled_event)
+        sched_shifts = Shift.objects.filter(event=scheduled_event)
         for shift in sched_shifts:
             shift_list.append(
-                (shift.id, f'{shift.shift_template.start_time.strftime("%-I:%M%p")} - {shift.shift_template.end_time.strftime("%-I:%M%p")} {shift.shift_template.description}'))
+                (shift.id, f'{shift.start_time.strftime("%-I:%M%p")} - {shift.end_time.strftime("%-I:%M%p")} {shift.description}'))
         shift_choices = tuple(shift_list)
         shift_form = VolSignUpForm(shift_choices=shift_choices)
 
@@ -242,13 +241,11 @@ def sign_up(request, unique_url):
             'shifts': form_data.getlist('shifts')
         }
 
-        volunteer = Volunteer.objects.create(name=sign_up_form_data['name'])
-        print(sign_up_form_data['shifts'])
-        # for shift in sign_up_form_data['shifts']:
-        #     ShiftVolunteer.objects.create(
-        #         notes=sign_up_form_data['notes'],
-        #         volunteer=volunteer,
-        #         scheduled_shift=ScheduledShift.objects.get(pk=shift)
-        #     )
+        for shift in sign_up_form_data['shifts']:
+            Volunteer.objects.create(
+                name=sign_up_form_data['name'],
+                note=sign_up_form_data['notes'],
+                shift=Shift.objects.get(pk=shift)
+            )
 
         return HttpResponseRedirect(reverse('volunteer:dashboard'))

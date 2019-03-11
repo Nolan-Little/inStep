@@ -22,22 +22,31 @@
         <p><span class="detail--label">Event Name:</span> {{event_template.name}}</p>
         <p><span class="detail--label">Venue:</span> {{event_template.venue}}</p>
       </div>
-        <button class="btn-primary" id="copyLink">Copy Sign-up Link to clipboard</button>
-        <input type="text" class="sr-only" value="{{domain}}/sign_up/{{event_template.sign_up_url}}" id="url">
         <p><span class="detail--label">Description: </span>{{event_template.description}}</p>
+        <input type="text" class="sr-only" value="{{domain}}/sign_up/{{event_template.sign_up_url}}" id="url">
+        {% if event_template.is_template == 0 %}
+          <button class="btn-primary" id="copyLink">Copy Sign-up Link to clipboard</button>
+         {% endif %}
       </div>
 
       <div class= "col-lg-6 col-sm-12">
         <h4 class="text-center">Volunteer Shifts</h4>
         <div class="classic-tabs">
-          <ul class="nav tabs-dark" id="volTab" role="tablist">
+          <ul class="nav nav-tabs" id="volTab" role="tablist">
             <li class="nav-item">
-              <a class="nav-link  waves-light active show" id="vm-tab-classic" data-toggle="tab" href="#vm-classic"
-                role="tab" aria-controls="vm-classic" aria-selected="true">Venue Manager View</a>
-            </li>
-            <li class="nav-item">
+            {% if  event_template.is_template%}
+                  <a class="nav-link waves-light disabled" id="vm-tab-classic" data-toggle="tab" href="#vm-classic"
+                  role="tab" aria-controls="vm-classic" aria-selected="true">Venue Manager View</a>
+                  <a class="nav-link waves-light active show" id="detail-tab-classic" data-toggle="tab" href="#detail-classic" role="tab"
+                  aria-controls="detail-classic" aria-selected="false">Shift Details View</a>
+            {% elif event_template.is_template == 0 %}
+                <a class="nav-link waves-light active show" id="vm-tab-classic" data-toggle="tab" href="#vm-classic"
+                  role="tab" aria-controls="vm-classic" aria-selected="true">Venue Manager View</a>
               <a class="nav-link waves-light" id="detail-tab-classic" data-toggle="tab" href="#detail-classic" role="tab"
                 aria-controls="detail-classic" aria-selected="false">Shift Details View</a>
+            {% endif %}
+            </li>
+            <li class="nav-item">
             </li>
           </ul>
           <div class="tab-content border-right border-bottom border-left rounded-bottom" id="TabContent">
@@ -88,7 +97,7 @@
                     <th scope="col">#</th>
                     <th scope="col">Time</th>
                     <th scope="col">slots remaining</th>
-                    <th scope="col">volunteers</th>
+                    <th scope="col">volunteer(s)</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -98,6 +107,9 @@
                       <td>{{shift.start_time}} - {{shift.end_time}}</td>
                       <td>{{shift.slots_remaining}}</td>
                       <td>
+                        {% if shift.volunteer_set.all|length == 0 %}
+                          <p>None</p>
+                        {% endif %}
                         {% for volunteer in shift.volunteer_set.all %}
                           <li>
                             {{volunteer.name}}
@@ -108,12 +120,12 @@
                   {% endfor %}
                 </tbody>
               </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+            </div> {# tab pane #}
+          </div> {# tab content #}
+        </div> {# tab container #}
+      </div>  {# classic tabs #}
+    </div> {# column #}
+  </div> {# row #}
 {% endblock content %}
 
 {% block scripts %}
