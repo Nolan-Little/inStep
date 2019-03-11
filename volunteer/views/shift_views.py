@@ -46,7 +46,7 @@ def new_shift(request, event_id):
 def edit_shift(request, shift_id):
     if request.method == "GET":
         template_name = "events/edit_shift.html"
-        # shift =  ShiftTemplate.objects.get(pk=shift_id)
+        shift =  Shift.objects.get(pk=shift_id)
 
         shift_form_data = {
                 'start_time': shift.start_time,
@@ -55,7 +55,7 @@ def edit_shift(request, shift_id):
                 'description': shift.description
             }
 
-        shift_form = ShiftTemplateForm(shift_form_data)
+        shift_form = ShiftForm(shift_form_data)
         context = {
             'shift_form': shift_form,
             'shift': shift
@@ -73,11 +73,11 @@ def edit_shift(request, shift_id):
             'description': form_data['description']
         }
 
-        shift_form = ShiftTemplateForm(shift_form_data)
+        shift_form = ShiftForm(shift_form_data)
 
         if shift_form.is_valid():
-            # shift = ShiftTemplate.objects.get(pk=shift_id)
-            # ShiftTemplate.objects.filter(pk=shift_id).update(**shift_form_data)
+            shift = Shift.objects.get(pk=shift_id)
+            Shift.objects.filter(pk=shift_id).update(**shift_form_data)
 
-            return HttpResponseRedirect(reverse('volunteer:event_template_details', args=(shift.event_template.id,) ))
+            return HttpResponseRedirect(reverse('volunteer:event_template_details', args=(shift.event.id,)))
 
