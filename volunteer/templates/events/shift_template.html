@@ -20,6 +20,7 @@
                   <th scope="col"> # Volunteers Req.</th>
                   <th scope="col">description</th>
                   <th scope="col"></th>
+                  <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -32,6 +33,11 @@
                   <td>
                     <button class="btn-primary">
                       <a class="text-white" href="{% url 'volunteer:edit_shift' shift.id %}">Edit</a>
+                    </button>
+                  </td>
+                  <td>
+                    <button class="btn-danger">
+                      <a class="text-white" href="{% url 'volunteer:delete_shift' shift.id %}">Delete</a>
                     </button>
                   </td>
                 </tr>

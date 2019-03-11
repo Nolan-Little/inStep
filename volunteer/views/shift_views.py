@@ -81,3 +81,8 @@ def edit_shift(request, shift_id):
 
             return HttpResponseRedirect(reverse('volunteer:event_template_details', args=(shift.event.id,)))
 
+
+def delete_shift(request, shift_id):
+    shift = Shift.objects.get(id=shift_id)
+    shift.delete()
+    return HttpResponseRedirect(reverse('volunteer:event_template_details', args=(shift.event.id,)))
