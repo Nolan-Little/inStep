@@ -1,5 +1,6 @@
 import datetime
 from django.shortcuts import render
+from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -84,8 +85,10 @@ def new_event_template(request):
 
 def event_template_details(request, event_template_id):
     template_name = 'events/event_template_detail.html'
+    domain = get_current_site(request).domain
     context = {
-        'event_template': Event.objects.get(pk=event_template_id)
+        'event_template': Event.objects.get(pk=event_template_id),
+        'domain': domain
     }
     return render(request, template_name, context)
 
@@ -195,12 +198,15 @@ def schedule_event(request):
 
         shift_templates = Shift.objects.filter(event=event)
 
-        # # Schedule all appropriate shifts
-        # for template in shift_templates:
-        #     ScheduledShift.objects.create(
-        #         scheduled_event=scheduled_event,
-        #         shift_template=template
-        #     )
+        # Schedule all appropriate shifts
+        for template in shift_templates:
+            Shift.objects.create(
+                start_time=template.start_time,
+                end_time=template.end_time,
+                num_volunteers=template.num_volunteers,
+                description=template.description,
+                event=scheduled_event
+            )
 
     return HttpResponseRedirect(reverse('volunteer:dashboard'))
 
