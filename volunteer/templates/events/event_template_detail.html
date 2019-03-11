@@ -22,8 +22,8 @@
         <p><span class="detail--label">Event Name:</span> {{event_template.name}}</p>
         <p><span class="detail--label">Venue:</span> {{event_template.venue}}</p>
       </div>
-        <button class="btn-primary" id="copyLink">Copy Link to clipboard</button>
-        <p><span class="detail--label">Sign Up Link: </span id="url">{{domain}}/sign_up/{{event_template.sign_up_url}}</p>
+        <button class="btn-primary" id="copyLink">Copy Sign-up Link to clipboard</button>
+        <input type="text" class="sr-only" value="{{domain}}/sign_up/{{event_template.sign_up_url}}" id="url">
         <p><span class="detail--label">Description: </span>{{event_template.description}}</p>
       </div>
 
