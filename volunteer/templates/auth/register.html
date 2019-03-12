@@ -1,18 +1,35 @@
 {% extends "index.html" %}
 {% load staticfiles %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 
-<h1 class="user_welcome">Register</h1>
-<form id="user_form" method="post" action="{% url 'volunteer:register' %}" enctype="multipart/form-data">
-
-    {% csrf_token %}
-
-            {{ user_form.as_p }}
-
-    <label for="confirm_password" id="confirm_password">Re-Enter Your Password</label>
-    <input type="password" name="confirm_password">
-    <!-- Provide a button to click to submit the form. -->
-    <input id="register_new" type="submit" name="submit" value="Register" />
-</form>
+<div class="container">
+  <div class="row d-flex flex-column">
+    <h1 class="user_welcome text-center">Register</h1>
+      <div class="col-6 offset-3">
+        <form id="user_form" method="post" action="{% url 'volunteer:register' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+              {{ user_form|crispy }}
+              <div id="div_id_confirm_pass" class="control-group">
+                <label for="id_confirm_pass" class="control-label ">
+                Re-Enter Password
+                </label>
+                <div class="controls">
+                  <input type="password" required name="confirm_pass" maxlength="150" class="textinput textInput form-control" id="id_confirm_pass">
+                </div>
+                <label id="invalid_pass" for="id_confirm_pass" class=" alert text-danger control-label d-none">
+                  Passwords Must Match
+                </label>
+              </div>
+            <!-- Provide a button to click to submit the form. -->
+            <input class="m-2 btn btn-primary center" id="register_new" type="submit" name="submit" value="Register" />
+        </form>
+      </div>
+  </div>
+</div>
 {% endblock content %}
+
+{% block scripts %}
+  <script src="{% static 'scripts/confirmPass.js' %}"></script>
+{% endblock scripts %}

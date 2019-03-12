@@ -1,11 +1,18 @@
 {% extends 'index.html' %}
 {% block content %}
-    <h2>Create Your Organization!</h2>
-    <div class="container mt-5">
-        <form id="org_form" action="{% url 'volunteer:new_org' %}" method="POST">
-            {% csrf_token %}
-            {{ new_org_form.as_p }}
-            <button type="submit">Create Organization</button>
-        </form>
+{% load crispy_forms_tags %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <h2 class="header text-center">Create Your Organization!</h2>
+          <form id="org_form" action="{% url 'volunteer:new_org' %}" method="POST">
+              {% csrf_token %}
+              {{ new_org_form|crispy }}
+              <div class="text-center text-md-right">
+                <button class="btn btn-primary" type="submit">Create Organization</button>
+              </div>
+          </form>
+      </div>
     </div>
+  </div>
 {% endblock content %}

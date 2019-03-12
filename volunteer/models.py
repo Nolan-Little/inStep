@@ -41,7 +41,7 @@ class Shift(models.Model):
 class Volunteer(models.Model):
     shift = models.ForeignKey(Shift, on_delete=models.CASCADE)
     name = models.CharField(max_length=150, default="volunteer")
-    note = models.CharField(max_length=100)
+    note = models.CharField(max_length=100, null=True, blank=True)
 
 
 
