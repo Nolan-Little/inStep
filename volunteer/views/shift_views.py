@@ -121,8 +121,10 @@ def sign_up(request, unique_url):
             'shifts': form_data.getlist('shifts')
         }
 
-
+        shift_list = list()
+        print(form_data.getlist('shifts'))
         for shift in sign_up_form_data['shifts']:
+            shift_list.append(Shift.objects.get(pk=shift))
             Volunteer.objects.create(
                 name=sign_up_form_data['name'],
                 note=sign_up_form_data['notes'],
@@ -131,7 +133,7 @@ def sign_up(request, unique_url):
 
         context = {
             "name": form_data['name'],
-            'shifts': form_data.getlist('shifts')
+            'shifts': shift_list
         }
 
         return render(request, template_name, context)
