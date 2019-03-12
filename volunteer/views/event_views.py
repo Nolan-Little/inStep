@@ -51,7 +51,7 @@ def new_event_template(request):
                     is_template = True
                 )
 
-                return HttpResponseRedirect(reverse('volunteer:dashboard'))
+                return HttpResponseRedirect(reverse('volunteer:new_shift', args=(new_event.id,)))
 
             else:
                 template_name = "events/new_event_template.html"
@@ -75,7 +75,7 @@ def new_event_template(request):
                     organization = org,
                     is_template = True
                 )
-                return HttpResponseRedirect(reverse('volunteer:dashboard'))
+                return HttpResponseRedirect(reverse('volunteer:new_shift', args=(new_event.id,)))
             else:
                 template_name = "events/new_event_template.html"
                 return render(request, template_name, {"new_event_form": new_event_form})
