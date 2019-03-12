@@ -111,7 +111,6 @@ def edit_event_template(request, event_template_id):
         # TODO: org cookies?
         org = Organization.objects.filter(user=request.user)[0]
         form_data = request.POST
-
         selected_venue = form_data.get('venue', '')
 
         # create a new venue then create event
@@ -133,7 +132,7 @@ def edit_event_template(request, event_template_id):
                 event_form_data['venue'] = new_venue
                 Event.objects.filter(pk=event_template_id).update(**event_form_data)
 
-                return HttpResponseRedirect(reverse('volunteer:dashboard'))
+                return HttpResponseRedirect(reverse('volunteer:event_template_details', args=(event_template_id,)))
 
             else:
                 template_name = "events/new_event_template.html"
@@ -152,7 +151,7 @@ def edit_event_template(request, event_template_id):
             if new_event_form.is_valid():
                 Event.objects.filter(pk=event_template_id).update(**event_form_data)
 
-                return HttpResponseRedirect(reverse('volunteer:dashboard'))
+                return HttpResponseRedirect(reverse('volunteer:event_template_details', args=(event_template_id,)))
             else:
                 template_name = "events/new_event_template.html"
                 return render(request, template_name, {"new_event_form": new_event_form})
