@@ -55,11 +55,12 @@ class VolSignUpForm(forms.Form):
 
         self.fields['shifts'] = forms.MultipleChoiceField(
             label='Select Shifts',
+            required=True,
             widget=forms.CheckboxSelectMultiple,
-            choices=(shift_choices)
+            choices=(shift_choices),
         )
 
     name = forms.CharField(max_length=75, required=True)
-    notes = forms.CharField(max_length=150, required=True)
+    notes = forms.CharField(max_length=100, required=False)
 
 

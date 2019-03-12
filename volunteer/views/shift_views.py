@@ -87,3 +87,51 @@ def delete_shift(request, shift_id):
     shift = Shift.objects.get(id=shift_id)
     shift.delete()
     return HttpResponseRedirect(redirect_url)
+
+
+def sign_up(request, unique_url):
+    if request.method == "GET":
+        template_name = "events/sign_up.html"
+        scheduled_event = Event.objects.get(sign_up_url=unique_url)
+
+        shift_list = list()
+        sched_shifts = Shift.objects.filter(event=scheduled_event)
+        for shift in sched_shifts:
+            if shift.slots_remaining > 0:
+                shift_list.append(
+                    (shift.id, f'{shift.start_time.strftime("%-I:%M%p")} - {shift.end_time.strftime("%-I:%M%p")} {shift.description}'))
+        shift_choices = tuple(shift_list)
+        shift_form = VolSignUpForm(shift_choices=shift_choices)
+
+        context = {
+            'scheduled_event': scheduled_event,
+            'shift_form': shift_form,
+            'unique_url': unique_url
+        }
+
+        return render(request, template_name, context)
+
+    if request.method == "POST":
+        template_name = "events/confirm.html"
+        form_data = request.POST
+
+        sign_up_form_data = {
+            'name': form_data['name'],
+            'notes': form_data['notes'],
+            'shifts': form_data.getlist('shifts')
+        }
+
+
+        for shift in sign_up_form_data['shifts']:
+            Volunteer.objects.create(
+                name=sign_up_form_data['name'],
+                note=sign_up_form_data['notes'],
+                shift=Shift.objects.get(pk=shift)
+            )
+
+        context = {
+            "name": form_data['name'],
+            'shifts': form_data.getlist('shifts')
+        }
+
+        return render(request, template_name, context)
