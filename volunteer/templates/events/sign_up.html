@@ -1,18 +1,28 @@
 {% extends 'index.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
 {% block content %}
-    <h2 class="mt-5 p-4">Sign up for a volunteer shift at {{scheduled_event.name}}!</h2>
     <div class="container">
-        <ul class="list-group list-group-horizontal-lg">
-            <li class="list-group-item">{{scheduled_event.venue}}</li>
-            <li class="list-group-item">{{scheduled_event.date}}</li>
-        </ul>
-        <ul class="list-group">
-            <li class="list-group-item">{{scheduled_event.description}}</li>
-        </ul>
+      <div class="col-md-6 offset-md-3">
+        <h2 class="mt-5 p-4 text-center">Sign up for a volunteer shift at {{scheduled_event.name}}!</h2>
+        <div class="row d-flex flex-column flex-lg-row container">
+            <p class="flex-fill"><span class="detail--label">Venue: </span>{{scheduled_event.venue}}</p>
+            <p class="flex-fill"><span class="detail--label">Date: </span>{{scheduled_event.date}}</p>
+            <p class="flex-fill"><span class="detail--label">Description: </span>{{scheduled_event.description}}</p>
+        </div>
         <form action="{% url 'volunteer:sign_up' unique_url %}" method="POST">
             {% csrf_token %}
-            {{shift_form.as_p}}
-            <button type="submit">Sign Up!</button>
+            {{shift_form|crispy}}
+            <label class="text-danger alert" id="alert" for="sign_up">Must Select Shift to Submit</label>
+            <div class="text-center text-md-right mb-3">
+              <button id="sign_up" class="btn btn-primary" type="submit">Sign Up!</button>
+            </div>
         </form>
+      </div>
     </div>
 {% endblock content %}
+
+{% block scripts %}
+  <script src="{% static 'scripts/requireSelect.js' %}"></script>
+{% endblock scripts %}

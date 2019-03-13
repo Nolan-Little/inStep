@@ -1,6 +1,5 @@
 {% extends 'index.html' %}
 {% load static %}
-{% load mathfilters %}
 
 {% block content %}
 <div class="container">
@@ -11,12 +10,6 @@
   {% endif %}
   <div class="row d-flex">
     <div class= "col-lg-6 col-sm-12">
-      <button class="btn-primary">
-        <a class="text-white" href="{% url 'volunteer:edit_event_template' event_template.id %}">edit</a>
-      </button>
-      <button class="btn-danger">
-        <a class="text-white" href="{% url 'volunteer:delete_event' event_template.id %}">delete</a>
-      </button>
       <div class="d-flex flex-lg-row flex-md-row flex-column justify-content-between mt-5">
         <p><span class="detail--label">Location:</span> {{event_template.venue.location}}</p>
         <p><span class="detail--label">Event Name:</span> {{event_template.name}}</p>
@@ -25,8 +18,14 @@
         <p><span class="detail--label">Description: </span>{{event_template.description}}</p>
         <input type="text" class="sr-only" value="{{domain}}/sign_up/{{event_template.sign_up_url}}" id="url">
         {% if event_template.is_template == 0 %}
-          <button class="btn-primary" id="copyLink">Copy Sign-up Link to clipboard</button>
-         {% endif %}
+          <button class="m-1 btn-primary" id="copyLink">Copy Sign-up Link to clipboard</button>
+        {% endif %}
+        <button class="m-1 btn-primary">
+          <a class="text-white" href="{% url 'volunteer:edit_event_template' event_template.id %}">edit event details</a>
+        </button>
+        <button class="m-1 btn-danger">
+          <a class="text-white" href="{% url 'volunteer:delete_event' event_template.id %}">delete event</a>
+        </button>
       </div>
 
       <div class= "col-lg-6 col-sm-12">
@@ -35,14 +34,14 @@
           <ul class="nav nav-tabs" id="volTab" role="tablist">
             <li class="nav-item">
             {% if  event_template.is_template%}
-                  <a class="nav-link waves-light disabled" id="vm-tab-classic" data-toggle="tab" href="#vm-classic"
-                  role="tab" aria-controls="vm-classic" aria-selected="true">Venue Manager View</a>
-                  <a class="nav-link waves-light active show" id="detail-tab-classic" data-toggle="tab" href="#detail-classic" role="tab"
-                  aria-controls="detail-classic" aria-selected="false">Shift Details View</a>
+                <a class="nav-link waves-light disabled" id="vm-tab-classic" data-toggle="tab" href="#vm-classic"
+                role="tab" aria-controls="vm-classic" aria-selected="false">Venue Manager View</a>
+                <a class="nav-link waves-light active show" id="detail-tab-classic" data-toggle="tab" href="#detail-classic" role="tab"
+                aria-controls="detail-classic" aria-selected="true">Shift Details View</a>
             {% elif event_template.is_template == 0 %}
                 <a class="nav-link waves-light active show" id="vm-tab-classic" data-toggle="tab" href="#vm-classic"
-                  role="tab" aria-controls="vm-classic" aria-selected="true">Venue Manager View</a>
-              <a class="nav-link waves-light" id="detail-tab-classic" data-toggle="tab" href="#detail-classic" role="tab"
+                role="tab" aria-controls="vm-classic" aria-selected="true">Venue Manager View</a>
+                <a class="nav-link waves-light" id="detail-tab-classic" data-toggle="tab" href="#detail-classic" role="tab"
                 aria-controls="detail-classic" aria-selected="false">Shift Details View</a>
             {% endif %}
             </li>
@@ -51,7 +50,11 @@
           </ul>
           <div class="tab-content border-right border-bottom border-left rounded-bottom" id="TabContent">
             {% comment %} Details view tab {% endcomment %}
-            <div class="tab-pane fade" id="detail-classic" role="tabpanel" aria-labelledby="detail-tab-classic">
+            {% if  event_template.is_template%}
+              <div class="tab-pane fade active show" id="detail-classic" role="tabpanel" aria-labelledby="detail-tab-classic">
+            {% elif event_template.is_template == 0 %}
+              <div class="tab-pane fade" id="detail-classic" role="tabpanel" aria-labelledby="detail-tab-classic">
+            {% endif %}
               <table class="table">
                 <thead class="thead-dark">
                   <tr>
@@ -90,7 +93,11 @@
             </div>
 
             {% comment %} Venue manager view tab {% endcomment %}
-            <div class="tab-pane fade active show" id="vm-classic" role="tabpanel" aria-labelledby="detail-tab-classic">
+            {% if  event_template.is_template%}
+              <div class="tab-pane fade show" id="vm-classic" role="tabpanel" aria-labelledby="detail-tab-classic">
+            {% elif event_template.is_template == 0 %}
+              <div class="tab-pane fade active show" id="vm-classic" role="tabpanel" aria-labelledby="detail-tab-classic">
+            {% endif %}
               <table class="table">
                 <thead class="thead-dark">
                   <tr>

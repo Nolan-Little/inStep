@@ -12,11 +12,11 @@
             <div class="col-sm-12 col-lg-6 col-md-12 container">
                 <div class="row">
                     <div class="col-6">
-                        <h2>Events</h2>
+                        <h2>Event Templates</h2>
                     </div>
                     <div class="col-5 offset-1 d-flex align-items-center justify-content-end">
-                        <button class="btn-primary">
-                            <a class="text-white" href="/new_event_template">New Event</a>
+                        <button class="btn-sm btn-primary">
+                            <a class="text-white" href="/new_event_template">New Event Template</a>
                         </button>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                         {% if event_templates|length == 0 %}
                             <tr>
                                 <th scope="row" class="alert"> You haven't created any events.
-                                    <button class="btn-primary">
+                                    <button class="btn-sm btn-primary">
                                         <a href="/new_event_template">Try it!</a>
                                     </button>
                                 </th>
@@ -44,12 +44,12 @@
                                 <td scope="row">{{event.name}}</td>
                                 <td>{{event.venue.name}}</td>
                                 <td>
-                                    <button class="btn-primary">
+                                    <button class="btn-sm btn-primary">
                                         <a class="text-white" href="/schedule_event">schedule occurence</a>
                                     </button>
                                 </td>
                                 <td>
-                                    <button class="btn-warning">
+                                    <button class="btn-sm btn-warning">
                                         <a class="text-white" href="{% url 'volunteer:event_template_details' event.id %}">details</a>
                                     </button>
                                 </td>
@@ -75,6 +75,7 @@
                             <th scope="col">Name</th>
                             <th scope="col">Date</th>
                             <th scope="col"></th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -92,7 +93,11 @@
                                 <th scope="row">{{event.name}}</td>
                                 <td>{{event.date}}</td>
                                 <td>
-                                    <button class="btn-warning">
+                                  <input type="text" class="sr-only" value="{{domain}}/sign_up/{{event.sign_up_url}}" id="url">
+                                  <button class="btn-primary" id="copyLink">Copy Sign-up Link to clipboard</button>
+                                </td>
+                                <td>
+                                    <button class="btn-sm btn-warning">
                                         <a class="text-white" href="{% url 'volunteer:event_template_details' event.id %}">details</a>
                                     </button>
                                 </td>
@@ -102,9 +107,9 @@
                 </table>
             </div>
         </div>
-{% comment %}
-        {% for event in scheduled_events %}
-            <a href="{% url  'volunteer:sign_up' event.sign_up_url %}">localhost:8000/sign_up{{event.sign_up_url}}</a>
-        {% endfor %} {% endcomment %}
     </div>
 {% endblock content %}
+
+{% block scripts %}
+  <script src="{% static "scripts/copyLink.js"%}"></script>
+{% endblock scripts %}

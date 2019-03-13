@@ -1,25 +1,35 @@
 {% extends 'index.html' %}
 {% load static %}
-{% block content %}
-  <div class="container mt-5 p-5 row">
-    <div class="col-sm-12 col-lg-6">
-      <form class="shift-inputs" method="POST" action="{% url 'volunteer:new_shift' event.id %}">
-        {% csrf_token %}
-        {{shift_form.as_p}}
+{% load crispy_forms_tags %}
 
-        <button name="add_shift" value="add_shift" class="btn text-primary" type="submit">Save Shift and Add Another Shift</button>
-        <button name="dashboard" value="dashboard" class="btn text-dark">Save shift and See Event Details</button>
-      </form>
-      </div>
-        <div class="col-sm-12 col-lg-6">
+{% block content %}
+  <div class="mt-5">
+    <div class="row pt-3">
+      <div class="col-md-5 m-4">
+        <h2 class="text-center">Create Shift</h1>
+        <form class="shift-inputs" method="POST" action="{% url 'volunteer:new_shift' event.id %}">
+          {% csrf_token %}
+          {{shift_form|crispy}}
+          <div class="text-center">
+            <button name="add_shift" value="add_shift" class="btn btn-primary text-white" type="submit">Save Shift and Add Another Shift</button>
+          </div>
+          <div class="text-center">
+            <button name="dashboard" value="dashboard" class="btn btn-secondary text-white">Save shift and See Event Details</button>
+          </div>
+          <div class="text-center">
+            <a href="{% url 'volunteer:event_template_details' event.id %}" class="btn btn-warning text-white">View Event Details</a>
+          </div>
+        </form>
+        </div>
+        <div class="col-md-6 pt-3 m-2">
+          <h2 class="text-center">Scheduled shifts</h2>
           <table class="table">
             <thead class="thead-dark">
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Time</th>
-                  <th scope="col"> # Volunteers Req.</th>
+                  <th scope="col"> # Volunteers</th>
                   <th scope="col">description</th>
-                  <th scope="col"></th>
                   <th scope="col"></th>
                 </tr>
             </thead>
@@ -34,8 +44,6 @@
                     <button class="btn-primary">
                       <a class="text-white" href="{% url 'volunteer:edit_shift' shift.id %}">Edit</a>
                     </button>
-                  </td>
-                  <td>
                     <button class="btn-danger">
                       <a class="text-white" href="{% url 'volunteer:delete_shift' shift.id %}">Delete</a>
                     </button>
@@ -45,6 +53,7 @@
             </tbody>
           </table>
         </div>
+    </div>
     </div>
 {% endblock content %}
 

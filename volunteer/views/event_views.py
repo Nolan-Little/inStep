@@ -51,7 +51,7 @@ def new_event_template(request):
                     is_template = True
                 )
 
-                return HttpResponseRedirect(reverse('volunteer:dashboard'))
+                return HttpResponseRedirect(reverse('volunteer:new_shift', args=(new_event.id,)))
 
             else:
                 template_name = "events/new_event_template.html"
@@ -75,7 +75,7 @@ def new_event_template(request):
                     organization = org,
                     is_template = True
                 )
-                return HttpResponseRedirect(reverse('volunteer:dashboard'))
+                return HttpResponseRedirect(reverse('volunteer:new_shift', args=(new_event.id,)))
             else:
                 template_name = "events/new_event_template.html"
                 return render(request, template_name, {"new_event_form": new_event_form})
@@ -111,7 +111,6 @@ def edit_event_template(request, event_template_id):
         # TODO: org cookies?
         org = Organization.objects.filter(user=request.user)[0]
         form_data = request.POST
-
         selected_venue = form_data.get('venue', '')
 
         # create a new venue then create event
@@ -133,7 +132,7 @@ def edit_event_template(request, event_template_id):
                 event_form_data['venue'] = new_venue
                 Event.objects.filter(pk=event_template_id).update(**event_form_data)
 
-                return HttpResponseRedirect(reverse('volunteer:dashboard'))
+                return HttpResponseRedirect(reverse('volunteer:event_template_details', args=(event_template_id,)))
 
             else:
                 template_name = "events/new_event_template.html"
@@ -152,7 +151,7 @@ def edit_event_template(request, event_template_id):
             if new_event_form.is_valid():
                 Event.objects.filter(pk=event_template_id).update(**event_form_data)
 
-                return HttpResponseRedirect(reverse('volunteer:dashboard'))
+                return HttpResponseRedirect(reverse('volunteer:event_template_details', args=(event_template_id,)))
             else:
                 template_name = "events/new_event_template.html"
                 return render(request, template_name, {"new_event_form": new_event_form})
@@ -211,41 +210,3 @@ def schedule_event(request):
     return HttpResponseRedirect(reverse('volunteer:dashboard'))
 
 
-def sign_up(request, unique_url):
-    if request.method == "GET":
-        template_name = "events/sign_up.html"
-        scheduled_event = Event.objects.get(sign_up_url=unique_url)
-
-        shift_list = list()
-        sched_shifts = Shift.objects.filter(event=scheduled_event)
-        for shift in sched_shifts:
-            shift_list.append(
-                (shift.id, f'{shift.start_time.strftime("%-I:%M%p")} - {shift.end_time.strftime("%-I:%M%p")} {shift.description}'))
-        shift_choices = tuple(shift_list)
-        shift_form = VolSignUpForm(shift_choices=shift_choices)
-
-        context = {
-            'scheduled_event': scheduled_event,
-            'shift_form': shift_form,
-            'unique_url': unique_url
-        }
-
-        return render(request, template_name, context)
-
-    if request.method == "POST":
-        form_data = request.POST
-        print(form_data)
-        sign_up_form_data = {
-            'name': form_data['name'],
-            'notes': form_data['notes'],
-            'shifts': form_data.getlist('shifts')
-        }
-
-        for shift in sign_up_form_data['shifts']:
-            Volunteer.objects.create(
-                name=sign_up_form_data['name'],
-                note=sign_up_form_data['notes'],
-                shift=Shift.objects.get(pk=shift)
-            )
-
-        return HttpResponseRedirect(reverse('volunteer:dashboard'))

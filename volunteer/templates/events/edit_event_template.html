@@ -1,17 +1,21 @@
 {% extends 'index.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
+
 {% block content %}
     <div class="container">
-            <h2 class="mt-5 p-4">Edit Event</h2>
-            <form id="new_event_template_form" action="{% url 'volunteer:edit_event_template' event_template.id%}" method="POST">
-                {% csrf_token %}
-                <div class="row">
-                    <div class="col-sm-12 col-lg-6">
-                        {{edit_event_form.as_p}}
-                        <button type="submit">Save Event and Schedule Shifts</button>
-                    </div>
-                </div>
-            </form>
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+          <h2 class="mt-5 p-4 text-center">Edit {{event_template.name}} details</h2>
+          <form id="new_event_template_form" action="{% url 'volunteer:edit_event_template' event_template.id%}" method="POST">
+            {% csrf_token %}
+            {{ edit_event_form|crispy }}
+              <div class="text-center text-md-right">
+                <button class="btn btn-primary" type="submit">Save Changes</button>
+              </div>
+          </form>
+        </div>
+      </div>
     </div>
 {% endblock content %}
 

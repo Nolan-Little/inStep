@@ -1,25 +1,49 @@
 {% extends 'index.html' %}
 {% load static %}
+
 {% block content %}
-    <h2 class="mt-5 p-4">Schedule An Event</h2>
     <div class="container">
-        <form id="scheduleEventForm" action="{% url 'volunteer:schedule_event' %}" method="POST">
-            {% csrf_token %}
-            <p>
-                <label for="events">Event to Schedule</label>
-                <select required name="events" id="eventSelect">
-                        <option value="">------</option>
-                    {% for event in event_templates %}
-                        <option value="{{event.id}}">{{event.name}}</option>
-                    {% endfor %}
-                </select>
-            </p>
-            <p>
-                <label for="date">Select Date</label>
-                <input required name="date" id="eventDate" type="date">
-            </p>
-            <button type="submit">Schedule Event</button>
-        </form>
+        <div class="row mt-5">
+          <div class="col-md-6 offset-md-3">
+            <h2 class="mt-5 p-4 text-center">Schedule An Event</h2>
+            <form id="scheduleEventForm" action="{% url 'volunteer:schedule_event' %}" method="POST">
+                {% csrf_token %}
+                <div id="div_id_select_event" class="control-group">
+                    <label for="id_select_event" class="control-label ">
+                      Event to Schedule:
+                    </label>
+                    <div class="controls">
+                      <select required name="events" id="id_select_event">
+                              <option value="">------</option>
+                          {% for event in event_templates %}
+                              <option value="{{event.id}}">{{event.name}}</option>
+                          {% endfor %}
+                      </select>
+                    </div>
+                </div>
+                <div id="div_id_date" class="control-group mt-1">
+                    <label for="id_date" class="control-label">
+                      Select Date
+                    </label>
+                    <input class="dateinput dateInput form-control" required name="date" id="id_Date" type="date">
+                </div>
+                <div class="text-center text-md-right mt-4">
+                  <button class="btn btn-primary" type="submit">Schedule Event</button>
+                </div>
+            </form>
+          </div>
+        </div>
     </div>
 {% endblock content %}
 
+              <div id="div_id_confirm_pass" class="control-group">
+                <label for="id_confirm_pass" class="control-label ">
+                Re-Enter Password
+                </label>
+                <div class="controls">
+                  <input type="password" required name="confirm_pass" maxlength="150" class="textinput textInput form-control" id="id_confirm_pass">
+                </div>
+                <label id="invalid_pass" for="id_confirm_pass" class=" alert text-danger control-label d-none">
+                  Passwords Must Match
+                </label>
+              </div>
