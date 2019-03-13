@@ -5,13 +5,16 @@ const thursdays= document.querySelectorAll("td.thu")
 const fridays = document.querySelectorAll("td.fri")
 const saturdays = document.querySelectorAll("td.sat")
 const sundays = document.querySelectorAll("td.sun")
-
+const month = document.querySelector("th.month")
 allDays = [mondays, tuesdays, wednesdays, thursdays, fridays, saturdays, sundays]
 
 for (dayList of allDays) {
   daysEventListeners(dayList)
 }
 
+month.addEventListener('click', (e) => {
+  findSelectedDays()
+})
 
 function toggleSelected(e) {
   if (e.target.classList.contains("selected")) {
@@ -27,6 +30,14 @@ function daysEventListeners(dayList) {
       console.log(e)
       toggleSelected(e)
     })
+  }
+}
+
+
+function findSelectedDays() {
+  days = document.querySelectorAll("td.selected")
+  for (day of days) {
+    console.log(day)
   }
 }
 
