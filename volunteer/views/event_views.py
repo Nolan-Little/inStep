@@ -1,11 +1,14 @@
 import datetime
+import calendar
 from django.shortcuts import render
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth.models import User
+from django.utils.safestring import mark_safe
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from volunteer.models import Organization, Event, Shift, Volunteer, Venue
 from volunteer.forms import EventForm, ShiftForm, VolSignUpForm
+from volunteer.modules.calenders import month_cal
 
 
 def new_event_template(request):
@@ -164,6 +167,7 @@ def delete_event(request, event_id):
 
 
 def schedule_event(request):
+    event_cal = month_cal()
     # TODO: org cookies?
     org = Organization.objects.filter(user=request.user)[0]
     if request.method == "GET":
@@ -171,7 +175,8 @@ def schedule_event(request):
         event_templates = org.event_set.filter(is_template=True)
         context = {
             "org": org,
-            "event_templates": event_templates
+            "event_templates":event_templates,
+            'cal': mark_safe(event_cal)
         }
 
         return render(request, template_name, context)

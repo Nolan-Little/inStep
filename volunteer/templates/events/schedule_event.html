@@ -32,18 +32,14 @@
                 </div>
             </form>
           </div>
+          <div class="col offset-1">
+            {{ cal }}
+          </div>
         </div>
     </div>
 {% endblock content %}
 
-              <div id="div_id_confirm_pass" class="control-group">
-                <label for="id_confirm_pass" class="control-label ">
-                Re-Enter Password
-                </label>
-                <div class="controls">
-                  <input type="password" required name="confirm_pass" maxlength="150" class="textinput textInput form-control" id="id_confirm_pass">
-                </div>
-                <label id="invalid_pass" for="id_confirm_pass" class=" alert text-danger control-label d-none">
-                  Passwords Must Match
-                </label>
-              </div>
+{% block scripts %}
+  <script src="{% static 'scripts/yearCal.js' %}"></script>
+{% endblock scripts %}
+
