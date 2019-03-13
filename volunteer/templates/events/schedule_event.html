@@ -4,7 +4,7 @@
 {% block content %}
     <div class="container">
         <div class="row mt-5">
-          <div class="col-md-6 offset-md-3">
+          <div class="col-md-6 offset-md-3 d-flex flex-column align-items-center">
             <h2 class="mt-5 p-4 text-center">Schedule An Event</h2>
             <form id="scheduleEventForm" action="{% url 'volunteer:schedule_event' %}" method="POST">
                 {% csrf_token %}
@@ -21,20 +21,15 @@
                       </select>
                     </div>
                 </div>
-                <div id="div_id_date" class="control-group mt-1">
-                    <label for="id_date" class="control-label">
-                      Select Date
-                    </label>
-                    <input class="dateinput dateInput form-control" required name="date" id="id_Date" type="date">
+                <div>
+                  {{ cal }}
                 </div>
                 <div class="text-center text-md-right mt-4">
                   <button class="btn btn-primary" type="submit">Schedule Event</button>
                 </div>
             </form>
           </div>
-          <div class="col offset-1">
-            {{ cal }}
-          </div>
+
         </div>
     </div>
 {% endblock content %}
