@@ -1,3 +1,5 @@
+const form = document.querySelector('#scheduleEventForm')
+
 const mondays = document.querySelectorAll("td.mon")
 const tuesdays = document.querySelectorAll("td.tue")
 const wednesdays = document.querySelectorAll("td.wed")
@@ -29,7 +31,7 @@ for (dayList of allDays) {
 }
 
 monthHeader.addEventListener('click', (e) => {
-  findSelectedDays()
+  selectedDates()
 })
 
 function toggleSelected(e) {
@@ -43,18 +45,16 @@ function toggleSelected(e) {
 function daysEventListeners(dayList) {
   for (day of dayList) {
     day.addEventListener("click", (e) => {
-      console.log(e)
       toggleSelected(e)
     })
   }
 }
 
-
-function findSelectedDays() {
+function selectedDates() {
   days = document.querySelectorAll("td.selected")
   for (day of days) {
     formattedDate = formatSelectedDate(day.textContent, monthHeader)
-    console.log(formattedDate)
+    captureDateInput(formattedDate)
   }
 }
 
@@ -67,3 +67,12 @@ function formatSelectedDate(dayValue, monthYearHeader) {
   return formattedDate = `${monthYearHeader[1]}-${months[`${monthYearHeader[0]}`]}-${dayValue}`
 }
 
+function captureDateInput(date) {
+  let input = document.createElement("input")
+  input.setAttribute("hidden", true)
+  input.setAttribute("type", "date")
+  input.setAttribute("name", "selected_date")
+  input.value = date
+  console.log(input.value)
+  form.appendChild(input)
+}
