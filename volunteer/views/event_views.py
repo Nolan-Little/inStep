@@ -183,34 +183,37 @@ def schedule_event(request):
 
     elif request.method == "POST":
         form_data = request.POST
+
         event_form_data = {
             'event': form_data['events'],
-            'date': form_data['date'],
+            'date': form_data.getlist('selected_date'),
         }
 
         event = org.event_set.filter(pk=event_form_data['event'])[0]
 
-        # Schedule Event
-        scheduled_event = Event.objects.create(
-            organization=org,
-            name=event.name,
-            description=event.description,
-            venue=event.venue,
-            date=event_form_data['date'],
-            is_template=False
-        )
+        # Schedule Events
 
-        shift_templates = Shift.objects.filter(event=event)
-
-        # Schedule all appropriate shifts
-        for template in shift_templates:
-            Shift.objects.create(
-                start_time=template.start_time,
-                end_time=template.end_time,
-                num_volunteers=template.num_volunteers,
-                description=template.description,
-                event=scheduled_event
+        for date in event_form_data['date']:
+            scheduled_event = Event.objects.create(
+                organization=org,
+                name=event.name,
+                description=event.description,
+                venue=event.venue,
+                date=date,
+                is_template=False
             )
+
+            shift_templates = Shift.objects.filter(event=event)
+
+            # Schedule all appropriate shifts
+            for template in shift_templates:
+                Shift.objects.create(
+                    start_time=template.start_time,
+                    end_time=template.end_time,
+                    num_volunteers=template.num_volunteers,
+                    description=template.description,
+                    event=scheduled_event
+                )
 
     return HttpResponseRedirect(reverse('volunteer:dashboard'))
 

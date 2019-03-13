@@ -37,8 +37,12 @@ monthHeader.addEventListener('click', (e) => {
 function toggleSelected(e) {
   if (e.target.classList.contains("selected")) {
     e.target.classList.remove("bg-primary", "text-white", "selected")
+    formattedDate = formatSelectedDate(e.target.textContent, monthHeader)
+    removeDateInput(formattedDate)
   } else if (!e.target.classList.contains("selected")) {
     e.target.classList.add("bg-primary", "text-white", "selected")
+    formattedDate = formatSelectedDate(e.target.textContent, monthHeader)
+    captureDateInput(formattedDate)
   }
 }
 
@@ -47,14 +51,6 @@ function daysEventListeners(dayList) {
     day.addEventListener("click", (e) => {
       toggleSelected(e)
     })
-  }
-}
-
-function selectedDates() {
-  days = document.querySelectorAll("td.selected")
-  for (day of days) {
-    formattedDate = formatSelectedDate(day.textContent, monthHeader)
-    captureDateInput(formattedDate)
   }
 }
 
@@ -72,7 +68,16 @@ function captureDateInput(date) {
   input.setAttribute("hidden", true)
   input.setAttribute("type", "date")
   input.setAttribute("name", "selected_date")
+  input.setAttribute("class", "date")
   input.value = date
-  console.log(input.value)
   form.appendChild(input)
+}
+
+function removeDateInput(date) {
+  inputs = document.querySelectorAll('input.date')
+  for (input of inputs) {
+    if (input.value === date) {
+      form.removeChild(input)
+    }
+  }
 }
