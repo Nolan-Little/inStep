@@ -9,6 +9,11 @@ const saturdays = document.querySelectorAll("td.sat")
 const sundays = document.querySelectorAll("td.sun")
 const monthHeader = document.querySelector("th.month")
 
+const today = Date().toString().split(' ')
+const dayNum = Number(today[2])
+
+console.log(today)
+
 const months = {
   'January' : '01',
   'February' : '02',
@@ -36,10 +41,15 @@ monthHeader.addEventListener('click', (e) => {
 
 function toggleSelected(e) {
   if (e.target.classList.contains("selected")) {
+    if (Number(e.target.textContent) === dayNum) e.target.classList.add("bg-danger", "text-white")
+
     e.target.classList.remove("bg-primary", "text-white", "selected")
     formattedDate = formatSelectedDate(e.target.textContent, monthHeader)
     removeDateInput(formattedDate)
+
   } else if (!e.target.classList.contains("selected")) {
+    if (Number(e.target.textContent) === dayNum) e.target.classList.remove("bg-danger", "text-white")
+
     e.target.classList.add("bg-primary", "text-white", "selected")
     formattedDate = formatSelectedDate(e.target.textContent, monthHeader)
     captureDateInput(formattedDate)
@@ -48,9 +58,13 @@ function toggleSelected(e) {
 
 function daysEventListeners(dayList) {
   for (day of dayList) {
-    day.addEventListener("click", (e) => {
-      toggleSelected(e)
-    })
+    if (Number(day.textContent) >= dayNum) {
+      day.addEventListener("click", (e) => {
+        toggleSelected(e)
+      })
+    }
+    if (Number(day.textContent) === dayNum) day.classList.add("bg-danger", "text-white")
+    if (Number(day.textContent) < dayNum) day.classList.add("bg-dark", "text-dark")
   }
 }
 
