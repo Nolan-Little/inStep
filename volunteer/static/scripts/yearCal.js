@@ -32,23 +32,21 @@ const months = {
 allDays = [mondays, tuesdays, wednesdays, thursdays, fridays, saturdays, sundays]
 
 for (dayList of allDays) {
-  daysEventListeners(dayList)
+  formatValidCalender(dayList)
 }
 
-monthHeader.addEventListener('click', (e) => {
-  selectedDates()
-})
-
+// if item is selected removes hidden input with matching value and removes selected and styling classes
+// if item is not selected add selected input and stores date value in hidden input
 function toggleSelected(e) {
   if (e.target.classList.contains("selected")) {
+    e.target.classList.remove("bg-primary", "text-white", "selected")
     if (Number(e.target.textContent) === dayNum) e.target.classList.add("bg-danger", "text-white")
 
-    e.target.classList.remove("bg-primary", "text-white", "selected")
     formattedDate = formatSelectedDate(e.target.textContent, monthHeader)
     removeDateInput(formattedDate)
 
   } else if (!e.target.classList.contains("selected")) {
-    if (Number(e.target.textContent) === dayNum) e.target.classList.remove("bg-danger", "text-white")
+    if (Number(e.target.textContent) === dayNum) e.target.classList.remove("bg-danger")
 
     e.target.classList.add("bg-primary", "text-white", "selected")
     formattedDate = formatSelectedDate(e.target.textContent, monthHeader)
@@ -56,7 +54,8 @@ function toggleSelected(e) {
   }
 }
 
-function daysEventListeners(dayList) {
+// adds event listeners on current day and all future days. Greys out all past days
+function formatValidCalender(dayList) {
   for (day of dayList) {
     if (Number(day.textContent) >= dayNum) {
       day.addEventListener("click", (e) => {
@@ -68,6 +67,7 @@ function daysEventListeners(dayList) {
   }
 }
 
+// reformats the textContent of the calender square and the header into a date format
 function formatSelectedDate(dayValue, monthYearHeader) {
   monthYearHeader = monthYearHeader.textContent.split(' ')
   if (dayValue.length === 1){
@@ -77,6 +77,7 @@ function formatSelectedDate(dayValue, monthYearHeader) {
   return formattedDate = `${monthYearHeader[1]}-${months[`${monthYearHeader[0]}`]}-${dayValue}`
 }
 
+// create a hidden input and set the value as the date parameter
 function captureDateInput(date) {
   let input = document.createElement("input")
   input.setAttribute("hidden", true)
@@ -87,6 +88,7 @@ function captureDateInput(date) {
   form.appendChild(input)
 }
 
+// remove hidden input of which the value is equal to the date parameter
 function removeDateInput(date) {
   inputs = document.querySelectorAll('input.date')
   for (input of inputs) {
