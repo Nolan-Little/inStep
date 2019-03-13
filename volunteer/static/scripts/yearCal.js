@@ -5,14 +5,30 @@ const thursdays= document.querySelectorAll("td.thu")
 const fridays = document.querySelectorAll("td.fri")
 const saturdays = document.querySelectorAll("td.sat")
 const sundays = document.querySelectorAll("td.sun")
-const month = document.querySelector("th.month")
+const monthHeader = document.querySelector("th.month")
+
+const months = {
+  'January' : '01',
+  'February' : '02',
+  'March' : '03',
+  'April' : '04',
+  'May' : '05',
+  'June' : '06',
+  'July' : '07',
+  'August' : '08',
+  'September' : '09',
+  'October' : '10',
+  'November' : '11',
+  'December' : '12'
+}
+
 allDays = [mondays, tuesdays, wednesdays, thursdays, fridays, saturdays, sundays]
 
 for (dayList of allDays) {
   daysEventListeners(dayList)
 }
 
-month.addEventListener('click', (e) => {
+monthHeader.addEventListener('click', (e) => {
   findSelectedDays()
 })
 
@@ -37,7 +53,17 @@ function daysEventListeners(dayList) {
 function findSelectedDays() {
   days = document.querySelectorAll("td.selected")
   for (day of days) {
-    console.log(day)
+    formattedDate = formatSelectedDate(day.textContent, monthHeader)
+    console.log(formattedDate)
   }
+}
+
+function formatSelectedDate(dayValue, monthYearHeader) {
+  monthYearHeader = monthYearHeader.textContent.split(' ')
+  if (dayValue.length === 1){
+    dayValue =  "0" + dayValue
+  }
+
+  return formattedDate = `${monthYearHeader[1]}-${months[`${monthYearHeader[0]}`]}-${dayValue}`
 }
 
