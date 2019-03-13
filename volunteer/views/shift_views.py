@@ -122,7 +122,6 @@ def sign_up(request, unique_url):
         }
 
         shift_list = list()
-        print(form_data.getlist('shifts'))
         for shift in sign_up_form_data['shifts']:
             shift_list.append(Shift.objects.get(pk=shift))
             Volunteer.objects.create(
@@ -131,9 +130,12 @@ def sign_up(request, unique_url):
                 shift=Shift.objects.get(pk=shift)
             )
 
+        organizer_email = shift_list[0].event.organization.user.all()[0].email
+
         context = {
             "name": form_data['name'],
-            'shifts': shift_list
+            'shifts': shift_list,
+            'organizer_email': organizer_email
         }
 
         return render(request, template_name, context)

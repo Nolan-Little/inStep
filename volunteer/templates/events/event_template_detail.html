@@ -10,12 +10,6 @@
   {% endif %}
   <div class="row d-flex">
     <div class= "col-lg-6 col-sm-12">
-      <button class="btn-primary">
-        <a class="text-white" href="{% url 'volunteer:edit_event_template' event_template.id %}">edit</a>
-      </button>
-      <button class="btn-danger">
-        <a class="text-white" href="{% url 'volunteer:delete_event' event_template.id %}">delete</a>
-      </button>
       <div class="d-flex flex-lg-row flex-md-row flex-column justify-content-between mt-5">
         <p><span class="detail--label">Location:</span> {{event_template.venue.location}}</p>
         <p><span class="detail--label">Event Name:</span> {{event_template.name}}</p>
@@ -24,8 +18,14 @@
         <p><span class="detail--label">Description: </span>{{event_template.description}}</p>
         <input type="text" class="sr-only" value="{{domain}}/sign_up/{{event_template.sign_up_url}}" id="url">
         {% if event_template.is_template == 0 %}
-          <button class="btn-primary" id="copyLink">Copy Sign-up Link to clipboard</button>
-         {% endif %}
+          <button class="m-1 btn-primary" id="copyLink">Copy Sign-up Link to clipboard</button>
+        {% endif %}
+        <button class="m-1 btn-primary">
+          <a class="text-white" href="{% url 'volunteer:edit_event_template' event_template.id %}">edit event details</a>
+        </button>
+        <button class="m-1 btn-danger">
+          <a class="text-white" href="{% url 'volunteer:delete_event' event_template.id %}">delete event</a>
+        </button>
       </div>
 
       <div class= "col-lg-6 col-sm-12">

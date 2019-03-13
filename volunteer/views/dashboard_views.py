@@ -1,11 +1,13 @@
 from datetime import datetime
 from django.shortcuts import render
+from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from volunteer.models import Organization, Event
 
 def dashboard(request):
+    domain = get_current_site(request).domain
     user = request.user
     org = Organization.objects.get(user=user)
     events = Event.objects.filter(organization=org)
@@ -15,7 +17,8 @@ def dashboard(request):
     context = {
         "org": org,
         "event_templates": templates,
-        "scheduled_events": scheduled_events
+        "scheduled_events": scheduled_events,
+        "domain": domain
     }
 
     return render(request, "dashboard.html", context)

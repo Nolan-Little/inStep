@@ -1,18 +1,49 @@
 {% extends "index.html" %}
 {% load staticfiles %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 
-<h1 class="user_welcome">Login To</h1>
 
-<form id="login_form" method="post" action="{% url 'volunteer:login' %}">
-    {% csrf_token %}
-    Username: <input type="text" name="username" value="" size="50" />
-    <br />
-    Password: <input type="password" name="password" value="" size="50" />
-    <br />
-
-    <input class="register" type="submit" value="Login" />
-</form>
+<div class="container">
+  <div class="row d-flex flex-column mt-5">
+    <h1 class="user_welcome text-center">Login To inStep</h1>
+    <div class="col-6 offset-3">
+      <form id="login_form" method="post" action="{% url 'volunteer:login' %}">
+          {% csrf_token %}
+          <div id="div_username" class="control-group">
+            <label for="username" class="control-label ">Username</label>
+            <div class="controls">
+              <input type="username" required name="username" maxlength="150" class="textinput textInput form-control" id="username">
+            </div>
+          </div>
+          <div id="div_password" class="control-group">
+            <label for="password" class="control-label ">Password</label>
+            <div class="controls">
+              <input type="password" required name="password" maxlength="150" class="textinput textInput form-control" id="password">
+            </div>
+          </div>
+          <div class="text-center text-md-right">
+            <input class="btn btn-primary register" type="submit" value="Login" />
+          </div>
+      </form>
+      <div class="text-center">
+        <a href="{% url 'volunteer:register' %}">New User? Register.</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock content %}
+
+{% comment %} <div id="div_id_confirm_pass" class="control-group">
+  <label for="id_confirm_pass" class="control-label ">
+  Re-Enter Password
+  </label>
+  <div class="controls">
+    <input type="password" required name="confirm_pass" maxlength="150" class="textinput textInput form-control" id="id_confirm_pass">
+  </div>
+  <label id="invalid_pass" for="id_confirm_pass" class=" alert text-danger control-label d-none">
+    Passwords Must Match
+  </label>
+</div> {% endcomment %}
