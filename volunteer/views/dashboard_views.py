@@ -12,7 +12,7 @@ def dashboard(request):
     org = Organization.objects.get(user=user)
     events = Event.objects.filter(organization=org)
     templates = events.filter(is_template=True)
-    scheduled_events = events.exclude(date__lt=datetime.now()).exclude(date=None)
+    scheduled_events = events.exclude(date__lt=datetime.now()).exclude(date=None).order_by('date')
 
     context = {
         "org": org,

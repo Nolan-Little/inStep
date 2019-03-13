@@ -1,5 +1,6 @@
 const form = document.querySelector('#scheduleEventForm')
-const events = document.querySelectorAll('input.date')
+const events = document.querySelectorAll('input.scheduled_date')
+const selectAlert = document.querySelector('p.selectAlert')
 
 const mondays = document.querySelectorAll("td.mon")
 const tuesdays = document.querySelectorAll("td.tue")
@@ -40,12 +41,13 @@ function toggleSelected(e) {
   if (e.target.classList.contains("selected")) {
     e.target.classList.remove("bg-primary", "text-white", "selected")
     if (Number(e.target.textContent) === dayNum) e.target.classList.add("bg-danger", "text-white")
+    if (e.target.classList.contains("scheduled_event")) selectAlert.classList.remove("text-danger")
     formattedDate = formatSelectedDate(e.target.textContent, monthHeader)
     removeDateInput(formattedDate)
 
   } else if (!e.target.classList.contains("selected")) {
     if (Number(e.target.textContent) === dayNum) e.target.classList.remove("bg-danger")
-
+    if (e.target.classList.contains("scheduled_event")) selectAlert.classList.add("text-danger")
     e.target.classList.add("bg-primary", "text-white", "selected")
     formattedDate = formatSelectedDate(e.target.textContent, monthHeader)
     captureDateInput(formattedDate)
@@ -62,7 +64,7 @@ function formatValidCalender(dayList) {
     }
     if (Number(day.textContent) === dayNum) day.classList.add("bg-danger", "text-white")
     if (Number(day.textContent) < dayNum) day.classList.add("bg-dark", "text-dark")
-    evaluateEvents(day)
+    evaluateEvents(day, events)
   }
 }
 
@@ -97,12 +99,10 @@ function removeDateInput(date) {
   }
 }
 
-function evaluateEvents(day) {
+function evaluateEvents(day, events) {
   for (event of events) {
     if (day.textContent === event.value.split('-')[2]) {
-      day.classList.add("text-danger")
-    } else {
-      console.log("not today satan")
+      day.classList.add("text-danger", "scheduled_event")
     }
   }
 }

@@ -5,7 +5,8 @@
     <div class="container">
         <div class="row mt-5">
           <div class="col-md-6 offset-md-3 d-flex flex-column align-items-center">
-            <h2 class="mt-5 p-4 text-center">Schedule Dates for {{event.name}}</h2>
+            <h2 class="mt-4 pt-3 text-center">Schedule Dates for {{event.name}}</h2>
+            <p class="m-0 selectAlert">Dates highlighted in red already have a {{event.name}} scheduled.</p>
             <form id="scheduleEventForm" action="{% url 'volunteer:schedule_event' event.id %}" method="POST">
                 {% csrf_token %}
                 <div>
@@ -14,12 +15,12 @@
                 <div class="text-center mt-3">
                   <button class="btn btn-primary" type="submit">Schedule Event</button>
                 </div>
-                <div class="text-center">
+                <div class="text-center mb-3">
                   <a class="btn btn-danger" href="/dashboard">Cancel</a>
                 </div>
                 {% for event in scheduled_events %}
                   {% if event.date %}
-                    <input type="date" hidden name="selected_date" class="date" value="{{event.date|date:"Y-m-d"}}">
+                    <input type="date" hidden name="scheduled_date" class="scheduled_date" value="{{event.date|date:"Y-m-d"}}">
                   {% endif %}
                 {% endfor %}
             </form>
