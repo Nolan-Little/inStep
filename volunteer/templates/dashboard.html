@@ -45,7 +45,7 @@
                                 <td>{{event.venue.name}}</td>
                                 <td>
                                     <button class="btn-sm btn-primary">
-                                        <a class="text-white" href="/schedule_event">schedule occurence</a>
+                                        <a class="text-white" href="{% url 'volunteer:schedule_event' event.id %}">schedule occurence</a>
                                     </button>
                                 </td>
                                 <td>
@@ -83,7 +83,7 @@
                             <tr>
                                 <th scope="row" class="alert"> You haven't scheduled any events.
                                     <button class="btn-primary">
-                                        <a href="/schedule_event">Try it!</a>
+                                        <a href="#">Try it!</a>
                                     </button>
                                 </th>
                             </tr>

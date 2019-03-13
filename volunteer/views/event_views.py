@@ -166,17 +166,20 @@ def delete_event(request, event_id):
     return HttpResponseRedirect(reverse('volunteer:dashboard'))
 
 
-def schedule_event(request):
+def schedule_event(request, event_template_id):
     event_cal = month_cal()
+    event = Event.objects.get(pk=event_template_id)
+    scheduled_events = Event.objects.filter(name=event.name)
+    print(scheduled_events)
     # TODO: org cookies?
     org = Organization.objects.filter(user=request.user)[0]
     if request.method == "GET":
         template_name = "events/schedule_event.html"
-        event_templates = org.event_set.filter(is_template=True)
         context = {
             "org": org,
-            "event_templates":event_templates,
-            'cal': mark_safe(event_cal)
+            "event":event,
+            'cal': mark_safe(event_cal),
+            'scheduled_events':scheduled_events
         }
 
         return render(request, template_name, context)
@@ -185,11 +188,9 @@ def schedule_event(request):
         form_data = request.POST
 
         event_form_data = {
-            'event': form_data['events'],
+            'event': event,
             'date': form_data.getlist('selected_date'),
         }
-
-        event = org.event_set.filter(pk=event_form_data['event'])[0]
 
         # Schedule Events
 

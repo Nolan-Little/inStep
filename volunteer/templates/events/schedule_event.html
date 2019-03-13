@@ -5,28 +5,23 @@
     <div class="container">
         <div class="row mt-5">
           <div class="col-md-6 offset-md-3 d-flex flex-column align-items-center">
-            <h2 class="mt-5 p-4 text-center">Schedule An Event</h2>
-            <form id="scheduleEventForm" action="{% url 'volunteer:schedule_event' %}" method="POST">
+            <h2 class="mt-5 p-4 text-center">Schedule Dates for {{event.name}}</h2>
+            <form id="scheduleEventForm" action="{% url 'volunteer:schedule_event' event.id %}" method="POST">
                 {% csrf_token %}
-                <div id="div_id_select_event" class="control-group">
-                    <label for="id_select_event" class="control-label ">
-                      Event to Schedule:
-                    </label>
-                    <div class="controls">
-                      <select required name="events" id="id_select_event">
-                              <option value="">------</option>
-                          {% for event in event_templates %}
-                              <option value="{{event.id}}">{{event.name}}</option>
-                          {% endfor %}
-                      </select>
-                    </div>
-                </div>
                 <div>
                   {{ cal }}
                 </div>
-                <div class="text-center text-md-right mt-4">
+                <div class="text-center mt-3">
                   <button class="btn btn-primary" type="submit">Schedule Event</button>
                 </div>
+                <div class="text-center">
+                  <a class="btn btn-danger" href="/dashboard">Cancel</a>
+                </div>
+                {% for event in scheduled_events %}
+                  {% if event.date %}
+                    <input type="date" hidden name="selected_date" class="date" value="{{event.date|date:"Y-m-d"}}">
+                  {% endif %}
+                {% endfor %}
             </form>
           </div>
 

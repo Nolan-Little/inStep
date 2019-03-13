@@ -1,9 +1,10 @@
 const form = document.querySelector('#scheduleEventForm')
+const events = document.querySelectorAll('input.date')
 
 const mondays = document.querySelectorAll("td.mon")
 const tuesdays = document.querySelectorAll("td.tue")
 const wednesdays = document.querySelectorAll("td.wed")
-const thursdays= document.querySelectorAll("td.thu")
+const thursdays = document.querySelectorAll("td.thu")
 const fridays = document.querySelectorAll("td.fri")
 const saturdays = document.querySelectorAll("td.sat")
 const sundays = document.querySelectorAll("td.sun")
@@ -12,21 +13,19 @@ const monthHeader = document.querySelector("th.month")
 const today = Date().toString().split(' ')
 const dayNum = Number(today[2])
 
-console.log(today)
-
 const months = {
-  'January' : '01',
-  'February' : '02',
-  'March' : '03',
-  'April' : '04',
-  'May' : '05',
-  'June' : '06',
-  'July' : '07',
-  'August' : '08',
-  'September' : '09',
-  'October' : '10',
-  'November' : '11',
-  'December' : '12'
+  'January': '01',
+  'February': '02',
+  'March': '03',
+  'April': '04',
+  'May': '05',
+  'June': '06',
+  'July': '07',
+  'August': '08',
+  'September': '09',
+  'October': '10',
+  'November': '11',
+  'December': '12'
 }
 
 allDays = [mondays, tuesdays, wednesdays, thursdays, fridays, saturdays, sundays]
@@ -41,7 +40,6 @@ function toggleSelected(e) {
   if (e.target.classList.contains("selected")) {
     e.target.classList.remove("bg-primary", "text-white", "selected")
     if (Number(e.target.textContent) === dayNum) e.target.classList.add("bg-danger", "text-white")
-
     formattedDate = formatSelectedDate(e.target.textContent, monthHeader)
     removeDateInput(formattedDate)
 
@@ -64,14 +62,15 @@ function formatValidCalender(dayList) {
     }
     if (Number(day.textContent) === dayNum) day.classList.add("bg-danger", "text-white")
     if (Number(day.textContent) < dayNum) day.classList.add("bg-dark", "text-dark")
+    evaluateEvents(day)
   }
 }
 
 // reformats the textContent of the calender square and the header into a date format
 function formatSelectedDate(dayValue, monthYearHeader) {
   monthYearHeader = monthYearHeader.textContent.split(' ')
-  if (dayValue.length === 1){
-    dayValue =  "0" + dayValue
+  if (dayValue.length === 1) {
+    dayValue = "0" + dayValue
   }
 
   return formattedDate = `${monthYearHeader[1]}-${months[`${monthYearHeader[0]}`]}-${dayValue}`
@@ -94,6 +93,16 @@ function removeDateInput(date) {
   for (input of inputs) {
     if (input.value === date) {
       form.removeChild(input)
+    }
+  }
+}
+
+function evaluateEvents(day) {
+  for (event of events) {
+    if (day.textContent === event.value.split('-')[2]) {
+      day.classList.add("text-danger")
+    } else {
+      console.log("not today satan")
     }
   }
 }
