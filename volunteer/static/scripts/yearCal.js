@@ -46,10 +46,17 @@ class Calendar {
 
   handleClick(e) {
     // only hanldes clicks on valid date cells
-    if(Number(e.target.textContent) > 0 && Number(e.target.textContent) < 32){
-      formattedDate = formatSelectedDate(e.target.textContent, this.getActiveMonth(), this.getActiveYear())
-      console.log(formattedDate)
+    let target = e.target
+    if(Number(target.textContent) > 0 && Number(target.textContent) < 32){
+      formattedDate = formatSelectedDate(target.textContent, this.getActiveMonth(), this.getActiveYear())
 
+      if (!target.classList.contains("selected")){
+        this.selectDate(target)
+        createDateInput(formattedDate)
+      } else if (target.classList.contains("selected")){
+        this.deSelectDate(target)
+        removeDateInput(formattedDate)
+      }
 
     }
   }
@@ -95,8 +102,18 @@ class Calendar {
 
 
   selectDate(target) {
-    if (target.classList.add("selected"))
+    if (Number(target.textContent) === this.todaysNum) {
+      target.classList.remove(this.todayColor)
+    }
+    target.classList.add("selected")
+    target.classList.add(this.selectedColor, "text-white", "selected")
   }
+
+  deSelectDate(target) {
+    target.classList.remove(this.selectedColor, "text-white", "selected")
+    if (Number(target.textContent) === this.todaysNum) target.classList.add(this.todayColor, "text-white")
+  }
+
 }
 
 
@@ -127,28 +144,6 @@ function togglenextBtn() {
     nextBtn.removeAttribute("disabled")
   }
 }
-
-
-// if item is selected removes hidden input with matching value and removes selected and styling classes
-// if item is not selected add selected input and stores date value in hidden input
-function toggleSelectedDate(e) {
-  if (e.target.classList.contains("selected")) {
-    e.target.classList.remove(selectedColor, "text-white", "selected")
-    if (Number(e.target.textContent) === dayNum) e.target.classList.add(todayColor, "text-white")
-    if (e.target.classList.contains("scheduled_event")) selectAlert.classList.remove("text-danger")
-    formattedDate = formatSelectedDate(e.target.textContent, monthHeader)
-    removeDateInput(formattedDate)
-
-  } else if (!e.target.classList.contains("selected")) {
-    if (Number(e.target.textContent) === dayNum) e.target.classList.remove(todayColor)
-    if (e.target.classList.contains("scheduled_event")) selectAlert.classList.add("text-danger")
-    e.target.classList.add(selectedColor, "text-white", "selected")
-    formattedDate = formatSelectedDate(e.target.textContent, monthHeader)
-    createDateInput(formattedDate)
-  }
-}
-
-
 
 
 // adds event listeners on current day and all future days. Greys out all past days
@@ -182,16 +177,18 @@ function createDateInput(date) {
   input.setAttribute("class", "date")
   input.value = date
   form.appendChild(input)
+  console.log(input.value)
 }
 
 // remove hidden input of which the value is equal to the date parameter
 function removeDateInput(date) {
   inputs = document.querySelectorAll('input.date')
-  for (input of inputs) {
+  inputs.forEach((input) => {
     if (input.value === date) {
       form.removeChild(input)
+      console.log(input.value)
     }
-  }
+  })
 }
 
 
