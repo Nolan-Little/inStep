@@ -29,6 +29,10 @@ const months = {
   'December': '12'
 }
 
+const todayColor = "bg-warning"
+const selectedColor = "bg-primary"
+
+
 allDays = [mondays, tuesdays, wednesdays, thursdays, fridays, saturdays, sundays]
 
 for (dayList of allDays) {
@@ -37,18 +41,18 @@ for (dayList of allDays) {
 
 // if item is selected removes hidden input with matching value and removes selected and styling classes
 // if item is not selected add selected input and stores date value in hidden input
-function toggleSelected(e) {
+function toggleSelectedDate(e) {
   if (e.target.classList.contains("selected")) {
-    e.target.classList.remove("bg-primary", "text-white", "selected")
-    if (Number(e.target.textContent) === dayNum) e.target.classList.add("bg-danger", "text-white")
+    e.target.classList.remove(selectedColor, "text-white", "selected")
+    if (Number(e.target.textContent) === dayNum) e.target.classList.add(todayColor, "text-white")
     if (e.target.classList.contains("scheduled_event")) selectAlert.classList.remove("text-danger")
     formattedDate = formatSelectedDate(e.target.textContent, monthHeader)
     removeDateInput(formattedDate)
 
   } else if (!e.target.classList.contains("selected")) {
-    if (Number(e.target.textContent) === dayNum) e.target.classList.remove("bg-danger")
+    if (Number(e.target.textContent) === dayNum) e.target.classList.remove(todayColor)
     if (e.target.classList.contains("scheduled_event")) selectAlert.classList.add("text-danger")
-    e.target.classList.add("bg-primary", "text-white", "selected")
+    e.target.classList.add(selectedColor, "text-white", "selected")
     formattedDate = formatSelectedDate(e.target.textContent, monthHeader)
     captureDateInput(formattedDate)
   }
@@ -59,10 +63,10 @@ function formatValidCalender(dayList) {
   for (day of dayList) {
     if (Number(day.textContent) >= dayNum) {
       day.addEventListener("click", (e) => {
-        toggleSelected(e)
+        toggleSelectedDate(e)
       })
     }
-    if (Number(day.textContent) === dayNum) day.classList.add("bg-danger", "text-white")
+    if (Number(day.textContent) === dayNum) day.classList.add(todayColor, "text-white")
     if (Number(day.textContent) < dayNum) day.classList.add("bg-dark", "text-dark")
     evaluateEvents(day, events)
   }
@@ -98,6 +102,7 @@ function removeDateInput(date) {
     }
   }
 }
+
 
 function evaluateEvents(day, events) {
   for (event of events) {

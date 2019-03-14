@@ -167,10 +167,10 @@ def delete_event(request, event_id):
 
 
 def schedule_event(request, event_template_id):
-    event_cal = month_cal()
+    calendars = create_calendars()
     event = Event.objects.get(pk=event_template_id)
     scheduled_events = Event.objects.filter(name=event.name)
-    print(scheduled_events)
+
     # TODO: org cookies?
     org = Organization.objects.filter(user=request.user)[0]
     if request.method == "GET":
@@ -178,7 +178,7 @@ def schedule_event(request, event_template_id):
         context = {
             "org": org,
             "event":event,
-            'cal': mark_safe(event_cal),
+            'calendars': calendars,
             'scheduled_events':scheduled_events
         }
 
@@ -218,4 +218,35 @@ def schedule_event(request, event_template_id):
 
     return HttpResponseRedirect(reverse('volunteer:dashboard'))
 
+
+def create_calendars():
+    '''returns a calender object with 12 months.
+    Starting with the current month and only going to future months
+
+    Returns:
+        calender -- object with indexes 0 through 12. with 0 being the current month and 12 being the current month of the next year.
+    '''
+
+    now = datetime.datetime.now()
+    month_current_year = 0
+    months_remaining = 12 - now.month
+    calendars = {}
+
+    # generate future months this year
+    while month_current_year <= months_remaining:
+        cal = month_cal(year=now.year, month=now.month, month_iter=month_current_year)
+        calendars[f'{month_current_year}'] = mark_safe(cal)
+        month_current_year += 1
+
+    # generate the remainder from the next year to total 12 months
+    month_next_year = 0
+    print(month_next_year)
+    additional_months = month_current_year - 1
+    while month_next_year < 12 - additional_months:
+        cal = month_cal(year=now.year + 1, month = 1, month_iter=month_next_year)
+        calendars[f'{month_current_year}'] = mark_safe(cal)
+        month_current_year +=1
+        month_next_year += 1
+
+    return calendars
 
