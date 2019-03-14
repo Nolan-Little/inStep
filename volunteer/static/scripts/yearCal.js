@@ -6,16 +6,6 @@ const nextBtn = document.querySelector('#nextBtn')
 const prevBtn = document.querySelector('#prevBtn')
 
 // establish all calendar elements
-const mondays = document.querySelectorAll("td.mon")
-const tuesdays = document.querySelectorAll("td.tue")
-const wednesdays = document.querySelectorAll("td.wed")
-const thursdays = document.querySelectorAll("td.thu")
-const fridays = document.querySelectorAll("td.fri")
-const saturdays = document.querySelectorAll("td.sat")
-const sundays = document.querySelectorAll("td.sun")
-const monthHeader = document.querySelector("th.month")
-
-const allCalendars = document.querySelectorAll("table.month")
 
 const months = {
   'Jan': '01',
@@ -32,78 +22,107 @@ const months = {
   'Dec': '12'
 }
 
-const today = Date().toString().split(' ')
-const dayNum = Number(today[2])
-const currentMonthNum = months[today[1]]
-
 // define color classes for any calendar indicators
-const todayColor = "bg-warning"
-const selectedColor = "bg-primary"
 
 class Calendar {
   constructor(allCalendars) {
     this._currentIndex = 0,
-    this.allCalendars = allCalendars
+      this.allCalendars = document.querySelectorAll("table.month"),
+      this.today = Date().toString().split(' '),
+      this.todaysNum = Number(this.today[2]),
+      this.currentMonthNum = months[this.today[1]],
+      this.firstMonth = this.allCalendars[0],
+      this.lastMonth = this.allCalendars[12],
+      this.todayColor = "bg-warning",
+      this.selectedColor = "bg-primary",
+      this.handleClick = this.handleClick.bind(this)
   }
-  // set current display state
+
+  setEventListener() {
+    let calEl = this.getCurrentCal()
+    calEl.removeEventListener('click', this.handleClick)
+    calEl.addEventListener('click', this.handleClick)
+  }
+
+  handleClick(e) {
+    // only hanldes clicks on valid date cells
+    if(Number(e.target.textContent) > 0 && Number(e.target.textContent) < 32){
+      formattedDate = formatSelectedDate(e.target.textContent, this.getActiveMonth(), this.getActiveYear())
+      console.log(formattedDate)
+
+
+    }
+  }
 
   getCurrentCal() {
     return this.allCalendars[this._currentIndex]
   }
 
+  getActiveMonth() {
+    return this.allCalendars[this._currentIndex].getAttributeNode('data-month').value
+  }
+
+  getActiveYear() {
+    return this.allCalendars[this._currentIndex].getAttributeNode('data-year').value
+  }
+
   increaseCurrentIndex() {
     this._currentIndex++
+    this.setCurrentCal()
   }
 
   decreaseCurrentIndex() {
     this._currentIndex--
+    this.setCurrentCal()
   }
 
   setCurrentCal() {
     this.allCalendars.forEach((cal) => cal.hidden = true)
     let currentCal = this.getCurrentCal()
     currentCal.hidden = false
-    togglePrevBtn(currentCal)
-    togglenextBtn(currentCal)
+    togglePrevBtn()
+    togglenextBtn()
+    this.setEventListener()
+  }
+
+  firstMonthActive() {
+    if (this.getCurrentCal() === this.firstMonth) return true
+  }
+
+  lastMonthActive() {
+    if (this.getCurrentCal() === this.lastMonth) return true
+  }
+
+
+  selectDate(target) {
+    if (target.classList.add("selected"))
   }
 }
 
 
 // set current display state
-let calendar = new Calendar(allCalendars)
-togglePrevBtn(calendar.getCurrentCal())
+let calendar = new Calendar()
+calendar.setCurrentCal()
 
-nextBtn.addEventListener('click',() => toggleCurrentCalendar(nextBtn))
-prevBtn.addEventListener('click',() => toggleCurrentCalendar(prevBtn))
-
-
-// iterate current cal + or - and determine cal state
-function toggleCurrentCalendar(btn) {
-  if (btn === prevBtn) {
-    calendar.decreaseCurrentIndex()
-  } else if (btn === nextBtn) {
-    calendar.increaseCurrentIndex()
-    }
-  calendar.setCurrentCal()
-}
-
+nextBtn.addEventListener('click', () => calendar.increaseCurrentIndex())
+prevBtn.addEventListener('click', () => calendar.decreaseCurrentIndex())
 
 // hide and display prev and next btns
-function togglePrevBtn(currentCalendarDisplayed) {
-  if (currentCalendarDisplayed === allCalendars[0]) {
+function togglePrevBtn() {
+  if (calendar.firstMonthActive()) {
     prevBtn.classList.add("invisible")
     prevBtn.setAttribute("disabled", true)
-  } else if (currentCalendarDisplayed !== allCalendars[0]) {
+  } else {
     prevBtn.classList.remove("invisible")
     prevBtn.removeAttribute("disabled")
   }
 }
 
-function togglenextBtn(currentCalendarDisplayed) {
-  if (currentCalendarDisplayed === allCalendars[12]) {
+function togglenextBtn() {
+  if (calendar.lastMonthActive()) {
     nextBtn.classList.add("invisible")
     nextBtn.setAttribute("disabled", true)
-  } else if (currentCalendarDisplayed !== allCalendars[12]) {
+  } else {
     nextBtn.classList.remove("invisible")
     nextBtn.removeAttribute("disabled")
   }
@@ -125,9 +144,12 @@ function toggleSelectedDate(e) {
     if (e.target.classList.contains("scheduled_event")) selectAlert.classList.add("text-danger")
     e.target.classList.add(selectedColor, "text-white", "selected")
     formattedDate = formatSelectedDate(e.target.textContent, monthHeader)
-    captureDateInput(formattedDate)
+    createDateInput(formattedDate)
   }
 }
+
+
+
 
 // adds event listeners on current day and all future days. Greys out all past days
 function formatValidCalendar(dayList) {
@@ -144,17 +166,15 @@ function formatValidCalendar(dayList) {
 }
 
 // reformats the textContent of the calendar square and the header into a date format
-function formatSelectedDate(dayValue, monthYearHeader) {
-  monthYearHeader = monthYearHeader.textContent.split(' ')
-  if (dayValue.length === 1) {
-    dayValue = "0" + dayValue
-  }
+function formatSelectedDate(day, month, year) {
+  if (day.length === 1) day = "0" + day
+  if (month.length === 1) month = "0" + month
 
-  return formattedDate = `${monthYearHeader[1]}-${months[`${monthYearHeader[0]}`]}-${dayValue}`
+  return formattedDate = `${year}-${month}-${day}`
 }
 
 // create a hidden input and set the value as the date parameter
-function captureDateInput(date) {
+function createDateInput(date) {
   let input = document.createElement("input")
   input.setAttribute("hidden", true)
   input.setAttribute("type", "date")
