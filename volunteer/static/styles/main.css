@@ -5,3 +5,7 @@
 .detail--label {
     font-weight: bold;
 }
+
+.invisible {
+    opacity: 100%;
+}

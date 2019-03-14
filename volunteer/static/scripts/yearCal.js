@@ -2,6 +2,10 @@ const form = document.querySelector('#scheduleEventForm')
 const events = document.querySelectorAll('input.scheduled_date')
 const selectAlert = document.querySelector('p.selectAlert')
 
+const nextBtn = document.querySelector('#nextBtn')
+const prevBtn = document.querySelector('#prevBtn')
+
+// establish all calendar elements
 const mondays = document.querySelectorAll("td.mon")
 const tuesdays = document.querySelectorAll("td.tue")
 const wednesdays = document.querySelectorAll("td.wed")
@@ -11,33 +15,100 @@ const saturdays = document.querySelectorAll("td.sat")
 const sundays = document.querySelectorAll("td.sun")
 const monthHeader = document.querySelector("th.month")
 
-const today = Date().toString().split(' ')
-const dayNum = Number(today[2])
+const allCalendars = document.querySelectorAll("table.month")
 
 const months = {
-  'January': '01',
-  'February': '02',
-  'March': '03',
-  'April': '04',
+  'Jan': '01',
+  'Feb': '02',
+  'Mar': '03',
+  'Apr': '04',
   'May': '05',
-  'June': '06',
-  'July': '07',
-  'August': '08',
-  'September': '09',
-  'October': '10',
-  'November': '11',
-  'December': '12'
+  'Jun': '06',
+  'Jul': '07',
+  'Aug': '08',
+  'Sep': '09',
+  'Oct': '10',
+  'Nov': '11',
+  'Dec': '12'
 }
 
+const today = Date().toString().split(' ')
+const dayNum = Number(today[2])
+const currentMonthNum = months[today[1]]
+
+// define color classes for any calendar indicators
 const todayColor = "bg-warning"
 const selectedColor = "bg-primary"
 
+class Calendar {
+  constructor(allCalendars) {
+    this._currentIndex = 0,
+    this.allCalendars = allCalendars
+  }
+  // set current display state
 
-allDays = [mondays, tuesdays, wednesdays, thursdays, fridays, saturdays, sundays]
+  getCurrentCal() {
+    return this.allCalendars[this._currentIndex]
+  }
 
-for (dayList of allDays) {
-  formatValidCalender(dayList)
+  increaseCurrentIndex() {
+    this._currentIndex++
+  }
+
+  decreaseCurrentIndex() {
+    this._currentIndex--
+  }
+
+  setCurrentCal() {
+    this.allCalendars.forEach((cal) => cal.hidden = true)
+    let currentCal = this.getCurrentCal()
+    currentCal.hidden = false
+    togglePrevBtn(currentCal)
+    togglenextBtn(currentCal)
+  }
 }
+
+
+// set current display state
+let calendar = new Calendar(allCalendars)
+togglePrevBtn(calendar.getCurrentCal())
+
+nextBtn.addEventListener('click',() => toggleCurrentCalendar(nextBtn))
+prevBtn.addEventListener('click',() => toggleCurrentCalendar(prevBtn))
+
+
+// iterate current cal + or - and determine cal state
+function toggleCurrentCalendar(btn) {
+  if (btn === prevBtn) {
+    calendar.decreaseCurrentIndex()
+  } else if (btn === nextBtn) {
+    calendar.increaseCurrentIndex()
+    }
+  calendar.setCurrentCal()
+}
+
+
+// hide and display prev and next btns
+function togglePrevBtn(currentCalendarDisplayed) {
+  if (currentCalendarDisplayed === allCalendars[0]) {
+    prevBtn.classList.add("invisible")
+    prevBtn.setAttribute("disabled", true)
+  } else if (currentCalendarDisplayed !== allCalendars[0]) {
+    prevBtn.classList.remove("invisible")
+    prevBtn.removeAttribute("disabled")
+  }
+}
+
+function togglenextBtn(currentCalendarDisplayed) {
+  if (currentCalendarDisplayed === allCalendars[12]) {
+    nextBtn.classList.add("invisible")
+    nextBtn.setAttribute("disabled", true)
+  } else if (currentCalendarDisplayed !== allCalendars[12]) {
+    nextBtn.classList.remove("invisible")
+    nextBtn.removeAttribute("disabled")
+  }
+}
+
 
 // if item is selected removes hidden input with matching value and removes selected and styling classes
 // if item is not selected add selected input and stores date value in hidden input
@@ -59,7 +130,7 @@ function toggleSelectedDate(e) {
 }
 
 // adds event listeners on current day and all future days. Greys out all past days
-function formatValidCalender(dayList) {
+function formatValidCalendar(dayList) {
   for (day of dayList) {
     if (Number(day.textContent) >= dayNum) {
       day.addEventListener("click", (e) => {
@@ -72,7 +143,7 @@ function formatValidCalender(dayList) {
   }
 }
 
-// reformats the textContent of the calender square and the header into a date format
+// reformats the textContent of the calendar square and the header into a date format
 function formatSelectedDate(dayValue, monthYearHeader) {
   monthYearHeader = monthYearHeader.textContent.split(' ')
   if (dayValue.length === 1) {
