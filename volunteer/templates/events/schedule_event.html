@@ -10,7 +10,9 @@
             <form id="scheduleEventForm" action="{% url 'volunteer:schedule_event' event.id %}" method="POST">
                 {% csrf_token %}
                 <div>
-                  {{ calendars.11 }}
+                  {% for key, value in calendars.items %}
+                    {{ value }}
+                  {% endfor %}
                 </div>
                 <div class="text-center mt-3">
                   <button class="btn btn-primary" type="submit">Schedule Event</button>
