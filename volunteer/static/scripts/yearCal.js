@@ -47,19 +47,40 @@ class Calendar {
   handleClick(e) {
     // only hanldes clicks on valid date cells
     let target = e.target
-    if(Number(target.textContent) > 0 && Number(target.textContent) < 32){
+    if (Number(target.textContent) > 0 && Number(target.textContent) < 32 && !target.classList.contains("past-day")) {
       formattedDate = formatSelectedDate(target.textContent, this.getActiveMonth(), this.getActiveYear())
 
-      if (!target.classList.contains("selected")){
+      if (!target.classList.contains("selected")) {
         this.selectDate(target)
         createDateInput(formattedDate)
-      } else if (target.classList.contains("selected")){
+      } else if (target.classList.contains("selected")) {
         this.deSelectDate(target)
         removeDateInput(formattedDate)
       }
-
     }
   }
+
+
+  setInitialState() {
+    let cal = this.getCurrentCal()
+    let tableRows = cal.children[0].children
+    for(let row of tableRows) {
+        for (let day of row.children) {
+          // make sure its not a blank cell
+          if (!day.classList.contains("noday")){
+            // find today
+            if (Number(day.textContent) === this.todaysNum) {
+              day.classList.add(this.todayColor, "text-white")
+            }
+            // find days before today
+            if (Number(day.textContent) < this.todaysNum) {
+              day.classList.add("bg-dark", "text-dark", "past-day")
+            }
+          }
+        }
+    }
+  }
+
 
   getCurrentCal() {
     return this.allCalendars[this._currentIndex]
@@ -100,7 +121,6 @@ class Calendar {
     if (this.getCurrentCal() === this.lastMonth) return true
   }
 
-
   selectDate(target) {
     if (Number(target.textContent) === this.todaysNum) {
       target.classList.remove(this.todayColor)
@@ -117,9 +137,12 @@ class Calendar {
 }
 
 
+
+
 // set current display state
 let calendar = new Calendar()
 calendar.setCurrentCal()
+calendar.setInitialState()
 
 nextBtn.addEventListener('click', () => calendar.increaseCurrentIndex())
 prevBtn.addEventListener('click', () => calendar.decreaseCurrentIndex())
@@ -155,7 +178,7 @@ function formatValidCalendar(dayList) {
       })
     }
     if (Number(day.textContent) === dayNum) day.classList.add(todayColor, "text-white")
-    if (Number(day.textContent) < dayNum) day.classList.add("bg-dark", "text-dark")
+    if (Number(day.textContent) < dayNum) day.classList.add("bg-dark", "text-dark, past-day")
     evaluateEvents(day, events)
   }
 }
@@ -190,7 +213,6 @@ function removeDateInput(date) {
     }
   })
 }
-
 
 function evaluateEvents(day, events) {
   for (event of events) {
