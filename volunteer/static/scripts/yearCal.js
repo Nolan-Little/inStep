@@ -22,8 +22,8 @@ const months = {
   'Dec': '12'
 }
 
-// define color classes for any calendar indicators
 
+// define color classes for any calendar indicators
 class Calendar {
   constructor(allCalendars) {
     this._currentIndex = 0,
@@ -33,7 +33,7 @@ class Calendar {
       this.currentMonthNum = months[this.today[1]],
       this.firstMonth = this.allCalendars[0],
       this.lastMonth = this.allCalendars[12],
-      this.todayColor = "bg-warning",
+      this.todayColor = "bg-danger",
       this.selectedColor = "bg-primary",
       this.handleClick = this.handleClick.bind(this)
   }
@@ -45,7 +45,7 @@ class Calendar {
   }
 
   handleClick(e) {
-    // only hanldes clicks on valid date cells
+    // only hanldes clicks on valid date cells(td element whose text content is a date that isn't in the past)
     let target = e.target
     if (Number(target.textContent) > 0 && Number(target.textContent) < 32 && !target.classList.contains("past-day")) {
       formattedDate = formatSelectedDate(target.textContent, this.getActiveMonth(), this.getActiveYear())
@@ -169,20 +169,6 @@ function togglenextBtn() {
 }
 
 
-// adds event listeners on current day and all future days. Greys out all past days
-function formatValidCalendar(dayList) {
-  for (day of dayList) {
-    if (Number(day.textContent) >= dayNum) {
-      day.addEventListener("click", (e) => {
-        toggleSelectedDate(e)
-      })
-    }
-    if (Number(day.textContent) === dayNum) day.classList.add(todayColor, "text-white")
-    if (Number(day.textContent) < dayNum) day.classList.add("bg-dark", "text-dark, past-day")
-    evaluateEvents(day, events)
-  }
-}
-
 // reformats the textContent of the calendar square and the header into a date format
 function formatSelectedDate(day, month, year) {
   if (day.length === 1) day = "0" + day
@@ -200,7 +186,7 @@ function createDateInput(date) {
   input.setAttribute("class", "date")
   input.value = date
   form.appendChild(input)
-  console.log(input.value)
+  console.log("selection saved", input.value)
 }
 
 // remove hidden input of which the value is equal to the date parameter
@@ -209,11 +195,13 @@ function removeDateInput(date) {
   inputs.forEach((input) => {
     if (input.value === date) {
       form.removeChild(input)
-      console.log(input.value)
+      console.log("selection removed", input.value)
     }
   })
 }
 
+
+// TODO: refactor evaluating current events.
 function evaluateEvents(day, events) {
   for (event of events) {
     if (day.textContent === event.value.split('-')[2]) {
