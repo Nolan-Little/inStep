@@ -1,5 +1,4 @@
 const form = document.querySelector('#scheduleEventForm')
-const events = document.querySelectorAll('input.scheduled_date')
 const selectAlert = document.querySelector('p.selectAlert')
 
 const nextBtn = document.querySelector('#nextBtn')
@@ -25,17 +24,19 @@ const months = {
 
 // define color classes for any calendar indicators
 class Calendar {
-  constructor(allCalendars) {
+  constructor() {
     this._currentIndex = 0,
-      this.allCalendars = document.querySelectorAll("table.month"),
-      this.today = Date().toString().split(' '),
-      this.todaysNum = Number(this.today[2]),
-      this.currentMonthNum = months[this.today[1]],
-      this.firstMonth = this.allCalendars[0],
-      this.lastMonth = this.allCalendars[12],
-      this.todayColor = "bg-danger",
-      this.selectedColor = "bg-primary",
-      this.handleClick = this.handleClick.bind(this)
+    this.allMonths = document.querySelectorAll("table.month"),
+    this.schedEventsList = document.querySelectorAll('input.scheduled_date'),
+    this.today = Date().toString().split(' '),
+    this.todaysNum = Number(this.today[2]),
+    this.currentMonthNum = months[this.today[1]],
+    this.firstMonth = this.allMonths[0],
+    this.lastMonth = this.allMonths[12],
+    this.todayColor = "bg-danger",
+    this.selectedColor = "bg-primary",
+    this.scheduledDateColor = "bg-secondary"
+    this.handleClick = this.handleClick.bind(this)
   }
 
   setEventListener() {
@@ -45,6 +46,7 @@ class Calendar {
   }
 
   handleClick(e) {
+    this.getMonthEvents()
     // only hanldes clicks on valid date cells(td element whose text content is a date that isn't in the past)
     let target = e.target
     if (Number(target.textContent) > 0 && Number(target.textContent) < 32 && !target.classList.contains("past-day")) {
@@ -64,48 +66,80 @@ class Calendar {
   setInitialState() {
     let cal = this.getCurrentCal()
     let tableRows = cal.children[0].children
-    for(let row of tableRows) {
-        for (let day of row.children) {
-          // make sure its not a blank cell
-          if (!day.classList.contains("noday")){
-            // find today
-            if (Number(day.textContent) === this.todaysNum) {
-              day.classList.add(this.todayColor, "text-white")
-            }
-            // find days before today
-            if (Number(day.textContent) < this.todaysNum) {
-              day.classList.add("bg-dark", "text-dark", "past-day")
-            }
+
+    for (let row of tableRows) {
+      for (let day of row.children) {
+        // make sure its not a blank cell
+        if (!day.classList.contains("noday")) {
+          // find today
+          if (Number(day.textContent) === this.todaysNum) {
+            day.classList.add(this.todayColor, "text-white")
+          }
+          // find days before today
+          if (Number(day.textContent) < this.todaysNum) {
+            day.classList.add("bg-dark", "text-dark", "past-day")
           }
         }
+      }
     }
+    this.markScheduledDay(this.getMonthEvents())
   }
 
 
   getCurrentCal() {
-    return this.allCalendars[this._currentIndex]
+    return this.allMonths[this._currentIndex]
   }
 
   getActiveMonth() {
-    return this.allCalendars[this._currentIndex].getAttributeNode('data-month').value
+    let month = this.allMonths[this._currentIndex].getAttributeNode('data-month').value
+    if (month.length === 1) month = 0 + month
+    return month
   }
 
   getActiveYear() {
-    return this.allCalendars[this._currentIndex].getAttributeNode('data-year').value
+    return this.allMonths[this._currentIndex].getAttributeNode('data-year').value
   }
 
   increaseCurrentIndex() {
     this._currentIndex++
     this.setCurrentCal()
+    this.markScheduledDay(this.getMonthEvents())
   }
 
   decreaseCurrentIndex() {
     this._currentIndex--
     this.setCurrentCal()
+    this.markScheduledDay(this.getMonthEvents())
+  }
+
+  getMonthEvents() {
+   let activeCalEvents =  Array.prototype.slice.call(this.schedEventsList).filter((event) => {
+     if (event.value.substring(0, 7) === `${this.getActiveYear()}-${this.getActiveMonth()}`) {
+        return event
+      }
+    })
+    console.log(activeCalEvents)
+    return activeCalEvents
+  }
+
+  markScheduledDay(eventList) {
+    let cal = this.getCurrentCal()
+    let tableRows = cal.children[0].children
+    for (event of eventList) {
+      for (let row of tableRows) {
+        for (let day of row.children) {
+          // find today
+          console.log(day.textContent, event.value.substring(8,10))
+          if (day.textContent === event.value.substring(8,10)) {
+            day.classList.add(this.scheduledDateColor, "text-white")
+          }
+        }
+      }
+    }
   }
 
   setCurrentCal() {
-    this.allCalendars.forEach((cal) => cal.hidden = true)
+    this.allMonths.forEach((cal) => cal.hidden = true)
     let currentCal = this.getCurrentCal()
     currentCal.hidden = false
     togglePrevBtn()
@@ -143,6 +177,7 @@ class Calendar {
 let calendar = new Calendar()
 calendar.setCurrentCal()
 calendar.setInitialState()
+calendar.getMonthEvents()
 
 nextBtn.addEventListener('click', () => calendar.increaseCurrentIndex())
 prevBtn.addEventListener('click', () => calendar.decreaseCurrentIndex())
