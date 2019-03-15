@@ -3,7 +3,7 @@ const selectAlert = document.querySelector('p.selectAlert')
 
 const nextBtn = document.querySelector('#nextBtn')
 const prevBtn = document.querySelector('#prevBtn')
-
+const submitBtn = document.querySelector('#scheduleSubmit')
 
 const months = {
   'Jan': '01',
@@ -64,6 +64,7 @@ class Calendar {
         removeDateInput(formattedDate)
       }
     }
+    toggleSubmitBtn()
   }
 
 
@@ -155,6 +156,7 @@ class Calendar {
     currentCal.hidden = false
     togglePrevBtn()
     togglenextBtn()
+    toggleSubmitBtn()
     this.setEventListener()
   }
 
@@ -214,6 +216,18 @@ function togglenextBtn() {
   }
 }
 
+
+// if no selected dates. disables submit btn
+function toggleSubmitBtn() {
+  inputs = document.querySelectorAll('input.date')
+  if (inputs.length === 0 ) {
+    submitBtn.setAttribute('disabled', true)
+    submitBtn.textContent = 'select dates'
+  } else if (inputs.length !== 0 ) {
+    submitBtn.removeAttribute('disabled')
+    submitBtn.textContent = 'schedule'
+  }
+}
 
 // reformats the textContent of the calendar square and the header into a date format
 function formatSelectedDate(day, month, year) {
