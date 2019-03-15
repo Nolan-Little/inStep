@@ -4,7 +4,6 @@ const selectAlert = document.querySelector('p.selectAlert')
 const nextBtn = document.querySelector('#nextBtn')
 const prevBtn = document.querySelector('#prevBtn')
 
-// establish all calendar elements
 
 const months = {
   'Jan': '01',
@@ -26,17 +25,17 @@ const months = {
 class Calendar {
   constructor() {
     this._currentIndex = 0,
-    this.allMonths = document.querySelectorAll("table.month"),
-    this.schedEventsList = document.querySelectorAll('input.scheduled_date'),
-    this.today = Date().toString().split(' '),
-    this.todaysNum = Number(this.today[2]),
-    this.currentMonthNum = months[this.today[1]],
-    this.firstMonth = this.allMonths[0],
-    this.lastMonth = this.allMonths[12],
-    this.todayColor = "bg-danger",
-    this.selectedColor = "bg-primary",
-    this.scheduledDateColor = "bg-secondary"
-    this.handleClick = this.handleClick.bind(this)
+      this.allMonths = document.querySelectorAll("table.month"),
+      this.schedEventsList = document.querySelectorAll('input.scheduled_date'),
+      this.today = Date().toString().split(' '),
+      this.todaysNum = Number(this.today[2]),
+      this.currentMonthNum = months[this.today[1]],
+      this.firstMonth = this.allMonths[0],
+      this.lastMonth = this.allMonths[12],
+      this.todayColor = "bg-danger",
+      this.selectedColor = "bg-primary",
+      this.scheduledDateColor = "bg-secondary",
+      this.handleClick = this.handleClick.bind(this)
   }
 
   setEventListener() {
@@ -47,9 +46,14 @@ class Calendar {
 
   handleClick(e) {
     this.getMonthEvents()
-    // only hanldes clicks on valid date cells(td element whose text content is a date that isn't in the past)
+    // only hanldes clicks on valid date cells
+    // (<td> element whose text content is a date that isn't in the past or doesnt already have the event scheduled)
     let target = e.target
-    if (Number(target.textContent) > 0 && Number(target.textContent) < 32 && !target.classList.contains("past-day")) {
+    if (Number(target.textContent) > 0
+      && Number(target.textContent) < 32
+      && !target.classList.contains("past-day")
+      && !target.classList.contains("sched-date")) {
+
       formattedDate = formatSelectedDate(target.textContent, this.getActiveMonth(), this.getActiveYear())
 
       if (!target.classList.contains("selected")) {
@@ -86,42 +90,48 @@ class Calendar {
     this.markScheduledDay(this.getMonthEvents())
   }
 
-
+  // returns currently active event table from allMonths nodelist
   getCurrentCal() {
     return this.allMonths[this._currentIndex]
   }
 
+  // returns value of month as a 2 char long string i.e. 04 = april, 11 = november
   getActiveMonth() {
     let month = this.allMonths[this._currentIndex].getAttributeNode('data-month').value
     if (month.length === 1) month = 0 + month
     return month
   }
 
+  // returns value of the year as a 4 char long string
   getActiveYear() {
     return this.allMonths[this._currentIndex].getAttributeNode('data-year').value
   }
 
+  // iterate calender index positively set current cal state and mark dates that are scheduled for that month
   increaseCurrentIndex() {
     this._currentIndex++
     this.setCurrentCal()
     this.markScheduledDay(this.getMonthEvents())
   }
 
+  // iterate calender index negatively set current cal state and mark dates that are scheduled for that month
   decreaseCurrentIndex() {
     this._currentIndex--
     this.setCurrentCal()
     this.markScheduledDay(this.getMonthEvents())
   }
 
+  // filter ALL known scheduled events to a list of only those occuring with the active month
   getMonthEvents() {
-   let activeCalEvents =  Array.prototype.slice.call(this.schedEventsList).filter((event) => {
-     if (event.value.substring(0, 7) === `${this.getActiveYear()}-${this.getActiveMonth()}`) {
+    let activeCalEvents = Array.prototype.slice.call(this.schedEventsList).filter((event) => {
+      if (event.value.substring(0, 7) === `${this.getActiveYear()}-${this.getActiveMonth()}`) {
         return event
       }
     })
     return activeCalEvents
   }
 
+  // iterate over the known scheduled event and the days of the active month to mark scheduled dates
   markScheduledDay(eventList) {
     let cal = this.getCurrentCal()
     let tableRows = cal.children[0].children
@@ -129,14 +139,16 @@ class Calendar {
       for (let row of tableRows) {
         for (let day of row.children) {
           // find today
-          if (day.textContent === event.value.substring(8,10)) {
-            day.classList.add(this.scheduledDateColor, "text-white")
+          if (day.textContent === event.value.substring(8, 10)) {
+            day.classList.add(this.scheduledDateColor, "sched-date")
           }
         }
       }
     }
   }
 
+  // hide all calenders then mark current active calender as not hidden.
+  // ensure proper state of toggle btns and calender eventlistener
   setCurrentCal() {
     this.allMonths.forEach((cal) => cal.hidden = true)
     let currentCal = this.getCurrentCal()
@@ -154,6 +166,7 @@ class Calendar {
     if (this.getCurrentCal() === this.lastMonth) return true
   }
 
+  // apply and remove proper classes to show visual selection feedback
   selectDate(target) {
     if (Number(target.textContent) === this.todaysNum) {
       target.classList.remove(this.todayColor)
