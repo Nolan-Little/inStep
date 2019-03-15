@@ -9,7 +9,7 @@
     <h1 class="header text-center">{{event_template.name}} on {{event_template.date}}</h1>
   {% endif %}
   <div class="row d-flex">
-    <div class= "col-lg-6 col-sm-12">
+    <div class= "col-lg-6 col-sm-12 mb-4">
       <div class="d-flex flex-lg-row flex-md-row flex-column justify-content-between mt-5">
         <p><span class="detail--label">Event Name:</span> {{event_template.name}}</p>
       </div>
@@ -20,7 +20,7 @@
         <p><span class="detail--label">Description: </span>{{event_template.description}}</p>
         <input type="text" class="sr-only" value="{{domain}}/sign_up/{{event_template.sign_up_url}}" id="url">
         {% if event_template.is_template == 0 %}
-          <button class="m-1 btn-primary" id="copyLink">Copy Sign-up Link to clipboard</button>
+          <button class="m-1 btn-primary copyLink">Copy Sign-up Link to clipboard</button>
         {% endif %}
         <button class="m-1 btn-primary">
           <a class="text-white" href="{% url 'volunteer:edit_event_template' event_template.id %}">edit event details</a>

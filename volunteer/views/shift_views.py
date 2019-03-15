@@ -96,7 +96,10 @@ def sign_up(request, unique_url):
 
         shift_list = list()
         sched_shifts = Shift.objects.filter(event=scheduled_event)
+
+        organizer_email = sched_shifts[0].event.organization.user.all()[0].email
         for shift in sched_shifts:
+
             if shift.slots_remaining > 0:
                 shift_list.append(
                     (shift.id, f'{shift.start_time.strftime("%-I:%M%p")} - {shift.end_time.strftime("%-I:%M%p")} {shift.description}'))
@@ -106,7 +109,9 @@ def sign_up(request, unique_url):
         context = {
             'scheduled_event': scheduled_event,
             'shift_form': shift_form,
-            'unique_url': unique_url
+            'unique_url': unique_url,
+            'shift_choices': shift_choices,
+            'organizer_email': organizer_email
         }
 
         return render(request, template_name, context)

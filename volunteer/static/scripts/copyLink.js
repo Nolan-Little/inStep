@@ -1,7 +1,9 @@
-copyBtn = document.querySelector('#copyLink')
-url = document.querySelector('#url')
+const copyBtn = document.querySelectorAll('.copyLink')
+const url = document.querySelector('#url')
 
-copyBtn.addEventListener('click', (e) => {
-  url.select()
-  document.execCommand("copy")
+copyBtn.forEach((btn) => {
+  btn.addEventListener('click', (e) => {
+    url.select()
+    document.execCommand("copy")
+  })
 })
