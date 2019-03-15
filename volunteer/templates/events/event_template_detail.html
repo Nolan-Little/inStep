@@ -11,9 +11,11 @@
   <div class="row d-flex">
     <div class= "col-lg-6 col-sm-12">
       <div class="d-flex flex-lg-row flex-md-row flex-column justify-content-between mt-5">
-        <p><span class="detail--label">Location:</span> {{event_template.venue.location}}</p>
         <p><span class="detail--label">Event Name:</span> {{event_template.name}}</p>
+      </div>
+      <div class="d-flex flex-lg-row flex-md-row flex-column justify-content-between">
         <p><span class="detail--label">Venue:</span> {{event_template.venue}}</p>
+        <p><span class="detail--label">Location:</span> {{event_template.venue.location}}</p>
       </div>
         <p><span class="detail--label">Description: </span>{{event_template.description}}</p>
         <input type="text" class="sr-only" value="{{domain}}/sign_up/{{event_template.sign_up_url}}" id="url">
