@@ -64,6 +64,7 @@ class Calendar {
 
 
   setInitialState() {
+    this.setCurrentCal()
     let cal = this.getCurrentCal()
     let tableRows = cal.children[0].children
 
@@ -118,7 +119,6 @@ class Calendar {
         return event
       }
     })
-    console.log(activeCalEvents)
     return activeCalEvents
   }
 
@@ -129,7 +129,6 @@ class Calendar {
       for (let row of tableRows) {
         for (let day of row.children) {
           // find today
-          console.log(day.textContent, event.value.substring(8,10))
           if (day.textContent === event.value.substring(8,10)) {
             day.classList.add(this.scheduledDateColor, "text-white")
           }
@@ -175,9 +174,8 @@ class Calendar {
 
 // set current display state
 let calendar = new Calendar()
-calendar.setCurrentCal()
 calendar.setInitialState()
-calendar.getMonthEvents()
+
 
 nextBtn.addEventListener('click', () => calendar.increaseCurrentIndex())
 prevBtn.addEventListener('click', () => calendar.decreaseCurrentIndex())
