@@ -90,6 +90,16 @@ def delete_shift(request, shift_id):
 
 
 def sign_up(request, unique_url):
+    '''Handles volunteer sign up form and confirmation page
+
+    Arguments:
+        request {object} -- http response object
+        unique_url {string} -- string containing the unique characters to append to the end of /sign_up
+
+    Returns:
+        either sign up form or confirmation page after form submission.
+    '''
+
     if request.method == "GET":
         template_name = "events/sign_up.html"
         scheduled_event = Event.objects.get(sign_up_url=unique_url)
