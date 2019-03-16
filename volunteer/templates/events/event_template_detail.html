@@ -4,7 +4,7 @@
 {% block content %}
 <div class="container">
   {% if  event_template.is_template%}
-    <h1 class="header text-center">Event Template Details</h1>
+    <h1 class="header text-center">Event Blueprint Details</h1>
   {% elif event_template.is_template == 0 %}
     <h1 class="header text-center">{{event_template.name}} on {{event_template.date}}</h1>
   {% endif %}
