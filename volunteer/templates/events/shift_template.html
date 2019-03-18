@@ -11,13 +11,10 @@
           {% csrf_token %}
           {{shift_form|crispy}}
           <div class="text-center">
-            <button name="add_shift" value="add_shift" class="btn btn-primary text-white" type="submit">Save Shift and Add Another Shift</button>
-          </div>
-          <div class="text-center">
-            <button name="dashboard" value="dashboard" class="btn btn-secondary text-white">Save shift and See Event Details</button>
-          </div>
-          <div class="text-center">
-            <a href="{% url 'volunteer:event_template_details' event.id %}" class="btn btn-warning text-white">View Event Details</a>
+            <div class="btn-group btn-group-vertical">
+              <button name="add_shift" value="add_shift" class="m-1 btn btn-primary text-white" type="submit">Save Shift and Add Another Shift</button>
+              <button name="dashboard" value="dashboard" class="m-1 btn btn-danger text-white">Save and Schedule Event</button>
+            </div>
           </div>
         </form>
         </div>
@@ -41,12 +38,8 @@
                   <td>{{shift.num_volunteers}}</td>
                   <td>{{shift.description}}</td>
                   <td>
-                    <button class="btn-primary">
-                      <a class="text-white" href="{% url 'volunteer:edit_shift' shift.id %}">Edit</a>
-                    </button>
-                    <button class="btn-danger">
-                      <a class="text-white" href="{% url 'volunteer:delete_shift' shift.id %}">Delete</a>
-                    </button>
+                      <a class="text-white btn btn-sm btn-primary" href="{% url 'volunteer:edit_shift' shift.id %}">Edit</a>
+                      <a class="text-white btn btn-sm btn-danger" href="{% url 'volunteer:delete_shift' shift.id %}">Delete</a>
                   </td>
                 </tr>
               {% endfor %}
