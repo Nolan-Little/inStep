@@ -29,6 +29,8 @@ def register(request):
             user.set_password(user.password)
             user.save()
             return login_user(request)
+        else:
+            return render(request, 'auth/register.html', {'user_form': user_form} )
 
     elif request.method == 'GET':
         user_form = UserForm()
