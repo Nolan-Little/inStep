@@ -6,6 +6,15 @@ from volunteer.forms import OrgForm
 
 
 def new_org(request):
+    '''handles new org form
+
+    Arguments:
+        request {object} -- http request object
+
+    Returns:
+        render -- either renders form or handles form POST
+    '''
+
     if request.method == "GET":
         template_name = "new_org.html"
         new_org_form = OrgForm()

@@ -12,11 +12,11 @@
             <div class="col-sm-12 col-lg-6 col-md-12 container">
                 <div class="row">
                     <div class="col-6">
-                        <h2>Event Templates</h2>
+                        <h2>Event Blueprints</h2>
                     </div>
                     <div class="col-5 offset-1 d-flex align-items-center justify-content-end">
                         <button class="btn-sm btn-primary">
-                            <a class="text-white" href="/new_event_template">New Event Template</a>
+                            <a class="text-white" href="/new_event_template">New Event Blueprint</a>
                         </button>
                     </div>
                 </div>
@@ -32,7 +32,7 @@
                     <tbody>
                         {% if event_templates|length == 0 %}
                             <tr>
-                                <th scope="row" class="alert"> You haven't created any events.
+                                <th scope="row" class="alert"> You haven't created any event blueprints.
                                     <button class="btn-sm btn-primary">
                                         <a href="/new_event_template">Try it!</a>
                                     </button>
@@ -94,7 +94,7 @@
                                 <td>{{event.date}}</td>
                                 <td>
                                   <input type="text" class="sr-only" value="{{domain}}/sign_up/{{event.sign_up_url}}" id="url">
-                                  <button class="btn-sm btn-primary" id="copyLink">Copy sign-up link to clipboard</button>
+                                  <button class="btn-sm btn-primary" id="copyLink">Copy sign-up link</button>
                                 </td>
                                 <td>
                                     <button class="btn-sm btn-warning">

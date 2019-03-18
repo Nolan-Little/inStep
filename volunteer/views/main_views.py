@@ -10,7 +10,14 @@ from volunteer.models import Organization
 # Create your views here.
 
 def index(request):
+    '''Authentication layer
 
+    Arguments:
+        request {request} -- http request object
+
+    Returns:
+        render -- either dashboard or landing page depending on authentication
+    '''
     if request.user.is_authenticated:
         try:
             org = Organization.objects.get(user=request.user)

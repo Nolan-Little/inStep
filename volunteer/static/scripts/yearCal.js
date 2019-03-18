@@ -3,7 +3,7 @@ const selectAlert = document.querySelector('p.selectAlert')
 
 const nextBtn = document.querySelector('#nextBtn')
 const prevBtn = document.querySelector('#prevBtn')
-
+const submitBtn = document.querySelector('#scheduleSubmit')
 
 const months = {
   'Jan': '01',
@@ -32,9 +32,10 @@ class Calendar {
       this.currentMonthNum = months[this.today[1]],
       this.firstMonth = this.allMonths[0],
       this.lastMonth = this.allMonths[12],
-      this.todayColor = "bg-danger",
-      this.selectedColor = "bg-primary",
-      this.scheduledDateColor = "bg-secondary",
+      this.todayColor = "bg-today",
+      this.selectedBgColor = "bg-selected",
+      this.selectedTextColor = "text-selected",
+      this.scheduledDateColor = "text-sched-date",
       this.handleClick = this.handleClick.bind(this)
   }
 
@@ -64,6 +65,7 @@ class Calendar {
         removeDateInput(formattedDate)
       }
     }
+    toggleSubmitBtn()
   }
 
 
@@ -82,7 +84,7 @@ class Calendar {
           }
           // find days before today
           if (Number(day.textContent) < this.todaysNum) {
-            day.classList.add("bg-dark", "text-dark", "past-day")
+            day.classList.add("text-dark", "past-day")
           }
         }
       }
@@ -155,6 +157,7 @@ class Calendar {
     currentCal.hidden = false
     togglePrevBtn()
     togglenextBtn()
+    toggleSubmitBtn()
     this.setEventListener()
   }
 
@@ -172,11 +175,11 @@ class Calendar {
       target.classList.remove(this.todayColor)
     }
     target.classList.add("selected")
-    target.classList.add(this.selectedColor, "text-white", "selected")
+    target.classList.add(this.selectedBgColor, this.selectedTextColor, "selected")
   }
 
   deSelectDate(target) {
-    target.classList.remove(this.selectedColor, "text-white", "selected")
+    target.classList.remove(this.selectedBgColor, this.selectedTextColor, "selected")
     if (Number(target.textContent) === this.todaysNum) target.classList.add(this.todayColor, "text-white")
   }
 
@@ -214,6 +217,16 @@ function togglenextBtn() {
   }
 }
 
+
+// if no selected dates. disables submit btn
+function toggleSubmitBtn() {
+  inputs = document.querySelectorAll('input.date')
+  if (inputs.length === 0 ) {
+    submitBtn.setAttribute('disabled', true)
+  } else if (inputs.length !== 0 ) {
+    submitBtn.removeAttribute('disabled')
+  }
+}
 
 // reformats the textContent of the calendar square and the header into a date format
 function formatSelectedDate(day, month, year) {
