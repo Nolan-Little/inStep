@@ -65,11 +65,9 @@
                     <th scope="col"> # Vol. Req.</th>
                     <th scope="col">description</th>
                     <th scope="col">
-                      <button class="btn-danger">
-                        <a class="text-white" href="{% url 'volunteer:new_shift' event_template.id %}">
-                          Edit Shifts
-                        </a>
-                      </button>
+                      <a class="text-white btn btn-sm btn-primary" href="{% url 'volunteer:new_shift' event_template.id %}">
+                        Edit Shifts
+                      </a>
                     </th>
                   </tr>
                 </thead>

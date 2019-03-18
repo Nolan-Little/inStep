@@ -27,7 +27,11 @@
                   <th scope="col">Time</th>
                   <th scope="col"> # Volunteers</th>
                   <th scope="col">description</th>
-                  <th scope="col"></th>
+                  <th scope="col">
+                    <a class="btn btn-sm btn-warning" href="{% url 'volunteer:event_template_details' event.id %}">
+                        See Event Details
+                      </a>
+                    </th>
                 </tr>
             </thead>
             <tbody>
