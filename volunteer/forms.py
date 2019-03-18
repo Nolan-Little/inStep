@@ -63,4 +63,13 @@ class VolSignUpForm(forms.Form):
     name = forms.CharField(max_length=75, required=True)
     notes = forms.CharField(max_length=100, required=False)
 
+class EditProfileForm(forms.ModelForm):
+    org_name = forms.CharField(max_length=150)
+    org_description = forms.CharField(max_length=500)
+
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email', 'org_name', 'org_description')
+
+
 
