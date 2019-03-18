@@ -12,8 +12,8 @@
           {{shift_form|crispy}}
           <div class="text-center">
             <div class="btn-group btn-group-vertical">
-              <button name="add_shift" value="add_shift" class="m-1 btn btn-primary text-white" type="submit">Save Shift and Add Another Shift</button>
-              <button name="dashboard" value="dashboard" class="m-1 btn btn-danger text-white">Save and Schedule Event</button>
+              <button name="add_shift" value="add_shift" class="m-1 btn btn-primary text-white" type="submit">Save Shift</button>
+              <a href="{% url 'volunteer:schedule_event' event.id %}"class="m-1 btn btn-dark text-white">Schedule Event</a>
             </div>
           </div>
         </form>
