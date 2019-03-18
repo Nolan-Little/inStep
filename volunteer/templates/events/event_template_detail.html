@@ -108,11 +108,16 @@
                       <td>{{shift.slots_remaining}}</td>
                       <td>
                         {% if shift.volunteer_set.all|length == 0 %}
-                          <p>None</p>
+                          <p>No Volunteers</p>
                         {% endif %}
                         {% for volunteer in shift.volunteer_set.all %}
-                          <li>
-                            {{volunteer.name}}
+                          <li class="vol-li row">
+                            <dt class="col-sm-3">{{volunteer.name}}</dt>
+                              <dd class="col-sm-9">
+                                <a href="">
+                                  <i class="m-1 text-danger fas fa-user-minus"></i>
+                                </a>
+                            </dd>
                           </li>
                         {% endfor %}
                       </td>
