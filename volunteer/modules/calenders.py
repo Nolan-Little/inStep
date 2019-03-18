@@ -3,6 +3,19 @@ import calendar
 from calendar import HTMLCalendar
 
 def month_cal(year, month, month_iter=0):
+    '''generates a month formatted calender from python standard calender lib based on provided month, year
+
+    Arguments:
+        year {date object} -- python datetime.datetime.now().year
+        month {date object} -- python datetime.datetime.now().month
+
+    Keyword Arguments:
+        month_iter {int} -- iterater for creating months in the future from datetime.now() (default: {0})
+
+    Returns:
+        htmlstring -- html string calendar formatted by month
+    '''
+
     now = datetime.datetime.now()
     cal = HTMLCalendar(firstweekday=6)
     cal = cal.formatmonth(theyear=year, themonth=month + month_iter, withyear=True)
