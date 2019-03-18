@@ -3,6 +3,7 @@ from django import forms
 from volunteer.models import Organization, Event, Shift, Shift
 
 
+
 class UserForm(forms.ModelForm):
     # Form class to create a new user
     # Author: Brad Davis
@@ -63,9 +64,30 @@ class VolSignUpForm(forms.Form):
     name = forms.CharField(max_length=75, required=True)
     notes = forms.CharField(max_length=100, required=False)
 
-class EditProfileForm(forms.ModelForm):
+class EditProfileForm(forms.Form):
+    username = forms.CharField(max_length=75)
+    first_name = forms.CharField(max_length=75)
+    last_name = forms.CharField(max_length=75)
+    email = forms.EmailField(required=True, max_length=100)
     org_name = forms.CharField(max_length=150)
     org_description = forms.CharField(max_length=500)
+
+    def clean_edit_username(self):
+        username = self.data['username']
+        email = self.data['email']
+        try:
+            user = User.objects.get(username=username)
+            msg = u'Username "%s" is already in use.' % username
+            self.add_error('username', msg)
+        except User.DoesNotExist:
+            return username
+        try:
+            user = User.objects.get(email=email)
+            msg = u'Email Address "%s" is already in use.' % email
+            self.add_error('email', msg)
+        except User.DoesNotExist:
+            return email
+
 
     class Meta:
         model = User

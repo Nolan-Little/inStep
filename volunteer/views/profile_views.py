@@ -46,6 +46,42 @@ def edit_profile(request):
 
 
     if request.method == "POST":
-        pass
+        user = request.user
+        data = request.POST
+        form_data = {
+            'username': data['username'],
+            'first_name': data['first_name'],
+            'last_name': data['last_name'],
+            'email': data['email'],
+            'org_name': data['org_name'],
+            'org_description': data['org_description']
+        }
+
+        edit_profile_form = EditProfileForm(data=form_data)
+        if form_data['username'] != request.user.username:
+            edit_profile_form.clean_edit_username()
+
+        if edit_profile_form.is_valid():
+            template_name = "profile/profile.html"
+            context = {
+                'org': org
+            }
+            User.objects.filter(pk=user.id).update(
+                username = data['username'],
+                first_name =  data['first_name'],
+                last_name = data['last_name'],
+                email = data['email']
+            )
+            Organization.objects.filter(pk=org.id).update(
+                name = data['org_name'],
+                description = data['org_description']
+                )
+        else:
+            template_name = "profile/edit_profile.html"
+            context = {
+                'org': org,
+                'edit_form': edit_profile_form
+            }
+
 
     return render(request, template_name, context)
