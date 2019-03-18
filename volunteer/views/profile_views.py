@@ -60,6 +60,8 @@ def edit_profile(request):
         edit_profile_form = EditProfileForm(data=form_data)
         if form_data['username'] != request.user.username:
             edit_profile_form.clean_edit_username()
+        if  form_data['email'] != request.user.email:
+            edit_profile_form.clean_edit_email()
 
         if edit_profile_form.is_valid():
             template_name = "profile/profile.html"
@@ -76,6 +78,7 @@ def edit_profile(request):
                 name = data['org_name'],
                 description = data['org_description']
                 )
+            return HttpResponseRedirect(reverse('volunteer:profile'))
         else:
             template_name = "profile/edit_profile.html"
             context = {

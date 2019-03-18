@@ -74,13 +74,15 @@ class EditProfileForm(forms.Form):
 
     def clean_edit_username(self):
         username = self.data['username']
-        email = self.data['email']
         try:
             user = User.objects.get(username=username)
             msg = u'Username "%s" is already in use.' % username
             self.add_error('username', msg)
         except User.DoesNotExist:
             return username
+
+    def clean_edit_email(self):
+        email = self.data['email']
         try:
             user = User.objects.get(email=email)
             msg = u'Email Address "%s" is already in use.' % email
