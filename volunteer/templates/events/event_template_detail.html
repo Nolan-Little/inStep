@@ -64,7 +64,7 @@
             {% elif event_template.is_template == 0 %}
               <div class="container tab-pane fade" id="detail-classic" role="tabpanel" aria-labelledby="detail-tab-classic">
             {% endif %}
-                <div class="row bg-dark text-white py-2">
+                <div class="row bg-dark text-white py-3">
                   <div class="col-1 d-flex align-items-center">
                     <div>#</div>
                   </div>
@@ -98,44 +98,44 @@
 
             {% comment %} Venue manager view tab {% endcomment %}
             {% if  event_template.is_template%}
-              <div class="tab-pane fade show" id="vm-classic" role="tabpanel" aria-labelledby="detail-tab-classic">
+              <div class="container tab-pane fade show" id="vm-classic" role="tabpanel" aria-labelledby="detail-tab-classic">
             {% elif event_template.is_template == 0 %}
-              <div class="tab-pane fade active show" id="vm-classic" role="tabpanel" aria-labelledby="detail-tab-classic">
+              <div class="container tab-pane fade active show" id="vm-classic" role="tabpanel" aria-labelledby="detail-tab-classic">
             {% endif %}
-              <table class="table">
-                <thead class="thead-dark">
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Time</th>
-                    <th scope="col">slots remaining</th>
-                    <th scope="col">volunteer(s)</th>
-                  </tr>
-                </thead>
-                <tbody>
+                  <div class="row bg-dark text-white py-3">
+                    <div class="col-1">#</div>
+                    <div class="col-3">Time</div>
+                    <div class="col-2">slots</div>
+                    <div class="col-5">volunteer(s)</div>
+                  </div>
                   {% for shift in event_template.shift_set.all %}
-                    <tr>
-                      <td class="scope">{{forloop.counter}}</td>
-                      <td>{{shift.start_time}} - {{shift.end_time}}</td>
-                      <td>{{shift.slots_remaining}}</td>
-                      <td>
+                    <div class="row border-bottom py-2">
+                      <div class="col-1 d-flex align-items-center">
+                        <div>{{forloop.counter}}</div>
+                      </div>
+                      <div class="col-3 d-flex align-items-center">
+                        <div>{{shift.start_time}} - {{shift.end_time}}</div>
+                      </div>
+                      <div class="col-2 d-flex align-items-center">
+                        <div class="pl-2">{{shift.slots_remaining}}</div>
+                      </div>
+                      <div class="col-5 d-flex flex-column align-items-center">
                         {% if shift.volunteer_set.all|length == 0 %}
-                          <p>No Volunteers</p>
+                          <p class="m-0">No Volunteers</p>
                         {% endif %}
                         {% for volunteer in shift.volunteer_set.all %}
-                          <li class="vol-li row">
-                            <dt class="col-sm-3">{{volunteer.name}}</dt>
-                              <dd class="col-sm-9">
+                          <div class="w-100 d-flex justify-content-between">
+                            <dt>{{volunteer.name}}</dt>
+                              <dd>
                                 <a href="{% url 'volunteer:delete_volunteer' volunteer.id %}">
-                                  <i class="m-1 text-danger fas fa-user-minus"></i>
+                                  <i class="ml-1 text-danger fas fa-user-minus"></i>
                                 </a>
                             </dd>
-                          </li>
+                          </div>
                         {% endfor %}
-                      </td>
-                    </tr>
+                      </div>
+                    </div>
                   {% endfor %}
-                </tbody>
-              </table>
             </div> {# tab pane #}
           </div> {# tab content #}
         </div> {# tab container #}
