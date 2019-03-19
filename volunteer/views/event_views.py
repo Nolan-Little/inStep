@@ -238,7 +238,7 @@ def create_calendars():
     # generate future months this year
     while month_current_year <= months_remaining:
         cal = month_cal(year=now.year, month=now.month, month_iter=month_current_year)
-        calendars["{}".format(month_current_year)] = mark_safe(cal)
+        calendars["{1}".format(month_current_year)] = mark_safe(cal)
         month_current_year += 1
 
     # generate the remainder from the next year to total 12 months
@@ -246,7 +246,7 @@ def create_calendars():
     additional_months = month_current_year - 1
     while month_next_year < 12 - additional_months:
         cal = month_cal(year=now.year + 1, month = 1, month_iter=month_next_year)
-        calendars["{}".format(month_current_year)] = mark_safe(cal)
+        calendars["{1}".format(month_current_year)] = mark_safe(cal)
         month_current_year +=1
         month_next_year += 1
 
