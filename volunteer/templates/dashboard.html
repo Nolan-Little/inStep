@@ -44,12 +44,12 @@
                                 <td scope="row">{{event.name}}</td>
                                 <td>{{event.venue.name}}</td>
                                 <td>
-                                    <button class="btn-sm btn-primary">
+                                    <button class="btn-sm btn-dark">
                                         <a class="text-white" href="{% url 'volunteer:schedule_event' event.id %}">schedule event</a>
                                     </button>
                                 </td>
                                 <td>
-                                    <button class="btn-sm btn-warning">
+                                    <button class="btn-sm btn-primary">
                                         <a class="text-white" href="{% url 'volunteer:event_template_details' event.id %}">details</a>
                                     </button>
                                 </td>
@@ -80,12 +80,8 @@
                     </thead>
                     <tbody>
                         {% if scheduled_events|length == 0 %}
-                            <tr>
-                                <th scope="row" class="alert"> You haven't scheduled any events.
-                                    <button class="btn-primary">
-                                        <a href="#">Try it!</a>
-                                    </button>
-                                </th>
+                            <tr scope="row">
+                                <th class="alert"> You haven't scheduled any events. Try Creating an Event Blueprint or scheduling from an existing event.</th>
                             </tr>
                         {% endif %}
                         {% for event in scheduled_events %}
@@ -93,11 +89,11 @@
                                 <th>{{event.name}}</td>
                                 <td>{{event.date}}</td>
                                 <td>
+                                  <button class="btn-sm btn-dark copyLink">Copy sign-up link</button>
                                   <input type="text" class="sr-only" value="{{domain}}/sign_up/{{event.sign_up_url}}" id="url">
-                                  <button class="btn-sm btn-primary" id="copyLink">Copy sign-up link</button>
                                 </td>
                                 <td>
-                                    <button class="btn-sm btn-warning">
+                                    <button class="btn-sm btn-primary">
                                         <a class="text-white" href="{% url 'volunteer:event_template_details' event.id %}">details</a>
                                     </button>
                                 </td>

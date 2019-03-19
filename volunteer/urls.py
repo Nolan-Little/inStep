@@ -17,9 +17,11 @@ urlpatterns = [
     url(r'^event_template_details/(?P<event_template_id>\d+)/$', views.event_template_details, name="event_template_details"),
     url(r'^edit_event_template/(?P<event_template_id>\d+)/$', views.edit_event_template, name="edit_event_template"),
     url(r'^delete_event/(?P<event_id>\d+)/$', views.delete_event, name="delete_event"),
+    url(r'^delete_event_confirm/(?P<event_id>\d+)/$', views.delete_event_confirm, name="delete_event_confirm"),
     url(r'^new_shift_template/(?P<event_id>\d+)/$', views.new_shift, name="new_shift"),
     url(r'^edit_shift/(?P<shift_id>\d+)/$', views.edit_shift, name="edit_shift"),
     url(r'^delete_shift/(?P<shift_id>\d+)/$', views.delete_shift, name="delete_shift"),
+    url(r'^delete_volunteer/(?P<volunteer_id>\d+)/$', views.delete_volunteer, name="delete_volunteer"),
     url(r'^schedule_event/(?P<event_template_id>\d+)/$', views.schedule_event, name="schedule_event"),
     url(r'^sign_up/(?P<unique_url>[-\w]+)', views.sign_up, name="sign_up"),
 ]

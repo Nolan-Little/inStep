@@ -155,3 +155,9 @@ def sign_up(request, unique_url):
         }
 
         return render(request, template_name, context)
+
+def delete_volunteer(request, volunteer_id):
+    redirect_url = request.META['HTTP_REFERER']
+    volunteer = Volunteer.objects.get(pk=volunteer_id)
+    volunteer.delete()
+    return HttpResponseRedirect(redirect_url)

@@ -165,6 +165,9 @@ def delete_event(request, event_id):
     event.delete()
     return HttpResponseRedirect(reverse('volunteer:dashboard'))
 
+def delete_event_confirm(request, event_id):
+    event = Event.objects.get(pk=event_id)
+    return render(request, "events/delete_confirm.html", {'event': event})
 
 def schedule_event(request, event_template_id):
     calendars = create_calendars()
