@@ -124,11 +124,11 @@
                           <p class="m-0">No Volunteers</p>
                         {% endif %}
                         {% for volunteer in shift.volunteer_set.all %}
-                          <div class="w-100 d-flex justify-content-between">
+                          <div class="w-100 d-flex">
                             <dt>{{volunteer.name}}</dt>
                               <dd>
                                 <a href="{% url 'volunteer:delete_volunteer' volunteer.id %}">
-                                  <i class="ml-1 text-danger fas fa-user-minus"></i>
+                                  <i class="ml-2 text-danger fas fa-user-minus"></i>
                                 </a>
                             </dd>
                           </div>

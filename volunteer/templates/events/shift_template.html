@@ -20,35 +20,46 @@
         </div>
         <div class="col-md-6 pt-3 m-2">
           <h2 class="text-center">Scheduled shifts</h2>
-          <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Time</th>
-                  <th scope="col"> # Volunteers</th>
-                  <th scope="col">description</th>
-                  <th scope="col">
-                    <a class="btn btn-sm btn-warning" href="{% url 'volunteer:event_template_details' event.id %}">
-                        See Event Details
-                      </a>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-              {% for shift in current_shifts %}
-                <tr>
-                  <td class="scope">{{forloop.counter}}</td>
-                  <td>{{shift.start_time}} - {{shift.end_time}}</td>
-                  <td>{{shift.num_volunteers}}</td>
-                  <td>{{shift.description}}</td>
-                  <td>
-                      <a class="text-white btn btn-sm btn-primary" href="{% url 'volunteer:edit_shift' shift.id %}">Edit</a>
-                      <a class="text-white btn btn-sm btn-danger" href="{% url 'volunteer:delete_shift' shift.id %}">Delete</a>
-                  </td>
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+          <div class="text-md-left text-center">
+            <a class="btn btn-sm btn-warning" href="{% url 'volunteer:event_template_details' event.id %}">
+                Event Details
+            </a>
+          </div>
+            <div class="row bg-dark text-white py-3 d-flex align-items-center">
+              <div class="col-1">
+                <div>#</div>
+              </div>
+              <div class="col-3">
+                <div>Time</div>
+              </div>
+              <div class="col-2">
+                <div># Vol.</div>
+              </div>
+              <div class="col-3 text-truncate">
+                <div>Description</div>
+              </div>
+              <div class="col-3"></div>
+            </div class="row">
+          {% for shift in current_shifts %}
+            <div class="row py-2 d-flex align-items-center">
+              <div class="col-1">
+                <div>{{forloop.counter}}</div>
+              </div>
+              <div class="col-3">
+                <div>{{shift.start_time}} - {{shift.end_time}}</div>
+              </div>
+              <div class="col-2">
+                <div>{{shift.num_volunteers}}</div>
+              </div>
+              <div class="col-3">
+                <div>{{shift.description}}</div>
+              </div>
+              <div class="col-3 btn-group-vertical">
+                  <a class="text-white px-2 btn btn-sm btn-primary" href="{% url 'volunteer:edit_shift' shift.id %}">Edit</a>
+                  <a class="text-white px-2 btn btn-sm btn-danger" href="{% url 'volunteer:delete_shift' shift.id %}">Delete</a>
+              </div>
+            </div class="row">
+          {% endfor %}
         </div>
     </div>
     </div>
