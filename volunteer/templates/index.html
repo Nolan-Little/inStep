@@ -10,6 +10,8 @@
     <link rel="stylesheet" type="text/css" href="{% static 'styles/style.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/mdb.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/main.css' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
 
     {% block styles %}
 
@@ -36,7 +38,7 @@
                             <a class="nav-link" href="/dashboard">Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Profile</a>
+                            <a class="nav-link" href="{% url 'volunteer:profile' %}">Profile</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/new_event_template">New Event</a>

@@ -4,3 +4,4 @@ from .org_views import *
 from .dashboard_views import *
 from .event_views import *
 from .shift_views import *
+from .profile_views import *

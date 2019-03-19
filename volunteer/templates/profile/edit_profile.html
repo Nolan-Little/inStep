@@ -1,0 +1,21 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <h1 class="pt-5 text-center">Edit Profile</h1>
+          <form action="{% url 'volunteer:edit_profile' %}" method="POST">
+            {% csrf_token %}
+            {{edit_form|crispy}}
+            <div class="text-md-right mb-5">
+              <button type="submit" class="btn btn-primary">Save Edits</button>
+              <a href="{% url 'volunteer:profile' %}"type="btn" class="btn btn-dark">Cancel</a>
+            </div>
+          </form>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

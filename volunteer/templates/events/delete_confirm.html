@@ -1,0 +1,23 @@
+{% extends 'index.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="container mt-5 row">
+  <div class="col-md-6 offset-md-3 text-center col-sm-12 mt-4">
+      {% if event.is_template %}
+      <h2 class="pt-4">Are you sure you want to delete {{event.name}} blueprint?</h2>
+      {% elif event.is_template == 0 %}
+      <h2 class="pt-4">Are you sure you want to delete {{event.name}} for {{event.date}}?</h2>
+      {% endif %}
+      <div class="text-center">
+        <a class="m-1 btn btn-danger text-white" href="{% url 'volunteer:delete_event' event.id %}">
+          delete event
+        </a>
+        <a class="m-1 btn btn-dark text-white" href="{% url 'volunteer:dashboard' %}">
+          cancel
+        </a>
+      </div>
+  </div>
+</div>
+{% endblock content %}

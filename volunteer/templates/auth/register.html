@@ -23,7 +23,12 @@
                 </label>
               </div>
             <!-- Provide a button to click to submit the form. -->
-            <input class="m-2 btn btn-primary center" id="register_new" type="submit" name="submit" value="Register" />
+            <div class="text-center text-md-right">
+              <input class="m-3 btn btn-primary" id="register_new" type="submit" name="submit" value="Register" />
+            </div>
+            <div class="text-center mb-5">
+              <a href="{% url 'volunteer:login' %}">Return User? Login.</a>
+            </div>
         </form>
       </div>
   </div>

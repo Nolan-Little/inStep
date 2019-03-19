@@ -3,32 +3,39 @@
 
 {% block content %}
 <div class="container">
-  {% if  event_template.is_template%}
+  {% if  event_template.is_template %}
     <h1 class="header text-center">Event Blueprint Details</h1>
   {% elif event_template.is_template == 0 %}
     <h1 class="header text-center">{{event_template.name}} on {{event_template.date}}</h1>
   {% endif %}
-  <div class="row d-flex">
-    <div class= "col-lg-6 col-sm-12 mb-4">
-      <div class="d-flex flex-lg-row flex-md-row flex-column justify-content-between mt-5">
-        <p><span class="detail--label">Event Name:</span> {{event_template.name}}</p>
-      </div>
-      <div class="d-flex flex-lg-row flex-md-row flex-column justify-content-between">
-        <p><span class="detail--label">Venue:</span> {{event_template.venue}}</p>
-        <p><span class="detail--label">Location:</span> {{event_template.venue.location}}</p>
-      </div>
-        <p><span class="detail--label">Description: </span>{{event_template.description}}</p>
-        <input type="text" class="sr-only" value="{{domain}}/sign_up/{{event_template.sign_up_url}}" id="url">
-        {% if event_template.is_template == 0 %}
-          <button class="m-1 btn-primary copyLink">Copy Sign-up Link to clipboard</button>
-        {% endif %}
-        <button class="m-1 btn-primary">
-          <a class="text-white" href="{% url 'volunteer:edit_event_template' event_template.id %}">edit event details</a>
-        </button>
-        <button class="m-1 btn-danger">
-          <a class="text-white" href="{% url 'volunteer:delete_event' event_template.id %}">delete event</a>
-        </button>
-      </div>
+  <div class="row">
+    <div class= "row col-lg-6 col-sm-12 mt-5 mb-4">
+      <dt class="col-sm-3"> Event Name:</dt>
+      <dd class="col-md-9">{{event_template.name}}</dd>
+      <dt class="col-sm-3"> Venue:</dt>
+      <dd class="col-md-9">{{event_template.venue}}</dd>
+      <dt class="col-sm-3"> Location:</dt>
+      <dd class="col-md-9">{{event_template.venue.location}}</dd>
+      <dt class="col-sm-3"> Description:</dt>
+      <dd class="col-md-9">{{event_template.description}}</dd>
+      {% if event_template.is_template == 0  %}
+      <dt class="col-sm-3"> Date:</dt>
+      <dd class="col-md-9">{{event_template.date}}</dd>
+      {% endif %}
+       <div class="text-center col">
+          <div class="col-8 btn-group-md btn-group-vertical mt-4">
+          {% if event_template.is_template == 0 %}
+            <button class="m-1 btn-dark btn copyLink">Copy Sign-up Link to clipboard</button>
+            <input type="text" class="sr-only" value="{{domain}}/sign_up/{{event_template.sign_up_url}}" id="url">
+          {% endif %}
+          {% if  event_template.is_template %}
+            <a href="{% url 'volunteer:schedule_event' event_template.id %}"class="m-1 btn-dark btn">Schedule Occurence</a>
+          {% endif %}
+              <a class="m-1 btn btn-primary text-white" href="{% url 'volunteer:edit_event_template' event_template.id %}">edit event details</a>
+              <a class="m-1 btn btn-danger text-white" href="{% url 'volunteer:delete_event_confirm' event_template.id %}">delete event</a>
+          </div>
+       </div>
+    </div>
 
       <div class= "col-lg-6 col-sm-12">
         <h4 class="text-center">Volunteer Shifts</h4>
@@ -65,11 +72,9 @@
                     <th scope="col"> # Vol. Req.</th>
                     <th scope="col">description</th>
                     <th scope="col">
-                      <button class="btn-danger">
-                        <a class="text-white" href="{% url 'volunteer:new_shift' event_template.id %}">
-                          Add Shift
-                        </a>
-                      </button>
+                      <a class="text-white btn btn-sm btn-primary" href="{% url 'volunteer:new_shift' event_template.id %}">
+                        Edit Shifts
+                      </a>
                     </th>
                   </tr>
                 </thead>
@@ -80,14 +85,6 @@
                       <td>{{shift.start_time}} - {{shift.end_time}}</td>
                       <td>{{shift.num_volunteers}}</td>
                       <td>{{shift.description}}</td>
-                      <td>
-                        <button class="btn-primary">
-                          <a class="text-white" href="{% url 'volunteer:edit_shift' shift.id %}">Edit</a>
-                        </button>
-                        <button class="btn-danger">
-                          <a class="text-white" href="{% url 'volunteer:delete_shift' shift.id %}">Delete</a>
-                        </button>
-                      </td>
                     </tr>
                   {% endfor %}
                 </tbody>
@@ -117,11 +114,16 @@
                       <td>{{shift.slots_remaining}}</td>
                       <td>
                         {% if shift.volunteer_set.all|length == 0 %}
-                          <p>None</p>
+                          <p>No Volunteers</p>
                         {% endif %}
                         {% for volunteer in shift.volunteer_set.all %}
-                          <li>
-                            {{volunteer.name}}
+                          <li class="vol-li row">
+                            <dt class="col-sm-3">{{volunteer.name}}</dt>
+                              <dd class="col-sm-9">
+                                <a href="{% url 'volunteer:delete_volunteer' volunteer.id %}">
+                                  <i class="m-1 text-danger fas fa-user-minus"></i>
+                                </a>
+                            </dd>
                           </li>
                         {% endfor %}
                       </td>

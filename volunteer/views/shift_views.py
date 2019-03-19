@@ -41,7 +41,7 @@ def new_shift(request, event_id):
             return HttpResponseRedirect(reverse('volunteer:new_shift', args=(event.id, )))
 
         elif form_data.get('dashboard'):
-            return HttpResponseRedirect(reverse('volunteer:event_template_details', args=(event.id,)))
+            return HttpResponseRedirect(reverse('volunteer:schedule_event', args=(event.id,)))
 
 def edit_shift(request, shift_id):
     if request.method == "GET":
@@ -79,8 +79,9 @@ def edit_shift(request, shift_id):
             shift = Shift.objects.get(pk=shift_id)
             Shift.objects.filter(pk=shift_id).update(**shift_form_data)
 
-            return HttpResponseRedirect(reverse('volunteer:event_template_details', args=(shift.event.id,)))
-
+            return HttpResponseRedirect(reverse('volunteer:new_shift', args=(shift.event.id,)))
+        else:
+            return render(request, 'events/edit_shift.html', {'shift_form': shift_form})
 
 def delete_shift(request, shift_id):
     redirect_url = request.META['HTTP_REFERER']
@@ -154,3 +155,9 @@ def sign_up(request, unique_url):
         }
 
         return render(request, template_name, context)
+
+def delete_volunteer(request, volunteer_id):
+    redirect_url = request.META['HTTP_REFERER']
+    volunteer = Volunteer.objects.get(pk=volunteer_id)
+    volunteer.delete()
+    return HttpResponseRedirect(redirect_url)
