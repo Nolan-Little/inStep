@@ -151,7 +151,8 @@ def sign_up(request, unique_url):
         context = {
             "name": form_data['name'],
             'shifts': shift_list,
-            'organizer_email': organizer_email
+            'organizer_email': organizer_email,
+            'event': Event.objects.get(sign_up_url=unique_url)
         }
 
         return render(request, template_name, context)
