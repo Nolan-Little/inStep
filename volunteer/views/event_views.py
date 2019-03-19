@@ -1,5 +1,6 @@
 import datetime
 import calendar
+from collections import OrderedDict
 from django.shortcuts import render
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth.models import User
@@ -233,7 +234,7 @@ def create_calendars():
     now = datetime.datetime.now()
     month_current_year = 0
     months_remaining = 12 - now.month
-    calendars = {}
+    calendars = OrderedDict()
 
     # generate future months this year
     while month_current_year <= months_remaining:
