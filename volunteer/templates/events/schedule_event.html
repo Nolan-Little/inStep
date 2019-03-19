@@ -11,11 +11,11 @@
             <form id="scheduleEventForm" action="{% url 'volunteer:schedule_event' event.id %}" method="POST">
                 {% csrf_token %}
                 <div class="d-flex align-items-start">
-                  <button type="button" id="prevBtn" class="btn-xs btn-primary mt-2">Previous</button>
+                  <button type="button" id="prevBtn" class="btn-sm btn btn-primary mt-2">Previous</button>
                   {% for key, value in calendars.items %}
                     {{ value }}
                   {% endfor %}
-                  <button type="button" id="nextBtn" class="btn-xs btn-primary mt-2">Next</button>
+                  <button type="button" id="nextBtn" class="btn-sm btn btn-primary mt-2">Next</button>
                 </div>
                 <div class="text-center mt-3 mb-5">
 
