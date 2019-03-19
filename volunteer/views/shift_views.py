@@ -113,7 +113,7 @@ def sign_up(request, unique_url):
 
             if shift.slots_remaining > 0:
                 shift_list.append(
-                    (shift.id, f'{shift.start_time.strftime("%-I:%M%p")} - {shift.end_time.strftime("%-I:%M%p")} {shift.description}'))
+                    (shift.id, '{} - {} {}'.format(shift.start_time.strftime("%-I:%M%p"), shift.end_time.strftime("%-I:%M%p"), shift.description)))
         shift_choices = tuple(shift_list)
         shift_form = VolSignUpForm(shift_choices=shift_choices)
 
