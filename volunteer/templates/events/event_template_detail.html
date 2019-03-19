@@ -25,20 +25,20 @@
        <div class="text-center col">
           <div class="col-8 btn-group-md btn-group-vertical mt-4">
           {% if event_template.is_template == 0 %}
-            <button class="m-1 btn-dark btn copyLink">Copy Sign-up Link to clipboard</button>
+            <button class="m-1 px-2 btn-dark btn copyLink">Copy Sign-up Link</button>
             <input type="text" class="sr-only" value="{{domain}}/sign_up/{{event_template.sign_up_url}}" id="url">
           {% endif %}
           {% if  event_template.is_template %}
             <a href="{% url 'volunteer:schedule_event' event_template.id %}"class="m-1 btn-dark btn">Schedule Occurence</a>
           {% endif %}
-              <a class="m-1 btn btn-primary text-white" href="{% url 'volunteer:edit_event_template' event_template.id %}">edit event details</a>
-              <a class="m-1 btn btn-danger text-white" href="{% url 'volunteer:delete_event_confirm' event_template.id %}">delete event</a>
+              <a class="m-1 px-2 btn btn-primary text-white" href="{% url 'volunteer:edit_event_template' event_template.id %}">edit event details</a>
+              <a class="m-1 px-2 btn btn-danger text-white" href="{% url 'volunteer:delete_event_confirm' event_template.id %}">delete event</a>
           </div>
        </div>
     </div>
 
       <div class= "col-lg-6 col-sm-12">
-        <h4 class="text-center">Volunteer Shifts</h4>
+        <h4 class="text-center mt-2">Volunteer Shifts</h4>
         <div class="classic-tabs">
           <ul class="nav nav-tabs" id="volTab" role="tablist">
             <li class="nav-item">
@@ -60,35 +60,40 @@
           <div class="tab-content border-right border-bottom border-left rounded-bottom" id="TabContent">
             {% comment %} Details view tab {% endcomment %}
             {% if  event_template.is_template%}
-              <div class="tab-pane fade active show" id="detail-classic" role="tabpanel" aria-labelledby="detail-tab-classic">
+              <div class="container tab-pane fade active show" id="detail-classic" role="tabpanel" aria-labelledby="detail-tab-classic">
             {% elif event_template.is_template == 0 %}
-              <div class="tab-pane fade" id="detail-classic" role="tabpanel" aria-labelledby="detail-tab-classic">
+              <div class="container tab-pane fade" id="detail-classic" role="tabpanel" aria-labelledby="detail-tab-classic">
             {% endif %}
-              <table class="table">
-                <thead class="thead-dark">
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Time</th>
-                    <th scope="col"> # Vol. Req.</th>
-                    <th scope="col">description</th>
-                    <th scope="col">
-                      <a class="text-white btn btn-sm btn-primary" href="{% url 'volunteer:new_shift' event_template.id %}">
-                        Edit Shifts
+                <div class="row bg-dark text-white py-2">
+                  <div class="col-1 d-flex align-items-center">
+                    <div>#</div>
+                  </div>
+                  <div class="col-3 d-flex align-items-center">
+                    <div>Time</div>
+                  </div>
+                  <div class="col-2 d-flex align-items-center">
+                    <div> # Vol.</div>
+                  </div>
+                  <div class="col-3 d-flex align-items-center">
+                    <div class="text-truncate">description</div>
+                  </div>
+                  <div class="col-2 d-flex align-items-center">
+                    <div>
+                      <a class="text-white btn btn-sm btn-primary m-0 px-3 py-2" href="{% url 'volunteer:new_shift' event_template.id %}">
+                        Edit
                       </a>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for shift in event_template.shift_set.all %}
-                    <tr>
-                      <td class="scope">{{forloop.counter}}</td>
-                      <td>{{shift.start_time}} - {{shift.end_time}}</td>
-                      <td>{{shift.num_volunteers}}</td>
-                      <td>{{shift.description}}</td>
-                    </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
+                    </div>
+                  </div>
+                </div>
+
+                {% for shift in event_template.shift_set.all %}
+                  <div class="row py-3 border-bottom">
+                    <div class="col-1">{{forloop.counter}}</div>
+                    <div class="col-3">{{shift.start_time}} - {{shift.end_time}}</div>
+                    <div class="col-2">{{shift.num_volunteers}}</div>
+                    <div class="col-5">{{shift.description}}</div>
+                  </div>
+                {% endfor %}
             </div>
 
             {% comment %} Venue manager view tab {% endcomment %}
