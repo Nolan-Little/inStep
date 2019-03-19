@@ -19,12 +19,13 @@
         </form>
         </div>
         <div class="col-md-6 pt-3 m-2">
-          <h2 class="text-center">Scheduled shifts</h2>
-          <div class="text-md-left text-center">
-            <a class="btn btn-sm btn-warning" href="{% url 'volunteer:event_template_details' event.id %}">
-                Event Details
-            </a>
-          </div>
+          <div class="container">
+            <h2 class="text-center">Scheduled shifts</h2>
+            <div class="text-md-left text-center">
+              <a class="btn btn-sm btn-primary" href="{% url 'volunteer:event_template_details' event.id %}">
+                  Event Details
+              </a>
+            </div>
             <div class="row bg-dark text-white py-3 d-flex align-items-center">
               <div class="col-1">
                 <div>#</div>
@@ -41,7 +42,7 @@
               <div class="col-3"></div>
             </div class="row">
           {% for shift in current_shifts %}
-            <div class="row py-2 d-flex align-items-center">
+            <div class="row py-2 d-flex align-items-center border-bottom border-right border-left">
               <div class="col-1">
                 <div>{{forloop.counter}}</div>
               </div>
@@ -51,16 +52,17 @@
               <div class="col-2">
                 <div>{{shift.num_volunteers}}</div>
               </div>
-              <div class="col-3">
+              <div class="col-2">
                 <div>{{shift.description}}</div>
               </div>
               <div class="col-3 btn-group-vertical">
-                  <a class="text-white px-2 btn btn-sm btn-primary" href="{% url 'volunteer:edit_shift' shift.id %}">Edit</a>
-                  <a class="text-white px-2 btn btn-sm btn-danger" href="{% url 'volunteer:delete_shift' shift.id %}">Delete</a>
+                <a class="text-white px-0 btn btn-sm btn-primary" href="{% url 'volunteer:edit_shift' shift.id %}">Edit</a>
+                <a class="text-white px-0 btn btn-sm btn-danger" href="{% url 'volunteer:delete_shift' shift.id %}">Delete</a>
               </div>
-            </div class="row">
+            </div>
           {% endfor %}
         </div>
+      </div>
     </div>
     </div>
 {% endblock content %}
