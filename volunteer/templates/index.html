@@ -23,7 +23,7 @@
 
 <body>
     {% block nav %}
-        {% if user.is_authenticated %}
+        {% if user.is_authenticated and user.organization_set.all|length != 0 %}
             <!--Main Navigation-->
             <header>
 

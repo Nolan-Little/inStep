@@ -11,7 +11,8 @@
               {% csrf_token %}
               {{shift_form|crispy }}
               <div class="text-center text-md-right">
-                <button class="btn btn-primary" type="submit">Save shift details</button>
+                <button class="btn light-blue darken-3" type="submit">Save shift details</button>
+                <a class="btn mdb-color darken-3" href="{% url 'volunteer:new_shift' shift.event.id %}">Cancel</a>
               </div>
             </form>
           </div>
