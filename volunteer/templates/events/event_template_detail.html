@@ -9,30 +9,43 @@
     <h1 class="header text-center">{{event_template.name}} on {{event_template.date}}</h1>
   {% endif %}
   <div class="row">
-    <div class= "row col-lg-6 col-sm-12 mt-5 mb-4">
-      <dt class="col-sm-3"> Event Name:</dt>
-      <dd class="col-md-9">{{event_template.name}}</dd>
-      <dt class="col-sm-3"> Venue:</dt>
-      <dd class="col-md-9">{{event_template.venue}}</dd>
-      <dt class="col-sm-3"> Location:</dt>
-      <dd class="col-md-9">{{event_template.venue.location}}</dd>
-      <dt class="col-sm-3"> Description:</dt>
-      <dd class="col-md-9">{{event_template.description}}</dd>
-      {% if event_template.is_template == 0  %}
-      <dt class="col-sm-3"> Date:</dt>
-      <dd class="col-md-9">{{event_template.date}}</dd>
-      {% endif %}
+    <div class= "col mt-5 mb-4">
+      <div class="row">
+        <div class="col offset-3">
+          <div class="row">
+            <dt class="col-sm-4"> Event Name:</dt>
+            <dd class="col-md-8">{{event_template.name}}</dd>
+          </div>
+          <div class="row">
+            <dt class="col-sm-4"> Venue:</dt>
+            <dd class="col-md-8">{{event_template.venue}}</dd>
+          </div>
+          <div class="row">
+            <dt class="col-sm-4"> Location:</dt>
+            <dd class="col-md-8">{{event_template.venue.location}}</dd>
+          </div>
+          <div class="row">
+            <dt class="col-sm-4"> Description:</dt>
+            <dd class="col-md-8">{{event_template.description}}</dd>
+          </div>
+          {% if event_template.is_template == 0  %}
+            <div class="row">
+              <dt class="col-sm-4"> Date:</dt>
+              <dd class="col-md-8">{{event_template.date}}</dd>
+            </div>
+          {% endif %}
+        </div>
+      </div>
        <div class="text-center col">
           <div class="col-8 btn-group-md btn-group-vertical mt-4">
-          {% if event_template.is_template == 0 %}
-            <button class="m-1 px-2 btn-dark btn copyLink">Copy Sign-up Link</button>
-            <input type="text" class="sr-only" value="{{domain}}/sign_up/{{event_template.sign_up_url}}" id="url">
-          {% endif %}
-          {% if  event_template.is_template %}
-            <a href="{% url 'volunteer:schedule_event' event_template.id %}"class="m-1 btn-dark btn">Schedule Occurence</a>
-          {% endif %}
-              <a class="m-1 px-2 btn btn-primary text-white" href="{% url 'volunteer:edit_event_template' event_template.id %}">edit event details</a>
-              <a class="m-1 px-2 btn btn-danger text-white" href="{% url 'volunteer:delete_event_confirm' event_template.id %}">delete event</a>
+            <a class="m-1 btn deep-orange darken-2 text-white" href="{% url 'volunteer:edit_event_template' event_template.id %}">edit event details</a>
+            {% if event_template.is_template == 0 %}
+              <button class="m-1 light-blue darken-3 btn copyLink">Copy Sign-up Link</button>
+              <input type="text" class="sr-only" value="{{domain}}/sign_up/{{event_template.sign_up_url}}" id="url">
+            {% elif  event_template.is_template %}
+              <a class="m-1 mdb-color darken-3 btn" href="{% url 'volunteer:schedule_event' event_template.id %}">Schedule Occurence</a>
+            {% endif %}
+            <a class="m-1 btn btn-danger text-white" href="{% url 'volunteer:delete_event_confirm' event_template.id %}">delete event</a>
           </div>
        </div>
     </div>
@@ -64,7 +77,7 @@
             {% elif event_template.is_template == 0 %}
               <div class="container tab-pane fade" id="detail-classic" role="tabpanel" aria-labelledby="detail-tab-classic">
             {% endif %}
-                <div class="row bg-dark text-white py-3">
+                <div class="row mdb-color darken-3 text-white py-3">
                   <div class="col-1 d-flex align-items-center">
                     <div>#</div>
                   </div>
@@ -79,7 +92,7 @@
                   </div>
                   <div class="col-2 d-flex align-items-center">
                     <div>
-                      <a class="text-white btn btn-sm btn-primary m-0 px-3 py-2" href="{% url 'volunteer:new_shift' event_template.id %}">
+                      <a class="text-white btn btn-sm deep-orange darken-2 m-0 px-3 py-2" href="{% url 'volunteer:new_shift' event_template.id %}">
                         Edit
                       </a>
                     </div>
@@ -102,7 +115,7 @@
             {% elif event_template.is_template == 0 %}
               <div class="container tab-pane fade active show" id="vm-classic" role="tabpanel" aria-labelledby="detail-tab-classic">
             {% endif %}
-                  <div class="row bg-dark text-white py-3">
+                  <div class="row mdb-color darken-3 text-white py-3">
                     <div class="col-1">#</div>
                     <div class="col-3">Time</div>
                     <div class="col-2">slots</div>
