@@ -1,10 +1,11 @@
 from django.shortcuts import render, reverse
 from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from volunteer.models import Organization
 from volunteer.forms import OrgForm
 
-
+@login_required
 def new_org(request):
     '''handles new org form
 

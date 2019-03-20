@@ -1,12 +1,14 @@
 import datetime
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from volunteer.models import Organization
 from volunteer.forms import EditProfileForm
 
 
+@login_required
 def profile(request):
     '''read user profile
 
@@ -21,6 +23,8 @@ def profile(request):
     }
     return render(request, template_name, context)
 
+
+@login_required
 def edit_profile(request):
     # TODO: change org to selection
     org = Organization.objects.filter(user=request.user)[0]

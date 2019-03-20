@@ -4,6 +4,7 @@ from collections import OrderedDict
 from django.shortcuts import render
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.utils.safestring import mark_safe
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -11,7 +12,7 @@ from volunteer.models import Organization, Event, Shift, Volunteer, Venue
 from volunteer.forms import EventForm, ShiftForm, VolSignUpForm
 from volunteer.modules.calenders import month_cal
 
-
+@login_required
 def new_event_template(request):
     org = Organization.objects.filter(user=request.user)[0]
     if request.method == "GET":
@@ -86,7 +87,7 @@ def new_event_template(request):
 
 
 
-
+@login_required
 def event_template_details(request, event_template_id):
     template_name = 'events/event_template_detail.html'
     domain = get_current_site(request).domain
@@ -96,7 +97,7 @@ def event_template_details(request, event_template_id):
     }
     return render(request, template_name, context)
 
-
+@login_required
 def edit_event_template(request, event_template_id):
     if request.method == "GET":
         event_template = Event.objects.get(pk=event_template_id)
@@ -160,16 +161,18 @@ def edit_event_template(request, event_template_id):
                 template_name = "events/new_event_template.html"
                 return render(request, template_name, {"new_event_form": new_event_form})
 
-
+@login_required
 def delete_event(request, event_id):
     event = Event.objects.get(pk=event_id)
     event.delete()
     return HttpResponseRedirect(reverse('volunteer:dashboard'))
 
+@login_required
 def delete_event_confirm(request, event_id):
     event = Event.objects.get(pk=event_id)
     return render(request, "events/delete_confirm.html", {'event': event})
 
+@login_required
 def schedule_event(request, event_template_id):
     calendars = create_calendars()
     event = Event.objects.get(pk=event_template_id)
