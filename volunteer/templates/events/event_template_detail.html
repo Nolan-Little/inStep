@@ -52,7 +52,7 @@
 
       <div class= "col-lg-6 col-sm-12">
         <h4 class="text-center mt-2">Volunteer Shifts</h4>
-        <div class="classic-tabs">
+        <div class="mb-2 classic-tabs">
           <ul class="nav nav-tabs" id="volTab" role="tablist">
             <li class="nav-item">
             {% if  event_template.is_template%}
@@ -81,13 +81,13 @@
                   <div class="col-1 d-flex align-items-center">
                     <div>#</div>
                   </div>
-                  <div class="col-3 d-flex align-items-center">
+                  <div class="col-4 d-flex align-items-center">
                     <div>Time</div>
                   </div>
-                  <div class="col-2 d-flex align-items-center">
+                  <div class="col-2 d-flex align-items-center justify-content-end">
                     <div> # Vol.</div>
                   </div>
-                  <div class="col-3 d-flex align-items-center">
+                  <div class="col-3 d-flex align-items-center justify-content-end">
                     <div class="text-truncate">description</div>
                   </div>
                   <div class="col-2 d-flex align-items-center">
@@ -102,9 +102,11 @@
                 {% for shift in event_template.shift_set.all %}
                   <div class="row py-3 border-bottom">
                     <div class="col-1">{{forloop.counter}}</div>
-                    <div class="col-3">{{shift.start_time}} - {{shift.end_time}}</div>
+                    <div class="col-5">
+                      {{shift.start_time}} - {{shift.end_time}}
+                    </div>
                     <div class="col-2">{{shift.num_volunteers}}</div>
-                    <div class="col-5">{{shift.description}}</div>
+                    <div class="col-auto">{{shift.description}}</div>
                   </div>
                 {% endfor %}
             </div>
@@ -117,31 +119,33 @@
             {% endif %}
                   <div class="row mdb-color darken-3 text-white py-3">
                     <div class="col-1">#</div>
-                    <div class="col-3">Time</div>
+                    <div class="col-5">Time</div>
                     <div class="col-2">slots</div>
-                    <div class="col-5">volunteer(s)</div>
+                    <div class="col-md-4 col-3">vols</div>
                   </div>
                   {% for shift in event_template.shift_set.all %}
                     <div class="row border-bottom py-2">
                       <div class="col-1 d-flex align-items-center">
                         <div>{{forloop.counter}}</div>
                       </div>
-                      <div class="col-3 d-flex align-items-center">
+                      <div class="col-5 d-flex align-items-center">
                         <div>{{shift.start_time}} - {{shift.end_time}}</div>
                       </div>
                       <div class="col-2 d-flex align-items-center">
-                        <div class="pl-2">{{shift.slots_remaining}}</div>
+                        <div>{{shift.slots_remaining}}</div>
                       </div>
-                      <div class="col-5 d-flex flex-column align-items-center">
+                      <div class="col-md-4 col-3 d-flex flex-column align-items-center">
                         {% if shift.volunteer_set.all|length == 0 %}
-                          <p class="m-0">No Volunteers</p>
+                          <div class="w-100 d-flex">
+                            <p class="m-0">No Volunteers</p>
+                          </div>
                         {% endif %}
                         {% for volunteer in shift.volunteer_set.all %}
                           <div class="w-100 d-flex">
                             <dt>{{volunteer.name}}</dt>
                               <dd>
                                 <a href="{% url 'volunteer:delete_volunteer' volunteer.id %}">
-                                  <i class="ml-2 text-danger fas fa-user-minus"></i>
+                                  <i class="ml-md-2 ml-0 text-danger fas fa-user-minus"></i>
                                 </a>
                             </dd>
                           </div>

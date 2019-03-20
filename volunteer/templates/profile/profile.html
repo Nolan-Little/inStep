@@ -4,7 +4,9 @@
 {% block content %}
   <div class="container mt-5 row">
       <dl class="row offset-md-3 col-sm-12">
-        <h1 class=" pt-5 pb-2 col-12">{{user.username}} Overview</h1>
+        <h1 class=" pt-5 pb-2 col-12">Profile Overview</h1>
+          <dt class="col-sm-3">Username:</dt>
+          <dd class="col-md-9">{{user.username}}</dd>
           <dt class="col-sm-3">First name:</dt>
           <dd class="col-md-9">{{user.first_name}}</dd>
           <dt class="col-sm-3">Last Name: </dt>
@@ -18,7 +20,7 @@
           <dt class="col-sm-3">Date Joined: </dt>
           <dd class="col-md-9">{{user.date_joined}}</dd>
           <div class="col-sm-12 p-2">
-            <a class="btn bt-sm btn-primary" href="{% url 'volunteer:edit_profile' %}">Edit Profile</a>
+            <a class="btn bt-sm deep-orange darken-3" href="{% url 'volunteer:edit_profile' %}">Edit Profile</a>
           </div>
       </dl>
   </div>
