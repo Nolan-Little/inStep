@@ -1,14 +1,15 @@
 {% extends 'index.html' %}
+{% load static %}
 
 {% block content %}
-    <div class="flex-container mt-5">
+    <div class="flex-container mt-2">
         <div class="row justify-content-center align-items-center">
-            <div class="col-5 align-items-center justify-content-center">
-                <h1 class="mt-5">inStep</h1>
+            <img class="col-8 col-md-4 m-2 mb-4" src="{% static 'images/instep-logo-blue.png' %}" alt="inStep Logo">
+            <div class="col-4 col-md-8 text-center align-items-center justify-content-center">
                 <h5>Events meet Volunteers.</h5>
                 <h5>Volunteers meet Events.</h5>
-                    <a class="btn light-blue darken-3" href="/login">Login</a>
-                    <a class="btn mdb-color darken-3" href="/register">Register</a>
+                <a class="btn light-blue darken-3" href="/login">Login</a>
+                <a class="btn mdb-color darken-3" href="/register">Register</a>
             </div>
         </div>
     </div>
