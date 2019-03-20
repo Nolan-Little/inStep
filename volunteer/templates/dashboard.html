@@ -5,102 +5,102 @@
 
 {% block content %}
     <div class="container">
-        <h5 class="header">Managing events for {{org.name}}</h5>
-        <div class="row">
-
-            {% comment %} event templates {% endcomment %}
-            <div class="col-sm-12 col-lg-6 col-md-12 container">
-                <div class="row">
-                    <div class="col-6">
-                        <h2>Event Blueprints</h2>
-                    </div>
-                    <div class="col-5 offset-1 d-flex align-items-center justify-content-end">
-                        <button class="btn-sm btn-primary">
-                            <a class="text-white" href="/new_event_template">New Event Blueprint</a>
-                        </button>
-                    </div>
+      <h5 class="header">
+        <img class="bg-white p-1 mr-2" src="{% static 'images/instep-logo-blue.png' %}" width="75" alt="inStep Logo">
+        Managing events for {{org.name}}
+      </h5>
+      <div class="row">
+        {% comment %} event templates {% endcomment %}
+        <div class="pr-lg-4 col-sm-12 col-lg-6 col-md-12">
+          <div class="row">
+            <div class="col-6">
+              <h2>Event Blueprints</h2>
+            </div>
+            <div class="col-5 offset-1 d-flex align-items-center justify-content-end">
+              <a class="btn teal darken-1 py-2 px-3 text-white" href="/new_event_template">New Event Blueprint</a>
+            </div>
+          </div>
+          <div class="row py-2 py-md-3 mdb-color darken-3 text-white">
+              <div class="col-6 col-md-3">Name</div>
+              <div class="col-6 col-md-3">Venue</div>
+              <div class="col-auto"></div>
+          </div>
+          {% if event_templates|length == 0 %}
+              <div class="row border-bottom border-right border-left">
+                  <div class="col my-2"> You haven't created any event blueprints.
+                    <a class="btn deep-orange darken-3 text-white" href="/new_event_template">Start here!</a>
+                  </div>
+              </div>
+          {% endif %}
+          {% for event in event_templates %}
+            <div class="row border-bottom border-right border-left pt-2 pt-md-1">
+              <div class="d-flex align-items-center col-6 col-md-3">
+                <div>{{event.name}}</div>
+              </div>
+              <div class="d-flex align-items-center col-6 col-md-3">
+                <div>{{event.venue.name}}</div>
+              </div>
+              <div class="d-flex align-items-center justify-content-end col-12 col-md-6">
+                <div>
+                  <a class="btn m-0 my-2 px-2 btn-sm light-blue darken-3 text-white" href="{% url 'volunteer:schedule_event' event.id %}">
+                    schedule event
+                  </a>
                 </div>
-                <table class="table">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Venue</th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% if event_templates|length == 0 %}
-                            <tr>
-                                <th scope="row" class="alert"> You haven't created any event blueprints.
-                                    <button class="btn-sm btn-primary">
-                                        <a href="/new_event_template">Start here!</a>
-                                    </button>
-                                </th>
-                            </tr>
-                        {% endif %}
-                        {% for event in event_templates %}
-                            <tr>
-                                <td scope="row">{{event.name}}</td>
-                                <td>{{event.venue.name}}</td>
-                                <td>
-                                    <button class="btn-sm btn-dark">
-                                        <a class="text-white" href="{% url 'volunteer:schedule_event' event.id %}">schedule event</a>
-                                    </button>
-                                </td>
-                                <td>
-                                    <button class="btn-sm btn-primary">
-                                        <a class="text-white" href="{% url 'volunteer:event_template_details' event.id %}">details</a>
-                                    </button>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                <div>
+                  <a class="btn-sm btn deep-orange darken-2 text-white" href="{% url 'volunteer:event_template_details' event.id %}">
+                    details
+                  </a>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
             </div>
 
             {% comment %} Scheduled events {% endcomment %}
-            <div class="col-sm-12 col-lg-6 col-md-12 container">
-                                <div class="row">
-                    <div class="col-7">
-                        <h2>Schedule</h2>
-                    </div>
-                    <div class="col-5 d-flex align-items-center justify-content-center">
-                        {% comment %} button goes here {% endcomment %}
-                    </div>
+            <div class="mb-3 pl-lg-4 col-sm-12 col-lg-6 col-md-12">
+              <div class="row">
+                <div class="col-7">
+                  <h2>Schedule</h2>
                 </div>
-                <table class="table">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Date</th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% if scheduled_events|length == 0 %}
-                            <tr scope="row">
-                                <th class="alert"> You haven't scheduled any events. Try Creating an Event Blueprint or scheduling from an existing event.</th>
-                            </tr>
-                        {% endif %}
-                        {% for event in scheduled_events %}
-                            <tr scope="row">
-                                <th>{{event.name}}</td>
-                                <td>{{event.date}}</td>
-                                <td>
-                                  <button class="btn-sm btn-dark copyLink">Copy sign-up link</button>
-                                  <input type="text" class="sr-only" value="{{domain}}/sign_up/{{event.sign_up_url}}" id="url">
-                                </td>
-                                <td>
-                                    <button class="btn-sm btn-primary">
-                                        <a class="text-white" href="{% url 'volunteer:event_template_details' event.id %}">details</a>
-                                    </button>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                <div class="col-5 d-flex align-items-center justify-content-center">
+                    {% comment %} button goes here {% endcomment %}
+                </div>
+              </div>
+              <div class="row py-2 py-md-3 mdb-color darken-3 text-white">
+                  <div class="col-6 col-md-3">Name</div>
+                  <div class="col-6 col-md-4">Date</div>
+                  <div class="col-auto"></div>
+              </div>
+              {% if scheduled_events|length == 0 %}
+                <div class="row border-right border-bottom border-left">
+                  <div class="alert"> You haven't scheduled any events. Try Creating an Event Blueprint or scheduling from an existing event.</th>
+                </div>
+              {% endif %}
+              {% for event in scheduled_events %}
+                <div class="row border-bottom border-right border-left pt-2 pt-md-1">
+                  <div class="col-6 col-md-3 d-flex align-items-center">
+                    <div>
+                      <a class="text-dark" href="{% url 'volunteer:event_template_details' event.id %}">
+                        <u>{{event.name}}</u>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="col-6 col-md-4 d-flex align-items-center">
+                    <div>{{event.date}}</div>
+                  </div>
+                  <div class="col-12 col-md-5 d-flex align-items-center justify-content-end">
+                    <div>
+                      <button class="btn m-0 my-2 px-2 btn-sm light-blue darken-3 text-white copyLink">Copy sign-up link</button>
+                      <input type="text" class="sr-only" value="{{domain}}/sign_up/{{event.sign_up_url}}" id="url">
+                    </div>
+                    <div>
+                      <a class="btn-sm btn px-2 deep-orange darken-2 text-white" href="{% url 'volunteer:event_template_details' event.id %}">
+                        details
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
             </div>
         </div>
     </div>

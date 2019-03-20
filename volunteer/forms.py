@@ -8,10 +8,11 @@ class UserForm(forms.ModelForm):
     # Form class to create a new user
     # Author: Brad Davis
     password = forms.CharField(widget=forms.PasswordInput())
+    confirm_pass = forms.CharField(widget=forms.PasswordInput())
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password', 'first_name', 'last_name',)
+        fields = ('username', 'email', 'password', 'confirm_pass', 'first_name', 'last_name',)
 
 
 class OrgForm(forms.ModelForm):

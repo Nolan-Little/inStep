@@ -6,25 +6,17 @@
 
 <div class="container">
   <div class="row d-flex flex-column">
-    <h1 class="user_welcome text-center">Register</h1>
+    <h1 class="user_welcome text-center mt-3">
+      Register
+      <img class="bg-white p-1 mr-2" src="{% static 'images/instep-logo-blue.png' %}" width="75" alt="inStep Logo">
+    </h1>
       <div class="col-6 offset-3">
         <form id="user_form" method="post" action="{% url 'volunteer:register' %}" enctype="multipart/form-data">
             {% csrf_token %}
               {{ user_form|crispy }}
-              <div id="div_id_confirm_pass" class="control-group">
-                <label for="id_confirm_pass" class="control-label ">
-                Re-Enter Password
-                </label>
-                <div class="controls">
-                  <input type="password" required name="confirm_pass" maxlength="150" class="textinput textInput form-control" id="id_confirm_pass">
-                </div>
-                <label id="invalid_pass" for="id_confirm_pass" class=" alert text-danger control-label d-none">
-                  Passwords Must Match
-                </label>
-              </div>
             <!-- Provide a button to click to submit the form. -->
             <div class="text-center text-md-right">
-              <input class="m-3 btn btn-primary" id="register_new" type="submit" name="submit" value="Register" />
+              <input class="m-3 btn light-blue darken-3" id="register_new" type="submit" name="submit" value="Register" />
             </div>
             <div class="text-center mb-5">
               <a href="{% url 'volunteer:login' %}">Return User? Login.</a>

@@ -11,7 +11,8 @@
             {% csrf_token %}
             {{ edit_event_form|crispy }}
               <div class="text-center text-md-right">
-                <button class="btn btn-primary" type="submit">Save Changes</button>
+                <button class="btn light-blue darken-3" type="submit">Save Changes</button>
+                <a class="btn mdb-color darken-3" href="{% url 'volunteer:event_template_details' event_template.id %}">Cancel</a>
               </div>
           </form>
         </div>

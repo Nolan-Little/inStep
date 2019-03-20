@@ -25,7 +25,8 @@ SECRET_KEY = 'vi$fg!30!h#c06!te@^1(oa&u++ijy!1ongme*$)*k3r570!u-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','www.instep.events', 'instep.events', 'localhost']
+
 
 
 # Application definition
@@ -120,5 +121,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 CRISPY_TEMPLATE_PACK='bootstrap4'

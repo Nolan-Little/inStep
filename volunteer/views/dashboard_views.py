@@ -1,11 +1,14 @@
 from datetime import datetime
 from django.shortcuts import render
 from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from volunteer.models import Organization, Event
 
+
+@login_required
 def dashboard(request):
     domain = get_current_site(request).domain
     user = request.user

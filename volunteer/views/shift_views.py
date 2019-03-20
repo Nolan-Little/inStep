@@ -2,10 +2,12 @@ import datetime
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from volunteer.models import Organization, Event, Shift, Volunteer
 from volunteer.forms import EventForm, ShiftForm, VolSignUpForm
 
+@login_required
 def new_shift(request, event_id):
     event = Event.objects.get(pk=event_id)
 
@@ -43,6 +45,8 @@ def new_shift(request, event_id):
         elif form_data.get('dashboard'):
             return HttpResponseRedirect(reverse('volunteer:schedule_event', args=(event.id,)))
 
+
+@login_required
 def edit_shift(request, shift_id):
     if request.method == "GET":
         template_name = "events/edit_shift.html"
@@ -83,6 +87,8 @@ def edit_shift(request, shift_id):
         else:
             return render(request, 'events/edit_shift.html', {'shift_form': shift_form})
 
+
+@login_required
 def delete_shift(request, shift_id):
     redirect_url = request.META['HTTP_REFERER']
     shift = Shift.objects.get(id=shift_id)
@@ -90,6 +96,7 @@ def delete_shift(request, shift_id):
     return HttpResponseRedirect(redirect_url)
 
 
+@login_required
 def sign_up(request, unique_url):
     '''Handles volunteer sign up form and confirmation page
 
@@ -157,6 +164,8 @@ def sign_up(request, unique_url):
 
         return render(request, template_name, context)
 
+
+@login_required
 def delete_volunteer(request, volunteer_id):
     redirect_url = request.META['HTTP_REFERER']
     volunteer = Volunteer.objects.get(pk=volunteer_id)

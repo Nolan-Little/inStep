@@ -12,7 +12,7 @@
           {{shift_form|crispy}}
           <div class="text-center">
             <div class="btn-group btn-group-vertical">
-              <button name="add_shift" value="add_shift" class="m-1 btn btn-primary text-white" type="submit">Save Shift</button>
+              <button name="add_shift" value="add_shift" class="m-1 btn light-blue darken-3 text-white" type="submit">Save Shift</button>
             </div>
           </div>
         </form>
@@ -22,15 +22,15 @@
             <h2 class="text-center">Scheduled shifts</h2>
             <div class="text-center">
               <div class="btn-group">
-                <a href="{% url 'volunteer:schedule_event' event.id %}"class="m-1 btn btn-dark text-white">
+                <a href="{% url 'volunteer:schedule_event' event.id %}"class="m-1 btn light-blue darken-3 text-white">
                   Schedule Event
                 </a>
-                <a class=" m-1 btn btn btn-primary" href="{% url 'volunteer:event_template_details' event.id %}">
+                <a class=" m-1 btn btn deep-orange darken-2" href="{% url 'volunteer:event_template_details' event.id %}">
                     Event Details
                 </a>
               </div>
             </div>
-            <div class="row bg-dark text-white py-3 d-flex align-items-center">
+            <div class="row mdb-color darken-3 text-white py-3 d-flex align-items-center">
               <div class="col-1">
                 <div>#</div>
               </div>
@@ -60,7 +60,7 @@
                 <div>{{shift.description}}</div>
               </div>
               <div class="col-3 btn-group-vertical">
-                <a class="text-white px-0 btn btn-sm btn-primary" href="{% url 'volunteer:edit_shift' shift.id %}">Edit</a>
+                <a class="text-white px-0 btn btn-sm light-blue darken-3" href="{% url 'volunteer:edit_shift' shift.id %}">Edit</a>
                 <a class="text-white px-0 btn btn-sm btn-danger" href="{% url 'volunteer:delete_shift' shift.id %}">Delete</a>
               </div>
             </div>

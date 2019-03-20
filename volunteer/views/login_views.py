@@ -9,7 +9,6 @@ from volunteer.forms import UserForm
 
 
 
-# Create your views here.
 def register(request):
     '''Handles the creation of a new user for authentication
 
@@ -64,7 +63,6 @@ def login_user(request):
 
         else:
             # Bad login details were provided. So we can't log the user in.
-            print("Invalid login details: {}, {}".format(username, password))
             return HttpResponse("Invalid login details supplied.")
 
 

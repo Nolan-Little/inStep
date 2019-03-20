@@ -10,8 +10,9 @@
           <form id="new_event_template_form" action="{% url 'volunteer:new_event_template' %}" method="POST">
               {% csrf_token %}
               {{new_event_form|crispy}}
-              <div class="text-center text-md-right">
-                <button class="btn btn-primary mb-5" type="submit">Save Event and Schedule Shifts</button>
+              <div class="text-center text-md-right mb-5">
+                <button class="btn light-blue darken-3" type="submit">Save Event and Schedule Shifts</button>
+                <a class="btn mdb-color darken-3 text-white" href="{% url 'volunteer:dashboard' %}">Cancel</a>
               </div>
           </form>
         </div>

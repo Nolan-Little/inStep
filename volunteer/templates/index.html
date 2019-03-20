@@ -11,23 +11,26 @@
     <link rel="stylesheet" type="text/css" href="{% static 'styles/mdb.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/main.css' %}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/font.css' %}">
 
 
     {% block styles %}
 
     {% endblock styles %}
 
-    <title>Volunteer</title>
+    <title>inStep</title>
 </head>
 
 <body>
     {% block nav %}
-        {% if user.is_authenticated %}
+        {% if user.is_authenticated and user.organization_set.all|length != 0 %}
             <!--Main Navigation-->
             <header>
 
-            <nav class="navbar fixed-top navbar-expand-lg navbar-dark black scrolling-navbar">
-                <a class="navbar-brand" href="#"><strong>Welcome, {{user.username}} </strong></a>
+            <nav class="navbar fixed-top navbar-expand-lg navbar-dark mdb-color darken-3 scrolling-navbar">
+                <a class="navbar-brand bg-white mdb-color darken-3" href="{% url 'volunteer:dashboard' %}">
+                  <strong>Welcome, {{user.username}} </strong>
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
