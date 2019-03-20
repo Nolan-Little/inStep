@@ -76,7 +76,11 @@
               {% for event in scheduled_events %}
                 <div class="row border-bottom border-right border-left pt-2 pt-md-1">
                   <div class="col-6 col-md-3 d-flex align-items-center">
-                    <div>{{event.name}}</div>
+                    <div>
+                      <a class="text-dark" href="{% url 'volunteer:event_template_details' event.id %}">
+                        <u>{{event.name}}</u>
+                      </a>
+                    </div>
                   </div>
                   <div class="col-6 col-md-4 d-flex align-items-center">
                     <div>{{event.date}}</div>
