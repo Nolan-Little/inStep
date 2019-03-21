@@ -96,7 +96,6 @@ def delete_shift(request, shift_id):
     return HttpResponseRedirect(redirect_url)
 
 
-@login_required
 def sign_up(request, unique_url):
     '''Handles volunteer sign up form and confirmation page
 
