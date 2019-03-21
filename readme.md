@@ -2,6 +2,9 @@
 
 inStep is a events management application targeted towards volunteer run organizations. It was created as a full stack capstone student project by Nolan Little. It was developed for use by a non-profit dance organization. It is currently deployed in beta at www.instep.events. Any feedback via an issue or via message is welcome. To contribute to development follow start guide [here](#Development).
 
+## Thank you
+Big thanks to current contributors. Bryan Nilsen created the logo for inStep. The Django Authentication system is based of off a team project boilerplate from Nashville Software School.
+
 ### Core Features
 
 - Event Organizer (primary user) can create an "Event Blueprint " containing the events name, description, and venue/location.
