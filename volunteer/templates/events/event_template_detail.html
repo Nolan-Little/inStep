@@ -38,7 +38,7 @@
       </div>
        <div class="text-center col">
           <div class="col-8 btn-group-md btn-group-vertical mt-4">
-            <a class="m-1 btn deep-orange darken-2 text-white" href="{% url 'volunteer:edit_event_template' event_template.id %}">edit event details</a>
+            <a class="m-1 btn teal darken-2 text-white" href="{% url 'volunteer:edit_event_template' event_template.id %}">edit event details</a>
             {% if event_template.is_template == 0 %}
               <button class="m-1 light-blue darken-3 btn copyLink">Copy Sign-up Link</button>
               <input type="text" class="sr-only" value="{{domain}}/sign_up/{{event_template.sign_up_url}}" id="url">
