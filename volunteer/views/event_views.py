@@ -14,6 +14,17 @@ from volunteer.modules.calenders import month_cal
 
 @login_required
 def new_event_template(request):
+    '''View to handle creating an event blueprint
+
+    Arguments:
+        request {object} -- http request object
+        event_template_id {int} -- event object id
+
+    Returns:
+        render -- If request method is GET then it renders the form
+        if the request is a POST then it performs the proper create and renders the dashboard.
+    '''
+    # TODO: organization cookies?
     org = Organization.objects.filter(user=request.user)[0]
     if request.method == "GET":
         new_event_form = EventForm()
@@ -99,6 +110,17 @@ def event_template_details(request, event_template_id):
 
 @login_required
 def edit_event_template(request, event_template_id):
+    '''View to handle updating an event template
+
+    Arguments:
+        request {object} -- http request object
+        event_template_id {int} -- event object id
+
+    Returns:
+        render -- If request method is GET then it renders the form populated with the data from the event instance
+        if the request is a POST then it performs the proper updates and renders the event details view.
+    '''
+
     if request.method == "GET":
         event_template = Event.objects.get(pk=event_template_id)
         template_name = "events/edit_event_template.html"
@@ -174,6 +196,17 @@ def delete_event_confirm(request, event_id):
 
 @login_required
 def schedule_event(request, event_template_id):
+    '''Handles the calendar view for users to schedule event occurences
+
+    Arguments:
+        request {object} -- http response object
+        event_template_id {int} -- event object id
+
+    Returns:
+        render -- returns calendar view for users to select days to schedule. If request method is a post
+        then it returns a redirect to the dashboard after scheduling the event occurences.
+    '''
+
     calendars = create_calendars()
     event = Event.objects.get(pk=event_template_id)
     scheduled_events = Event.objects.filter(name=event.name)
@@ -227,7 +260,7 @@ def schedule_event(request, event_template_id):
 
 
 def create_calendars():
-    '''returns a calender object with 12 months.
+    '''returns a calender object with 13 months.
     Starting with the current month and only going to future months
 
     Returns:

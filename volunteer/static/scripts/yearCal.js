@@ -141,7 +141,10 @@ class Calendar {
       for (let row of tableRows) {
         for (let day of row.children) {
           // find today
-          if (day.textContent === event.value.substring(8, 10)) {
+          let date = day.textContent
+          if (date.length === 1) date = "0" + date
+
+          if (date === event.value.substring(8, 10) ) {
             day.classList.add(this.scheduledDateColor, "sched-date")
           }
         }
@@ -174,13 +177,14 @@ class Calendar {
     if (Number(target.textContent) === this.todaysNum) {
       target.classList.remove(this.todayColor)
     }
-    target.classList.add("selected")
+    target.classList.remove("text-white")
     target.classList.add(this.selectedBgColor, this.selectedTextColor, "selected")
   }
 
+  // to find today, getCurrentCalendar() === this.firstCalendar
   deSelectDate(target) {
     target.classList.remove(this.selectedBgColor, this.selectedTextColor, "selected")
-    if (Number(target.textContent) === this.todaysNum) target.classList.add(this.todayColor, "text-white")
+    if (Number(target.textContent) === this.todaysNum && this._currentIndex === 0) target.classList.add(this.todayColor, "text-white")
   }
 
 }
@@ -263,6 +267,7 @@ function removeDateInput(date) {
 // TODO: refactor evaluating current events.
 function evaluateEvents(day, events) {
   for (event of events) {
+    console.log(day.textContent)
     if (day.textContent === event.value.split('-')[2]) {
       day.classList.add("text-danger", "scheduled_event")
     }
