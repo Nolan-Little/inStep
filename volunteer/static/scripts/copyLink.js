@@ -5,5 +5,6 @@ copyBtn.forEach((btn) => {
     url = e.target.nextElementSibling
     url.select()
     document.execCommand("copy")
+    url.blur()
   })
 })

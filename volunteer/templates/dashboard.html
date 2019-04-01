@@ -91,7 +91,7 @@
                   <div class="col-12 col-md-5 d-flex align-items-center justify-content-end">
                     <div>
                       <button class="btn m-0 my-2 px-2 btn-sm light-blue darken-3 text-white copyLink">Copy sign-up link</button>
-                      <input type="text" class="sr-only" value="{{domain}}/sign_up/{{event.sign_up_url}}" id="url">
+                      <input readonly="true" type="text" class="sr-only" value="{{domain}}/sign_up/{{event.sign_up_url}}" id="url">
                     </div>
                     <div>
                       <a class="btn-sm btn px-2 deep-orange darken-2 text-white" href="{% url 'volunteer:event_template_details' event.id %}">
