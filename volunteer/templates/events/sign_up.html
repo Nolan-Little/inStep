@@ -3,7 +3,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <div class="container">
+    <div class="container pb-4">
       <div class="col-md-6 offset-md-3">
         <h2 class="mt-5 p-4 text-center">
         <img class="bg-white p-1 mr-2" src="{% static 'images/instep-logo-blue.png' %}" width="75" alt="inStep Logo">
@@ -20,41 +20,42 @@
             {% if shift_choices|length == 0 %}
               <p>Sorry, no more shifts available. Contact {{organizer_email}} with concerns or questions.</p>
             {% endif %}
-                  <div class="row mdb-color darken-3 text-white py-3">
-                    <div class="col-1">#</div>
-                    <div class="col-5">Time</div>
-                    <div class="col-2">slots</div>
-                    <div class="col-md-4 col-3">vols</div>
-                  </div>
-                  {% for shift in scheduled_event.shift_set.all %}
-                    <div class="row border-bottom py-2">
-                      <div class="col-1 d-flex align-items-center">
-                        <div>{{forloop.counter}}</div>
-                      </div>
-                      <div class="col-5 d-flex align-items-center">
-                        <div>{{shift.start_time}} - {{shift.end_time}}</div>
-                      </div>
-                      <div class="col-2 d-flex align-items-center">
-                        <div>{{shift.slots_remaining}}</div>
-                      </div>
-                      <div class="col-md-4 col-3 d-flex flex-column align-items-center">
-                        {% if shift.volunteer_set.all|length == 0 %}
-                          <div class="w-100 d-flex">
-                            <p class="m-0">No Volunteers</p>
-                          </div>
-                        {% endif %}
-                        {% for volunteer in shift.volunteer_set.all %}
-                          <div class="w-100 d-flex">
-                            <dt>{{volunteer.name}}</dt>
-                          </div>
-                        {% endfor %}
-                      </div>
-                    </div>
-                  {% endfor %}
             <label class="text-danger alert" id="alert" for="sign_up">Must Select Shift to Submit</label>
             <div class="text-center text-md-right mb-3">
               <button id="sign_up" class="btn light-blue darken-3" type="submit">Sign Up!</button>
             </div>
+              <h3 class="text-center">Volunteer Overview</h3>
+              <div class="row mdb-color darken-3 text-white py-3">
+                <div class="col-1">#</div>
+                <div class="col-5">Time</div>
+                <div class="col-2">slots</div>
+                <div class="col-md-4 col-3">vols</div>
+              </div>
+              {% for shift in scheduled_event.shift_set.all %}
+                <div class="row border-bottom py-2">
+                  <div class="col-1 d-flex align-items-center">
+                    <div>{{forloop.counter}}</div>
+                  </div>
+                  <div class="col-5 d-flex align-items-center">
+                    <div>{{shift.start_time}} - {{shift.end_time}}</div>
+                  </div>
+                  <div class="col-2 d-flex align-items-center">
+                    <div>{{shift.slots_remaining}}</div>
+                  </div>
+                  <div class="col-md-4 col-3 d-flex flex-column align-items-center">
+                    {% if shift.volunteer_set.all|length == 0 %}
+                      <div class="w-100 d-flex">
+                        <p class="m-0">No Volunteers</p>
+                      </div>
+                    {% endif %}
+                    {% for volunteer in shift.volunteer_set.all %}
+                      <div class="w-100 d-flex">
+                        <dt>{{volunteer.name}}</dt>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              {% endfor %}
         </form>
       </div>
     </div>
