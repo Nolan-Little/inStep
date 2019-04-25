@@ -128,7 +128,8 @@ def sign_up(request, unique_url):
             'shift_form': shift_form,
             'unique_url': unique_url,
             'shift_choices': shift_choices,
-            'organizer_email': organizer_email
+            'organizer_email': organizer_email,
+            'shifts': sched_shifts
         }
 
         return render(request, template_name, context)
