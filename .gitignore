@@ -92,7 +92,7 @@ local_settings.py
 */**/__pycache__
 inStep/__pycache__
 */secret_key.py
-
+static_root/
 .env
 .ENV
 db.sqlite3
