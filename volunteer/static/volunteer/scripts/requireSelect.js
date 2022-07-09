@@ -15,7 +15,7 @@ function isChecked(shifts) {
   submitBtn.setAttribute("disabled", true)
   alert.removeAttribute("hidden")
   for(shift of shifts) {
-    if (shift.firstElementChild.firstElementChild.checked) {
+    if (shift.firstElementChild.checked) {
       submitBtn.removeAttribute("disabled")
       alert.setAttribute("hidden", true)
     }
