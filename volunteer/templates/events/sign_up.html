@@ -6,7 +6,7 @@
     <div class="container pb-4">
       <div class="col-md-6 offset-md-3">
         <h2 class="mt-5 p-4 text-center">
-        <img class="bg-white p-1 mr-2" src="{% static 'images/instep-logo-blue.png' %}" width="75" alt="inStep Logo">
+        <img class="bg-white p-1 mr-2" src="{% static 'volunteer/images/instep-logo-blue.png' %}" width="75" alt="inStep Logo">
           Sign up for a volunteer shift at {{scheduled_event.name}}!
         </h2>
         <div class="row d-flex flex-column flex-lg-row container">
@@ -62,5 +62,5 @@
 {% endblock content %}
 
 {% block scripts %}
-  <script src="{% static 'scripts/requireSelect.js' %}"></script>
+  <script src="{% static 'volunteer/scripts/requireSelect.js' %}"></script>
 {% endblock scripts %}

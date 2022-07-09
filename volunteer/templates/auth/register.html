@@ -8,7 +8,7 @@
   <div class="row d-flex flex-column">
     <h1 class="user_welcome text-center mt-3">
       Register
-      <img class="bg-white p-1 mr-2" src="{% static 'images/instep-logo-blue.png' %}" width="75" alt="inStep Logo">
+      <img class="bg-white p-1 mr-2" src="{% static 'volunteer/images/instep-logo-blue.png' %}" width="75" alt="inStep Logo">
     </h1>
       <div class="col-6 offset-3">
         <form id="user_form" method="post" action="{% url 'volunteer:register' %}" enctype="multipart/form-data">
@@ -28,5 +28,5 @@
 {% endblock content %}
 
 {% block scripts %}
-  <script src="{% static 'scripts/confirmPass.js' %}"></script>
+  <script src="{% static 'volunteer/scripts/confirmPass.js' %}"></script>
 {% endblock scripts %}
