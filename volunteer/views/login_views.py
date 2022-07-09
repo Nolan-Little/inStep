@@ -45,7 +45,6 @@ def login_user(request):
     '''
 
     # Obtain the context for the user's request.
-    context = RequestContext(request)
 
     # If the request is a HTTP POST, try to pull out the relevant information.
     if request.method == 'POST':
@@ -66,7 +65,7 @@ def login_user(request):
             return HttpResponse("Invalid login details supplied.")
 
 
-    return render(request, 'auth/login.html', {}, context)
+    return render(request, 'auth/login.html', {})
 
 # Use the login_required() decorator to ensure only those logged in can access the view.
 @login_required
